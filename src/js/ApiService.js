@@ -127,7 +127,7 @@ export default class ApiService {
 
     static isChangeForVersions(change, versions) {
         for (const version of versions) {
-            if (change.branch.includes(version)) {
+            if (change.branch.includes(version.split('.')[0])) {
                 return true;
             }
         }
@@ -217,7 +217,7 @@ export default class ApiService {
     static extractBuildChanges(build, changes) {
         return this.conditionalExtract(changes, change => {
             return change.submitted <= build.datetime &&
-                change.branch.includes(build.version);
+                change.branch.includes(build.version.split('.')[0]);
         })
     }
 
