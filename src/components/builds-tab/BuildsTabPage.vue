@@ -35,7 +35,7 @@
                 items: [
                     build,
                     build.recovery,
-                ],
+                ].filter((e) => e !== undefined),
               }"
           ></downloadable-group>
         </template>
