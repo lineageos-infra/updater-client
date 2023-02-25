@@ -6,7 +6,7 @@ export const beforeTryError = fn => async (to, from, next) => {
         next();
     } catch (err) {
         console.error(err);
-        store.commit('setError', err.message);
+        store.commit('setError', err.response?.data?.error || err.message);
         next({
             name: 'error',
         });
