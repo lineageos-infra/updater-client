@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import {createRouter, createWebHashHistory} from 'vue-router';
 
 import Sidebar from '../components/sidebar/Sidebar.vue';
 import HomeMain from '../components/home-main/HomeMain.vue';
@@ -22,7 +22,7 @@ const getRedirectForHomeIndex = (deviceType) => {
 };
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [
         {
             path: '/',

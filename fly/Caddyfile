@@ -1,9 +1,6 @@
 :80 {
     root * /usr/share/caddy
-    route {
-        file_server
-        reverse_proxy /api/* http://lineageos-updater-backend.internal:8080
-        try_files {path} /index.html
-    }
+    file_server
+    reverse_proxy /api/* http://lineageos-updater-backend.internal:8080
     log
 }
