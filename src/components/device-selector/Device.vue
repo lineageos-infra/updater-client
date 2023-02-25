@@ -75,6 +75,6 @@ export default {
 }
 
 .device.selected .model {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 </style>
