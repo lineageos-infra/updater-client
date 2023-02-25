@@ -1,6 +1,6 @@
 <template>
   <div class="error-main">
-    <span>{{ message }}</span>
+    <span>{{ this.$store.getters.error || message }}</span>
   </div>
 </template>
 

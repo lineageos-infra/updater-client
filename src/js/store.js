@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
     state() {
         return {
+            error: undefined,
             ongoingRequests: 0,
             oems: [],
             devices: {},
@@ -14,6 +15,9 @@ export default createStore({
         };
     },
     mutations: {
+        setError(state, error) {
+            state.error = error;
+        },
         startRequest(state) {
             state.ongoingRequests++;
         },
@@ -35,6 +39,9 @@ export default createStore({
         },
     },
     getters: {
+        error(state) {
+            return state.error;
+        },
         ongoingRequests(state) {
             return state.ongoingRequests;
         },
