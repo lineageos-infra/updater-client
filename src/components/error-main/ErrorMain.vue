@@ -13,11 +13,6 @@ export default {
       default: 'An unknown error-main occurred',
     },
   },
-  data() {
-    return {
-      message: this.$route.meta.message || this.message
-    };
-  },
 }
 </script>
 

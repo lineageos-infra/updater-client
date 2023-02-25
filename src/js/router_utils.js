@@ -7,7 +7,9 @@ export const beforeTryError = fn => async (to, from, next) => {
         next({
             name: 'error',
             props: {
-                message: err,
+                main: {
+                    message: err,
+                },
             },
         });
     }

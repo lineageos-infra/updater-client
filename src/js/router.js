@@ -98,14 +98,15 @@ const router = createRouter({
         {
             path: '/:pathMatch(.*)*',
             name: '404',
-            props: true,
+            props: {
+                main: {
+                    message: '404 Not Found'
+                },
+            },
             components: {
                 sidebar: Sidebar,
                 main: ErrorMain,
             },
-            meta: {
-                message: '404 Not Found'
-            }
         }
     ],
 });
