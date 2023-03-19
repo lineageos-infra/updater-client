@@ -2,7 +2,7 @@
   <div class="builds-tab-page tab-page">
     <div
         class="banner"
-        v-if="!bannerHidden"
+        v-if="!verifyBannerHidden"
     >
       <div class="text">
         You can verify that a file has not been tampered with by checking its signature.
@@ -18,7 +18,23 @@
         </a>
         <a
             class="button"
-            v-on:click="hideBanner"
+            v-on:click="hideVerifyBanner"
+        >
+          Got it
+        </a>
+      </div>
+    </div>
+    <div
+      class="banner"
+      v-if="!additionalImagesBannerHidden"
+    >
+      <div class="text">
+        Not all images are necessary for installation or upgrades. Please follow the instructions for your device!
+      </div>
+      <div class="buttons">
+        <a
+            class="button"
+            v-on:click="hideAdditionalImagesBanner"
         >
           Got it
         </a>
@@ -60,6 +76,7 @@ import {beforeTryError} from '../../js/router_utils';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 
 const VERIFY_BUILD_BANNER_HIDE = 'verify-build-banner-hide';
+const ADDITIONAL_IMAGES_BANNER_HIDE = 'additional-images-banner-hide';
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
   return ApiService.loadDeviceBuilds(to.params.model);
@@ -76,7 +93,8 @@ export default {
   data() {
     return {
       builds: [],
-      bannerHidden: false,
+      verifyBannerHidden: false,
+      additionalImagesBannerHidden: false,
     };
   },
   beforeRouteEnter: loadDeviceBuildsBeforeHook,
@@ -87,16 +105,24 @@ export default {
     },
   },
   mounted() {
-    this.bannerHidden = this.isBannerHidden();
+    this.verifyBannerHidden = this.isVerifyBannerHidden();
+    this.additionalImagesBannerHidden = this.isAdditionalImagesBannerHidden();
     this.loadBuilds();
   },
   methods: {
-    isBannerHidden() {
+    isVerifyBannerHidden() {
       return localStorage.getItem(VERIFY_BUILD_BANNER_HIDE) === '1';
     },
-    hideBanner() {
+    hideVerifyBanner() {
       localStorage.setItem(VERIFY_BUILD_BANNER_HIDE, '1');
-      this.bannerHidden = true;
+      this.verifyBannerHidden = true;
+    },
+    isAdditionalImagesBannerHidden() {
+      return localStorage.getItem(ADDITIONAL_IMAGES_BANNER_HIDE) === '1';
+    },
+    hideAdditionalImagesBanner() {
+      localStorage.setItem(ADDITIONAL_IMAGES_BANNER_HIDE, '1');
+      this.additionalImagesBannerHidden = true;
     },
     async loadBuilds() {
       const data = this.$store.getters.getDeviceBuilds(this.model);
