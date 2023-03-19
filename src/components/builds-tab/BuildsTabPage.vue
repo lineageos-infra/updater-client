@@ -170,6 +170,7 @@ export default {
   line-height: 32px;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .builds-tab-page .banner .button {
