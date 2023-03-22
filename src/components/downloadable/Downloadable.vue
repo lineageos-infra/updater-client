@@ -18,39 +18,46 @@
           {{ name || filename }}
         </div>
         <div class="controls">
+          <a v-bind:href="url" class="download-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
+              14.55 15.8043 15.021 15.413 15.413C15.021 15.8043 14.55 16 14 16H2ZM8 12L3 7L4.4 5.55L7 8.15V0H9V8.15L11.6 5.55L13 7L8 12Z"
+              fill="currentColor"/>
+            </svg>
+          </a>
           <i
-              class="mdi mdi-information icon expand-icon"
+              class="mdi icon expand-icon"
+              :class="{'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded}"
               v-on:click="toggleManualExpansion"
           ></i>
-          <a
-              class="mdi mdi-download icon"
-              v-bind:href="url"
-          ></a>
         </div>
       </div>
     </template>
     <template v-slot:content>
-      <div class="details">
-        <downloadable-detail
-            title="Date"
-            v-if="date"
-            v-bind:value="date"
-        ></downloadable-detail>
-        <downloadable-detail
-            title="Type"
-            v-if="type"
-            v-bind:value="type"
-        ></downloadable-detail>
-        <downloadable-detail
-            title="Size"
-            v-if="sizeHuman"
-            v-bind:value="sizeHuman"
-        ></downloadable-detail>
-        <downloadable-detail
-            title="SHA256"
-            v-if="sha256"
-            v-bind:value="sha256"
-        ></downloadable-detail>
+      <div class="details-wrapper">
+        <div class="details">
+          <span class="details-title">Details</span>
+          <downloadable-detail
+              title="Date"
+              v-if="date"
+              v-bind:value="date"
+          ></downloadable-detail>
+          <downloadable-detail
+              title="Type"
+              v-if="type"
+              v-bind:value="type"
+          ></downloadable-detail>
+          <downloadable-detail
+              title="Size"
+              v-if="sizeHuman"
+              v-bind:value="sizeHuman"
+          ></downloadable-detail>
+          <downloadable-detail
+              title="SHA256"
+              v-if="sha256"
+              v-bind:value="sha256"
+          ></downloadable-detail>
+        </div>
       </div>
     </template>
   </collapsible>
@@ -117,6 +124,8 @@ export default {
 
 .downloadable .title-container .controls {
   display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .downloadable .title-container .controls .icon {
@@ -135,10 +144,43 @@ export default {
   color: rgba(0, 0, 0, 0.56);
 
   cursor: pointer;
+
+  user-select: none; /* prevent automatic selection of the details contents */
 }
 
 #app.dark .downloadable .title-container .controls .icon {
   color: rgba(255, 255, 255, 0.56);
+}
+
+.downloadable .title-container .controls .download-icon {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 16px;
+  gap: 10px;
+  background: #CCE8E9;
+  border-radius: 16px;
+  width: 56px;
+  height: 32px;
+  justify-content: center;
+  transition: background 0.125s ease-out;
+}
+
+#app.dark .downloadable .title-container .controls .download-icon {
+  background: #324B4C !important;
+}
+
+.downloadable .title-container .controls .download-icon svg {
+  color: #324B4C !important;
+}
+
+#app.dark .downloadable .title-container .controls .download-icon svg {
+  color: #CCE8E9 !important;
+}
+
+.downloadable .title-container.expanded .controls .expand-icon,
+#app.dark .downloadable .title-container.expanded .controls .expand-icon {
+  color: #167c80;
 }
 
 @media (hover: hover) {
@@ -149,21 +191,47 @@ export default {
   #app.dark .downloadable .title-container .controls .icon:hover {
     background: rgba(255, 255, 255, 0.15);
   }
+
+  .downloadable .title-container .controls .download-icon:hover {
+    background: #167c80 !important;
+  }
+
+  #app.dark .downloadable .title-container .controls .download-icon:hover {
+    background: #167c80 !important;
+  }
+
+  .downloadable .title-container .controls .download-icon:hover svg {
+    color: #FFF !important;
+    transition: background 0.125s ease-out;
+  }
+
+  #app.dark .downloadable .title-container .controls .download-icon:hover svg {
+    color: #FFF !important;
+    transition: background 0.125s ease-out;
+  }
 }
 
-.downloadable .title-container.expanded .controls .expand-icon,
-#app.dark .downloadable .title-container.expanded .controls .expand-icon {
-  color: #167c80;
+.downloadable .details-wrapper {
+  margin-right: 6px;
 }
 
 .downloadable .details {
   line-height: 24px;
-  padding: 4px 8px;
-  border-radius: 3px;
+  padding: 16px;
+  border-radius: 4px;
 
   font-size: 14px;
 
   background: rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.downloadable .details .details-title {
+  display: flex;
+  line-height: 150%;
 }
 
 #app.dark  .downloadable .details {

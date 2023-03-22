@@ -18,7 +18,6 @@ export default {
 <style scoped>
 .downloadable-detail {
   display: flex;
-  padding: 4px 0;
 }
 
 .downloadable-detail .title,
@@ -37,7 +36,7 @@ export default {
 }
 
 .downloadable-detail .value {
-  width: 85%;
+  width: 75%;
   flex-shrink: 0;
   word-wrap: break-word;
 }
