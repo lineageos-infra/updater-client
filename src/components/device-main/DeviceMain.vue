@@ -44,15 +44,7 @@
             target="_blank"
             v-bind:href="info_url"
         >
-          Device info
-          <span class="mdi mdi-open-in-new"></span>
-        </a>
-        <a
-            class="tab"
-            target="_blank"
-            v-bind:href="install_url"
-        >
-          Install instructions
+          Guides &amp; info
           <span class="mdi mdi-open-in-new"></span>
         </a>
       </template>
@@ -84,7 +76,6 @@ export default {
   data() {
     return {
       info_url: '',
-      install_url: '',
       name: '',
       oem: '',
     };
@@ -108,7 +99,6 @@ export default {
 
       [
         'info_url',
-        'install_url',
         'name',
         'oem',
       ].forEach(k => this[k] = data[k]);
