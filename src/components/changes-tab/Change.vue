@@ -18,9 +18,13 @@
         {{ branch }}
       </span>
 
-      <span class="repository">
+      <a
+          class="repository"
+          target="_blank"
+          v-bind:href="`https://github.com/${project}`"
+      >
         {{ repository }}
-      </span>
+      </a>
     </div>
   </div>
 </template>
@@ -31,6 +35,7 @@ export default {
   props: {
     url: String,
     subject: String,
+    project: String,
     repository: String,
     type: String,
     branch: String,
@@ -53,7 +58,10 @@ export default {
 
 .change .subject {
   line-height: 28px;
+}
 
+.change .subject,
+.change .repository {
   color: inherit;
   text-decoration: none;
 }
