@@ -15,39 +15,39 @@
         <td>File Name</td>
         <td>{{ fileName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.commonName">
+      <tr v-if="verifySignInfo?.commonName">
         <td>Common Name</td>
         <td>{{ verifySignInfo.commonName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.organizationalUnitName">
+      <tr v-if="verifySignInfo?.organizationalUnitName">
         <td>Organizational Unit</td>
         <td>{{ verifySignInfo.organizationalUnitName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.organizationName">
+      <tr v-if="verifySignInfo?.organizationName">
         <td>Organization</td>
         <td>{{ verifySignInfo.organizationName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.localityName">
+      <tr v-if="verifySignInfo?.localityName">
         <td>Locality</td>
         <td>{{ verifySignInfo.localityName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.stateOrProvinceName">
+      <tr v-if="verifySignInfo?.stateOrProvinceName">
         <td>State or Province Name</td>
         <td>{{ verifySignInfo.stateOrProvinceName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.countryName">
+      <tr v-if="verifySignInfo?.countryName">
         <td>Country Name</td>
         <td>{{ verifySignInfo.countryName }}</td>
       </tr>
-      <tr v-if="verifySignInfo.publicKeyFingerprint">
+      <tr v-if="verifySignInfo?.publicKeyFingerprint">
         <td>Public Key Fingerprint</td>
         <td>{{ verifySignInfo.publicKeyFingerprint }}</td>
       </tr>
-      <tr v-if="verifySignInfo.serialNumber">
+      <tr v-if="verifySignInfo?.serialNumber">
         <td>Serial Number</td>
         <td>{{ verifySignInfo.serialNumber }}</td>
       </tr>
-      <tr v-if="verifySignInfo.validity">
+      <tr v-if="verifySignInfo?.validity">
         <td>Validity</td>
         <td>
           From {{ formatDate(verifySignInfo.validity.notBefore) }} to {{ formatDate(verifySignInfo.validity.notAfter) }}
