@@ -1,13 +1,62 @@
 <template>
   <div
       class="tab-page verify-tab-page"
-      v-on:dragover="fileDragOver"
-      v-on:dragleave="fileDragLeave"
-      v-on:drop="fileDropped"
+      @dragover.prevent="fileDragOver"
+      @dragleave.prevent="fileDragLeave"
+      @drop.prevent="fileDropped"
   >
-    <a href="#" class="verify-icon" v-on:click="verifyClicked">Verify OTA package signature</a>
-    <form ref="form">
-      <input type="file" ref="input" v-on:change="verifyFileInput" style="display: none;" />
+    <table v-if="verifyResult">
+      <tr>
+        <th colspan="2" :class="{ 'bg-red': !isVerified }">
+          {{ verifyResult }}
+        </th>
+      </tr>
+      <tr>
+        <td>File Name</td>
+        <td>{{ fileName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.commonName">
+        <td>Common Name</td>
+        <td>{{ verifySignInfo.commonName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.organizationalUnitName">
+        <td>Organizational Unit</td>
+        <td>{{ verifySignInfo.organizationalUnitName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.organizationName">
+        <td>Organization</td>
+        <td>{{ verifySignInfo.organizationName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.localityName">
+        <td>Locality</td>
+        <td>{{ verifySignInfo.localityName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.stateOrProvinceName">
+        <td>State or Province Name</td>
+        <td>{{ verifySignInfo.stateOrProvinceName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.countryName">
+        <td>Country Name</td>
+        <td>{{ verifySignInfo.countryName }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.publicKeyFingerprint">
+        <td>Public Key Fingerprint</td>
+        <td>{{ verifySignInfo.publicKeyFingerprint }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.serialNumber">
+        <td>Serial Number</td>
+        <td>{{ verifySignInfo.serialNumber }}</td>
+      </tr>
+      <tr v-if="verifySignInfo.validity">
+        <td>Validity</td>
+        <td>
+          From {{ formatDate(verifySignInfo.validity.notBefore) }} to {{ formatDate(verifySignInfo.validity.notAfter) }}
+        </td>
+      </tr>
+    </table>
+    <a href="#" class="verify-icon" @click="verifyClicked">Verify OTA package signature</a>
+    <form>
+      <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none;" />
     </form>
   </div>
 </template>
@@ -17,33 +66,43 @@ import CryptoService from '../../js/CryptoService';
 
 export default {
   name: 'VerifyTabPage',
+  data: () => ({
+    verifyResult: "",
+    verifySignInfo: null,
+    fileName: "",
+    isVerified: false,
+  }),
   methods: {
     fileDragOver(event) {
-      event.preventDefault();
       event.currentTarget.classList.add('dragover-border');
     },
     fileDragLeave(event) {
       event.currentTarget.classList.remove('dragover-border');
     },
     fileDropped(event) {
-      event.preventDefault();
       event.currentTarget.classList.remove('dragover-border');
       this.verifyFile(event.dataTransfer.files[0]);
     },
+    formatDate(dateStr) {
+      let tempDate = new Date(dateStr)
+      const offset = tempDate.getTimezoneOffset()
+      tempDate = new Date(tempDate.getTime() - (offset*60*1000))
+      return tempDate.toISOString().split('T')[0]
+    },
     verifyClicked() {
-      const input = this.$refs.input;
+      const input = this.$refs.inputRef;
       input.click();
     },
     verifyFile(blob) {
       const fileReader = new FileReader();
       fileReader.onload = async () => {
-        const result = await CryptoService.verifyPackage(await fileReader.result);
-        alert(result.msg);
-
-        const form = this.$refs.form;
-        form.reset();
+        const result = await CryptoService.verifyPackage(fileReader.result);
+        this.isVerified = result.status;
+        this.verifyResult = result.msg;
+        this.verifySignInfo = result.signInfo;
       };
       fileReader.readAsArrayBuffer(blob);
+      this.fileName = blob.name;
     },
     verifyFileInput(event) {
       this.verifyFile(event.currentTarget.files[0]);
@@ -54,6 +113,7 @@ export default {
 
 <style scoped>
 @import '../../css/tab-page.css';
+@import '../../css/table.css';
 
 .verify-tab-page {
   display: flex;
@@ -90,6 +150,15 @@ export default {
   #app.dark .verify-icon:hover {
     background: #167c80 !important;
   }
+}
+
+.bg-red {
+  background-color: #f8d7da !important;
+}
+
+#app.dark .bg-red {
+  background-color: #522b2a !important;
+  color: #f8d7da !important;
 }
 
 .dragover-border {
