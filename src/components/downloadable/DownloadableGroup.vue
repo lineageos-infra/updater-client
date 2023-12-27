@@ -1,9 +1,6 @@
 <template>
   <div class="group">
-    <div
-        class="group-header"
-        v-if="title"
-    >
+    <div class="group-header" v-if="title">
       {{ title }}
     </div>
     <template v-for="item in items" :key="item.id">
@@ -13,20 +10,20 @@
 </template>
 
 <script>
-import DownloadableItem from './DownloadableItem.vue';
+import DownloadableItem from './DownloadableItem.vue'
 
 export default {
   name: 'DownloadableGroup',
   components: {
-    DownloadableItem,
+    DownloadableItem
   },
   props: {
     title: {
       type: String,
-      default: '',
+      default: ''
     },
-    items: Array,
-  },
+    items: Array
+  }
 }
 </script>
 

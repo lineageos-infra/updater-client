@@ -1,12 +1,6 @@
 <template>
-  <div
-      class="change"
-  >
-    <a
-        class="subject"
-        target="_blank"
-        v-bind:href="url"
-    >
+  <div class="change">
+    <a class="subject" target="_blank" v-bind:href="url">
       {{ subject }}
     </a>
     <div class="repository-type">
@@ -18,11 +12,7 @@
         {{ branch }}
       </span>
 
-      <a
-          class="repository"
-          target="_blank"
-          v-bind:href="`https://github.com/${project}`"
-      >
+      <a class="repository" target="_blank" v-bind:href="`https://github.com/${project}`">
         {{ repository }}
       </a>
     </div>
@@ -39,8 +29,8 @@ export default {
     repository: String,
     type: String,
     branch: String,
-    build: Object,
-  },
+    build: Object
+  }
 }
 </script>
 

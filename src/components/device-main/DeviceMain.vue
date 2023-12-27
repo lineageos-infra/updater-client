@@ -9,41 +9,37 @@
       </template>
       <template v-slot:tabs>
         <router-link
-            class="tab"
-            v-bind:to="{
-              name: 'home_index',
-            }"
+          class="tab"
+          v-bind:to="{
+            name: 'home_index'
+          }"
         >
           Home
           <i class="mdi mdi-exit-to-app"></i>
         </router-link>
         <router-link
-            class="tab"
-            v-bind:to="{
-              name: 'device_builds',
-              params: {
-                model,
-              },
-            }"
+          class="tab"
+          v-bind:to="{
+            name: 'device_builds',
+            params: {
+              model
+            }
+          }"
         >
           Builds
         </router-link>
         <router-link
-            class="tab"
-            v-bind:to="{
-              name: 'device_changes',
-              params: {
-                model,
-              },
-            }"
+          class="tab"
+          v-bind:to="{
+            name: 'device_changes',
+            params: {
+              model
+            }
+          }"
         >
-        Changes
+          Changes
         </router-link>
-        <a
-            class="tab"
-            target="_blank"
-            v-bind:href="info_url"
-        >
+        <a class="tab" target="_blank" v-bind:href="info_url">
           Guides &amp; info
           <span class="mdi mdi-open-in-new"></span>
         </a>
@@ -57,53 +53,49 @@
 </template>
 
 <script>
-import NavBar from '../navbar/NavBar.vue';
-import ApiService from '../../js/ApiService';
-import {beforeTryError} from '../../js/router_utils';
+import NavBar from '../navbar/NavBar.vue'
+import ApiService from '../../js/ApiService'
+import { beforeTryError } from '../../js/router_utils'
 
 const loadDeviceBeforeHook = beforeTryError((to) => {
-  return ApiService.loadDevice(to.params.model);
-});
+  return ApiService.loadDevice(to.params.model)
+})
 
 export default {
   name: 'DeviceMain',
   components: {
-    navbar: NavBar,
+    navbar: NavBar
   },
   props: {
-    model: String,
+    model: String
   },
   data() {
     return {
       info_url: '',
       name: '',
-      oem: '',
-    };
+      oem: ''
+    }
   },
   beforeRouteEnter: loadDeviceBeforeHook,
   beforeRouteUpdate: loadDeviceBeforeHook,
   watch: {
     model() {
-      this.loadDeviceDetails();
-    },
+      this.loadDeviceDetails()
+    }
   },
   mounted() {
-    this.loadDeviceDetails();
+    this.loadDeviceDetails()
   },
   methods: {
     loadDeviceDetails() {
-      const data = this.$store.getters.getDevice(this.model);
+      const data = this.$store.getters.getDevice(this.model)
       if (!data) {
-        throw new Error('Failed to get device-main data');
+        throw new Error('Failed to get device-main data')
       }
 
-      [
-        'info_url',
-        'name',
-        'oem',
-      ].forEach(k => this[k] = data[k]);
-    },
-  },
+      ;['info_url', 'name', 'oem'].forEach((k) => (this[k] = data[k]))
+    }
+  }
 }
 </script>
 

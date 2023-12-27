@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'HorizontalLoader',
+  name: 'HorizontalLoader'
 }
 </script>
 
@@ -41,7 +41,8 @@ export default {
 }
 
 .loader-second {
-  animation: horizontal-loader-animation-second 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+  animation: horizontal-loader-animation-second 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s
+    infinite;
 }
 
 @keyframes horizontal-loader-animation-first {
@@ -77,5 +78,4 @@ export default {
     right: -8%;
   }
 }
-
 </style>

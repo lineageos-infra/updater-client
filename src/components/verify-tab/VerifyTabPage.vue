@@ -1,9 +1,9 @@
 <template>
   <div
-      class="tab-page verify-tab-page"
-      @dragover.prevent="fileDragOver"
-      @dragleave.prevent="fileDragLeave"
-      @drop.prevent="fileDropped"
+    class="tab-page verify-tab-page"
+    @dragover.prevent="fileDragOver"
+    @dragleave.prevent="fileDragLeave"
+    @drop.prevent="fileDropped"
   >
     <table v-if="verifyResult">
       <tr>
@@ -41,7 +41,7 @@
       </tr>
       <tr v-if="verifySignInfo?.publicKeyFingerprint">
         <td>Public Key Fingerprint</td>
-        <td style="word-break: break-all;">{{ verifySignInfo.publicKeyFingerprint }}</td>
+        <td style="word-break: break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
       </tr>
       <tr v-if="verifySignInfo?.serialNumber">
         <td>Serial Number</td>
@@ -50,66 +50,67 @@
       <tr v-if="verifySignInfo?.validity">
         <td>Validity</td>
         <td>
-          From {{ formatDate(verifySignInfo.validity.notBefore) }} to {{ formatDate(verifySignInfo.validity.notAfter) }}
+          From {{ formatDate(verifySignInfo.validity.notBefore) }} to
+          {{ formatDate(verifySignInfo.validity.notAfter) }}
         </td>
       </tr>
     </table>
     <a href="#" class="verify-icon" @click="verifyClicked">Verify OTA package signature</a>
     <form>
-      <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none;" />
+      <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
     </form>
   </div>
 </template>
 
 <script>
-import CryptoService from '../../js/CryptoService';
-import store from './../../store';
+import CryptoService from '../../js/CryptoService'
+import store from './../../store'
 
 export default {
   name: 'VerifyTabPage',
   data: () => ({
-    verifyResult: "",
+    verifyResult: '',
     verifySignInfo: null,
-    fileName: "",
-    isVerified: false,
+    fileName: '',
+    isVerified: false
   }),
   methods: {
     fileDragOver(event) {
-      event.currentTarget.classList.add('dragover-border');
+      event.currentTarget.classList.add('dragover-border')
     },
     fileDragLeave(event) {
-      event.currentTarget.classList.remove('dragover-border');
+      event.currentTarget.classList.remove('dragover-border')
     },
     fileDropped(event) {
-      event.currentTarget.classList.remove('dragover-border');
-      this.verifyFile(event.dataTransfer.files[0]);
+      event.currentTarget.classList.remove('dragover-border')
+      this.verifyFile(event.dataTransfer.files[0])
     },
     formatDate(dateStr) {
       let tempDate = new Date(dateStr)
       const offset = tempDate.getTimezoneOffset()
-      tempDate = new Date(tempDate.getTime() - (offset*60*1000))
+      tempDate = new Date(tempDate.getTime() - offset * 60 * 1000)
       return tempDate.toISOString().split('T')[0]
     },
     verifyClicked() {
-      const input = this.$refs.inputRef;
-      input.click();
+      const input = this.$refs.inputRef
+      input.click()
     },
     verifyFile(blob) {
-      const fileReader = new FileReader();
+      const fileReader = new FileReader()
       fileReader.onload = async () => {
-        const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result));
-        this.fileName = blob.name;
-        this.isVerified = result.status;
-        this.verifyResult = result.msg;
-        this.verifySignInfo = result.signInfo;
-      };
-      fileReader.onloadstart = () => store.commit('startRequest');
-      fileReader.onloadend = () => store.commit('endRequest');
-      fileReader.readAsArrayBuffer(blob);
+        const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result))
+        this.fileName = blob.name
+        this.isVerified = result.status
+        this.verifyResult = result.msg
+        this.verifySignInfo = result.signInfo
+      }
+      fileReader.onloadstart = () => store.commit('startRequest')
+      fileReader.onloadend = () => store.commit('endRequest')
+      fileReader.readAsArrayBuffer(blob)
     },
     verifyFileInput(event) {
-      this.verifyFile(event.currentTarget.files[0]);
-    },
+      this.verifyFile(event.currentTarget.files[0])
+    }
   }
 }
 </script>
@@ -131,7 +132,7 @@ export default {
   align-items: center;
   padding: 4px 16px;
   gap: 10px;
-  background: #CCE8E9;
+  background: #cce8e9;
   color: #000;
   text-decoration: none;
   border-radius: 16px;
@@ -141,8 +142,8 @@ export default {
 }
 
 #app.dark .verify-icon {
-  background: #324B4C !important;
-  color: #CCE8E9 !important;
+  background: #324b4c !important;
+  color: #cce8e9 !important;
 }
 
 @media (hover: hover), (-moz-touch-enabled: 0) {

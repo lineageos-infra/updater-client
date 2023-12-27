@@ -1,16 +1,15 @@
 <template>
   <transition
-      name="expand"
-      @enter="enter"
-      @after-enter="afterEnter"
-      @leave="leave"
-      v-bind:style="{
-        transition: `height ${this.speed} ${this.timing}`,
-      }"
+    name="expand"
+    @enter="enter"
+    @after-enter="afterEnter"
+    @leave="leave"
+    v-bind:style="{
+      transition: `height ${this.speed} ${this.timing}`
+    }"
   >
-    <slot/>
+    <slot />
   </transition>
-
 </template>
 
 <script>
@@ -19,47 +18,47 @@ export default {
   props: {
     speed: {
       type: String,
-      default: '0.25s',
+      default: '0.25s'
     },
     timing: {
       type: String,
-      default: 'ease-out',
-    },
+      default: 'ease-out'
+    }
   },
   methods: {
     enter(element) {
-      element.style.visibility = 'hidden';
-      element.style.height = 'auto';
+      element.style.visibility = 'hidden'
+      element.style.height = 'auto'
 
-      const height = getComputedStyle(element).height;
+      const height = getComputedStyle(element).height
 
-      element.style.visibility = null;
-      element.style.height = '0';
+      element.style.visibility = null
+      element.style.height = '0'
 
       // Force repaint to make sure the
       // animation is triggered correctly.
-      getComputedStyle(element).height;
+      getComputedStyle(element).height
 
       requestAnimationFrame(() => {
-        element.style.height = height;
-      });
+        element.style.height = height
+      })
     },
     afterEnter(element) {
-      element.style.height = 'auto';
+      element.style.height = 'auto'
     },
     leave(element) {
-      element.style.height = getComputedStyle(element).height;
+      element.style.height = getComputedStyle(element).height
 
       // Force repaint to make sure the
       // animation is triggered correctly.
-      getComputedStyle(element).height;
+      getComputedStyle(element).height
 
       requestAnimationFrame(() => {
-        element.style.height = '0';
-      });
-    },
-  },
-};
+        element.style.height = '0'
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

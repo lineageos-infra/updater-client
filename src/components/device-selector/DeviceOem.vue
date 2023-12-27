@@ -1,38 +1,24 @@
 <template>
-  <collapsible-item
-      class="oem"
-      v-bind:forceExpanded="forceExpanded"
-      v-show="!hidden"
-  >
-    <template
-        v-slot:title="{
-          isExpanded,
-          toggleManualExpansion,
-        }">
+  <collapsible-item class="oem" v-bind:forceExpanded="forceExpanded" v-show="!hidden">
+    <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
-          class="title-container"
-          v-on:click="toggleManualExpansion"
-          v-bind:class="{
-            expanded: isExpanded
-          }"
+        class="title-container"
+        v-on:click="toggleManualExpansion"
+        v-bind:class="{
+          expanded: isExpanded
+        }"
       >
         <span class="title">
           {{ name }}
         </span>
-        <i
-            class="mdi mdi-chevron-down icon"
-            v-if="!forceExpanded"
-        >
-        </i>
+        <i class="mdi mdi-chevron-down icon" v-if="!forceExpanded"> </i>
       </div>
     </template>
     <template v-slot:content>
       <div class="devices-container">
         <div class="devices">
           <template v-for="device in devices" :key="device.model">
-            <device-item
-                v-bind="device"
-            ></device-item>
+            <device-item v-bind="device"></device-item>
           </template>
         </div>
       </div>
@@ -41,8 +27,8 @@
 </template>
 
 <script>
-import CollapsibleItem from '../utils/CollapsibleItem.vue';
-import DeviceItem from './DeviceItem.vue';
+import CollapsibleItem from '../utils/CollapsibleItem.vue'
+import DeviceItem from './DeviceItem.vue'
 
 export default {
   name: 'DeviceOem',
@@ -51,17 +37,17 @@ export default {
     devices: Array,
     forceExpanded: {
       type: Boolean,
-      default: false,
+      default: false
     },
     hidden: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   components: {
     CollapsibleItem,
-    DeviceItem,
-  },
+    DeviceItem
+  }
 }
 </script>
 
@@ -91,9 +77,9 @@ export default {
   justify-content: space-between;
 
   transition:
-      height 0.25s ease-out,
-      padding 0.25s ease-out,
-      background 0.25s ease-out;
+    height 0.25s ease-out,
+    padding 0.25s ease-out,
+    background 0.25s ease-out;
 
   cursor: pointer;
 }
@@ -102,19 +88,19 @@ export default {
   height: 64px;
   padding: 24px 16px;
 
-  background: rgba(0, 0, 0, 0.12)
+  background: rgba(0, 0, 0, 0.12);
 }
 
 #app.dark .oem .title-container.expanded {
-  background: rgba(255, 255, 255, 0.05)
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .oem .title-container .icon {
   font-size: 24px;
 
   transition:
-      top 0.25s ease-out,
-      transform 0.125s ease-out;
+    top 0.25s ease-out,
+    transform 0.125s ease-out;
 
   color: rgba(0, 0, 0, 0.38);
 }

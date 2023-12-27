@@ -1,18 +1,18 @@
 <template>
   <router-link
-      v-bind:to="{
-        name: 'device_index',
-        params: {
-          model,
-        },
-      }"
+    v-bind:to="{
+      name: 'device_index',
+      params: {
+        model
+      }
+    }"
   >
     <div
-        class="device"
-        v-bind:class="{
-          'selected': selected,
-        }"
-        v-show="!hidden"
+      class="device"
+      v-bind:class="{
+        selected: selected
+      }"
+      v-show="!hidden"
     >
       <span class="name">
         {{ name }}
@@ -31,8 +31,8 @@ export default {
     hidden: Boolean,
     selected: Boolean,
     name: String,
-    model: String,
-  },
+    model: String
+  }
 }
 </script>
 

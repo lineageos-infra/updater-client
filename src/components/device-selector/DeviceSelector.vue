@@ -1,81 +1,74 @@
 <template>
   <div class="device-selector">
     <div class="search-container">
-      <input type="text" placeholder="Search..." v-model="filterText">
+      <input type="text" placeholder="Search..." v-model="filterText" />
       <i class="mdi mdi-close clear" v-if="filterText" v-on:click="clearFilterText"></i>
     </div>
-    <div
-        class="oems"
-        data-simplebar
-    >
-      <device-oem
-          v-for="oem in oems"
-          v-bind="oem"
-          :key="oem.name"
-      ></device-oem>
+    <div class="oems" data-simplebar>
+      <device-oem v-for="oem in oems" v-bind="oem" :key="oem.name"></device-oem>
     </div>
   </div>
 </template>
 
 <script>
-import ApiService from '../../js/ApiService';
-import DeviceOem from './DeviceOem.vue';
+import ApiService from '../../js/ApiService'
+import DeviceOem from './DeviceOem.vue'
 
 export default {
   name: 'DeviceSelector',
   components: {
-    DeviceOem,
+    DeviceOem
   },
   props: {
-    activeModel: String,
+    activeModel: String
   },
   data() {
     return {
-      filterText: '',
-    };
+      filterText: ''
+    }
   },
   computed: {
     oems() {
-      return this.$store.getters.oems;
-    },
+      return this.$store.getters.oems
+    }
   },
   watch: {
     activeModel() {
-      const cleared = this.clearFilterText();
+      const cleared = this.clearFilterText()
       if (!cleared) {
-        this.refreshDevices();
+        this.refreshDevices()
       }
     },
     filterText() {
-      this.onFilterChange();
+      this.onFilterChange()
     },
     oems() {
-      this.refreshDevices();
-    },
+      this.refreshDevices()
+    }
   },
   async beforeMount() {
     try {
-      await ApiService.loadOems();
+      await ApiService.loadOems()
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   },
   methods: {
     clearFilterText() {
       if (this.filterText === '') {
-        return false;
+        return false
       }
 
-      this.filterText = '';
-      return true;
+      this.filterText = ''
+      return true
     },
     resetFilterDevices() {
       for (const oem of this.oems) {
-        oem.forceExpanded = false;
-        oem.hidden = false;
+        oem.forceExpanded = false
+        oem.hidden = false
         for (const device of oem.devices) {
-          device.hidden = false;
-          device.selected = false;
+          device.hidden = false
+          device.selected = false
         }
       }
     },
@@ -83,51 +76,51 @@ export default {
       for (const oem of this.oems) {
         for (const device of oem.devices) {
           if (device.model === this.activeModel) {
-            oem.forceExpanded = true;
-            oem.hidden = false;
-            device.hidden = false;
-            device.selected = true;
-            return;
+            oem.forceExpanded = true
+            oem.hidden = false
+            device.hidden = false
+            device.selected = true
+            return
           }
         }
       }
     },
     refreshDevices() {
-      this.resetFilterDevices();
-      this.selectActiveDevice();
+      this.resetFilterDevices()
+      this.selectActiveDevice()
     },
     filterDevices(filterText) {
       if (!filterText) {
-        this.refreshDevices();
-        return;
+        this.refreshDevices()
+        return
       }
 
-      this.resetFilterDevices();
+      this.resetFilterDevices()
 
       for (const oem of this.oems) {
         if (oem.name.toLowerCase().includes(filterText)) {
-          oem.forceExpanded = true;
-          continue;
+          oem.forceExpanded = true
+          continue
         }
 
-        oem.hidden = true;
+        oem.hidden = true
         for (const device of oem.devices) {
-          device.hidden = true;
+          device.hidden = true
 
           if (`${oem.name} ${device.name} ${device.model}`.toLowerCase().includes(filterText)) {
-            oem.forceExpanded = true;
-            oem.hidden = false;
-            device.hidden = false;
+            oem.forceExpanded = true
+            oem.hidden = false
+            device.hidden = false
           }
         }
       }
 
-      this.selectActiveDevice();
+      this.selectActiveDevice()
     },
     onFilterChange() {
-      this.filterDevices(this.filterText.toLowerCase());
-    },
-  },
+      this.filterDevices(this.filterText.toLowerCase())
+    }
+  }
 }
 </script>
 

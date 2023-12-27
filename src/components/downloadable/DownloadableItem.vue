@@ -1,34 +1,35 @@
 <template>
-  <collapsible-item
-      class="downloadable"
-  >
-    <template
-        v-slot:title="{
-          isExpanded,
-          toggleManualExpansion,
-        }"
-    >
+  <collapsible-item class="downloadable">
+    <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
-          class="title-container"
-          v-bind:class="{
-            expanded: isExpanded,
-          }"
+        class="title-container"
+        v-bind:class="{
+          expanded: isExpanded
+        }"
       >
         <div class="title">
           {{ name || filename }}
         </div>
         <div class="controls">
           <a v-bind:href="url" class="download-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
               14.55 15.8043 15.021 15.413 15.413C15.021 15.8043 14.55 16 14 16H2ZM8 12L3 7L4.4 5.55L7 8.15V0H9V8.15L11.6 5.55L13 7L8 12Z"
-              fill="currentColor"/>
+                fill="currentColor"
+              />
             </svg>
           </a>
           <i
-              class="mdi icon expand-icon"
-              :class="{'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded}"
-              v-on:click="toggleManualExpansion"
+            class="mdi icon expand-icon"
+            :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
+            v-on:click="toggleManualExpansion"
           ></i>
         </div>
       </div>
@@ -37,30 +38,22 @@
       <div class="details-wrapper">
         <div class="details">
           <span class="details-title">Details</span>
+          <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>
           <downloadable-detail
-              title="Date"
-              v-if="date"
-              v-bind:value="date"
+            title="OS patch level"
+            v-if="osPatchLevelHuman"
+            v-bind:value="osPatchLevelHuman"
+          ></downloadable-detail>
+          <downloadable-detail title="Type" v-if="type" v-bind:value="type"></downloadable-detail>
+          <downloadable-detail
+            title="Size"
+            v-if="sizeHuman"
+            v-bind:value="sizeHuman"
           ></downloadable-detail>
           <downloadable-detail
-              title="OS patch level"
-              v-if="osPatchLevelHuman"
-              v-bind:value="osPatchLevelHuman"
-          ></downloadable-detail>
-          <downloadable-detail
-              title="Type"
-              v-if="type"
-              v-bind:value="type"
-          ></downloadable-detail>
-          <downloadable-detail
-              title="Size"
-              v-if="sizeHuman"
-              v-bind:value="sizeHuman"
-          ></downloadable-detail>
-          <downloadable-detail
-              title="SHA256"
-              v-if="sha256"
-              v-bind:value="sha256"
+            title="SHA256"
+            v-if="sha256"
+            v-bind:value="sha256"
           ></downloadable-detail>
         </div>
       </div>
@@ -69,14 +62,14 @@
 </template>
 
 <script>
-import CollapsibleItem from '../utils/CollapsibleItem.vue';
-import DownloadableDetail from './DownloadableDetail.vue';
+import CollapsibleItem from '../utils/CollapsibleItem.vue'
+import DownloadableDetail from './DownloadableDetail.vue'
 
 export default {
   name: 'DownloadableItem',
   components: {
     CollapsibleItem,
-    DownloadableDetail,
+    DownloadableDetail
   },
   props: {
     date: String,
@@ -89,37 +82,37 @@ export default {
     size: Number,
     type: String,
     url: String,
-    version: String,
+    version: String
   },
   computed: {
     osPatchLevelHuman() {
       if (this.os_patch_level !== undefined) {
         return new Date(this.os_patch_level).toLocaleString('en-US', {
           month: 'long',
-          year: 'numeric',
-        });
+          year: 'numeric'
+        })
       }
-      return '';
+      return ''
     },
     sizeHuman() {
       if (this.size !== undefined) {
         const units = {
-          'GiB': 3,
-          'MiB': 2,
-          'KiB': 1,
-        };
+          GiB: 3,
+          MiB: 2,
+          KiB: 1
+        }
 
         for (const [unit, exponent] of Object.entries(units)) {
           if (this.size >= Math.pow(1024, exponent)) {
-            return `${(this.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`;
+            return `${(this.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`
           }
         }
 
-        return `${this.size} B`;
+        return `${this.size} B`
       }
-      return '';
-    },
-  },
+      return ''
+    }
+  }
 }
 </script>
 
@@ -173,7 +166,7 @@ export default {
   align-items: center;
   padding: 4px 16px;
   gap: 10px;
-  background: #CCE8E9;
+  background: #cce8e9;
   border-radius: 16px;
   width: 56px;
   height: 32px;
@@ -182,15 +175,15 @@ export default {
 }
 
 #app.dark .downloadable .title-container .controls .download-icon {
-  background: #324B4C !important;
+  background: #324b4c !important;
 }
 
 .downloadable .title-container .controls .download-icon svg {
-  color: #324B4C !important;
+  color: #324b4c !important;
 }
 
 #app.dark .downloadable .title-container .controls .download-icon svg {
-  color: #CCE8E9 !important;
+  color: #cce8e9 !important;
 }
 
 .downloadable .title-container.expanded .controls .expand-icon,
@@ -216,12 +209,12 @@ export default {
   }
 
   .downloadable .title-container .controls .download-icon:hover svg {
-    color: #FFF !important;
+    color: #fff !important;
     transition: background 0.125s ease-out;
   }
 
   #app.dark .downloadable .title-container .controls .download-icon:hover svg {
-    color: #FFF !important;
+    color: #fff !important;
     transition: background 0.125s ease-out;
   }
 }
@@ -249,8 +242,7 @@ export default {
   line-height: 150%;
 }
 
-#app.dark  .downloadable .details {
+#app.dark .downloadable .details {
   background: rgba(255, 255, 255, 0.05);
 }
-
 </style>

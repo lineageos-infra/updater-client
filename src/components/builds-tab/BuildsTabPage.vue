@@ -1,16 +1,17 @@
 <template>
   <div class="builds-tab-page tab-page">
-    <div
-        class="list-container"
-        data-simplebar
-        v-if="builds.length > 0"
-    >
+    <div class="list-container" data-simplebar v-if="builds.length > 0">
       <div class="list">
         <div class="header">
           <h1>Download builds</h1>
-          <p>Not all images are necessary for installation or upgrades. Check your device's <a v-bind:href="info_url" target="_blank">wiki guides</a>
-          for more info.<br/>
-          You can verify that a file has not been tampered by <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank">checking its signature</a>.</p>
+          <p>
+            Not all images are necessary for installation or upgrades. Check your device's
+            <a v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
+            You can verify that a file has not been tampered by
+            <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank"
+              >checking its signature</a
+            >.
+          </p>
         </div>
         <div class="list-label">Latest</div>
         <template v-for="build in builds" :key="build.id">
@@ -22,8 +23,8 @@
       <span>
         This device doesn't have any builds available, please see
         <a
-            href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
-            target="_blank"
+          href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
+          target="_blank"
         >
           wiki
         </a>
@@ -34,59 +35,57 @@
 </template>
 
 <script>
-import ApiService from '../../js/ApiService';
-import {beforeTryError} from '../../js/router_utils';
-import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
+import ApiService from '../../js/ApiService'
+import { beforeTryError } from '../../js/router_utils'
+import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
-  return ApiService.loadDeviceBuilds(to.params.model);
-});
+  return ApiService.loadDeviceBuilds(to.params.model)
+})
 
 export default {
   name: 'BuildsTab',
   components: {
-    DownloadableGroup,
+    DownloadableGroup
   },
   props: {
-    model: String,
+    model: String
   },
   data() {
     return {
-      builds: [],
-    };
+      builds: []
+    }
   },
   beforeRouteEnter: loadDeviceBuildsBeforeHook,
   beforeRouteUpdate: loadDeviceBuildsBeforeHook,
   watch: {
     model() {
-      this.loadBuilds();
-      this.loadDeviceDetails();
-    },
+      this.loadBuilds()
+      this.loadDeviceDetails()
+    }
   },
   mounted() {
-    this.loadBuilds();
-    this.loadDeviceDetails();
+    this.loadBuilds()
+    this.loadDeviceDetails()
   },
   methods: {
     async loadBuilds() {
-      const data = this.$store.getters.getDeviceBuilds(this.model);
+      const data = this.$store.getters.getDeviceBuilds(this.model)
       if (!data) {
-        throw new Error('Failed to get device-main builds-tab');
+        throw new Error('Failed to get device-main builds-tab')
       }
 
-      this.builds = data;
+      this.builds = data
     },
     loadDeviceDetails() {
-      const data = this.$store.getters.getDevice(this.model);
+      const data = this.$store.getters.getDevice(this.model)
       if (!data) {
-        throw new Error('Failed to get device-main data');
+        throw new Error('Failed to get device-main data')
       }
 
-      [
-        'info_url',
-      ].forEach(k => this[k] = data[k]);
-    },
-  },
+      ;['info_url'].forEach((k) => (this[k] = data[k]))
+    }
+  }
 }
 </script>
 
@@ -173,5 +172,4 @@ div.group:nth-child(3) {
     padding: 16px 10px 16px 16px;
   }
 }
-
 </style>

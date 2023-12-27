@@ -1,35 +1,26 @@
 <template>
-  <router-view
-      id="sidebar"
-      name="sidebar"
-  ></router-view>
-  <router-view
-      id="main"
-      name="main"
-  ></router-view>
-  <horizontal-loader
-      id="loader"
-      v-if="anyLoading"
-  ></horizontal-loader>
+  <router-view id="sidebar" name="sidebar"></router-view>
+  <router-view id="main" name="main"></router-view>
+  <horizontal-loader id="loader" v-if="anyLoading"></horizontal-loader>
 </template>
 
 <script>
-import HorizontalLoader from './components/utils/HorizontalLoader.vue';
-import { applyAppTheme } from './js/ThemeUtils';
+import HorizontalLoader from './components/utils/HorizontalLoader.vue'
+import { applyAppTheme } from './js/ThemeUtils'
 
 export default {
   name: 'App',
   components: {
-    HorizontalLoader,
+    HorizontalLoader
   },
   mounted() {
-    applyAppTheme();
+    applyAppTheme()
   },
   computed: {
     anyLoading() {
-      return !!this.$store.getters.ongoingRequests;
-    },
-  },
+      return !!this.$store.getters.ongoingRequests
+    }
+  }
 }
 </script>
 
@@ -46,7 +37,7 @@ export default {
 
 #app.dark {
   background: #121212;
-  color: rgba(255, 255, 255, 0.87)
+  color: rgba(255, 255, 255, 0.87);
 }
 
 #sidebar {

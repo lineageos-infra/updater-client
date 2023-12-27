@@ -2,26 +2,24 @@
   <div class="sidebar">
     <div class="logo">
       <router-link to="/">
-        <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo">
+        <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
       </router-link>
     </div>
-    <device-selector
-        v-bind:active-model="activeModel"
-    ></device-selector>
+    <device-selector v-bind:active-model="activeModel"></device-selector>
   </div>
 </template>
 
 <script>
-import DeviceSelector from '../device-selector/DeviceSelector.vue';
+import DeviceSelector from '../device-selector/DeviceSelector.vue'
 
 export default {
   name: 'SideBar',
   components: {
-    DeviceSelector,
+    DeviceSelector
   },
   props: {
-    activeModel: String,
-  },
+    activeModel: String
+  }
 }
 </script>
 

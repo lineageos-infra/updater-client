@@ -2,29 +2,26 @@
   <div class="home-main">
     <navbar>
       <template v-slot:left>
-      <span class="text">
-        All devices
-      </span>
+        <span class="text"> All devices </span>
       </template>
       <template v-slot:tabs>
         <router-link
-            class="mobile-visible-tab tab"
-            v-bind:to="{
-              name: 'home_devices',
-            }"
+          class="mobile-visible-tab tab"
+          v-bind:to="{
+            name: 'home_devices'
+          }"
         >
           Devices
         </router-link>
 
         <router-link
-            class="tab"
-            v-bind:to="{
-              name: 'home_changes',
-            }"
+          class="tab"
+          v-bind:to="{
+            name: 'home_changes'
+          }"
         >
           Changes
         </router-link>
-
       </template>
     </navbar>
 
@@ -35,13 +32,13 @@
 </template>
 
 <script>
-import NavBar from '../navbar/NavBar.vue';
+import NavBar from '../navbar/NavBar.vue'
 
 export default {
   name: 'HomeMain',
   components: {
-    navbar: NavBar,
-  },
+    navbar: NavBar
+  }
 }
 </script>
 

@@ -1,9 +1,6 @@
 <template>
   <div class="tab-page changes-tab-page">
-    <div
-        class="list-container"
-        ref="scrollable"
-    >
+    <div class="list-container" ref="scrollable">
       <div class="list">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
@@ -12,9 +9,9 @@
         </template>
         <template v-else>
           <changes-group
-              v-bind="{
-                items: changes,
-              }"
+            v-bind="{
+              items: changes
+            }"
           ></changes-group>
         </template>
       </div>
@@ -23,92 +20,92 @@
 </template>
 
 <script>
-import SimpleBar from 'simplebar';
-import ChangesGroup from './ChangesGroup.vue';
-import ApiService from '../../js/ApiService';
-import {beforeTryError} from '../../js/router_utils';
+import SimpleBar from 'simplebar'
+import ChangesGroup from './ChangesGroup.vue'
+import ApiService from '../../js/ApiService'
+import { beforeTryError } from '../../js/router_utils'
 
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
   if (!to.params.model) {
-    return;
+    return
   }
 
-  return ApiService.loadDeviceBuilds(to.params.model);
-});
+  return ApiService.loadDeviceBuilds(to.params.model)
+})
 
 export default {
   name: 'ChangesTabPage',
   components: {
-    ChangesGroup,
+    ChangesGroup
   },
   props: {
-    model: String,
+    model: String
   },
   data() {
     return {
       buildsChanges: [],
       scrollbar: null,
       scrollable: null,
-      stopLoading: false,
-    };
+      stopLoading: false
+    }
   },
   computed: {
     changes() {
-      return this.$store.getters.changes;
-    },
+      return this.$store.getters.changes
+    }
   },
   beforeRouteEnter: loadDeviceBuildsBeforeHook,
   beforeRouteUpdate: loadDeviceBuildsBeforeHook,
   watch: {
     model() {
-      this.reloadDeviceChanges();
+      this.reloadDeviceChanges()
     },
     changes() {
-      this.reloadDeviceChanges();
-      this.checkScrolledToBottom();
-    },
+      this.reloadDeviceChanges()
+      this.checkScrolledToBottom()
+    }
   },
   mounted() {
-    this.stopLoading = false;
-    this.scrollbar = new SimpleBar(this.$refs.scrollable);
-    this.scrollable = this.scrollbar.getScrollElement();
-    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom);
+    this.stopLoading = false
+    this.scrollbar = new SimpleBar(this.$refs.scrollable)
+    this.scrollable = this.scrollbar.getScrollElement()
+    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom)
 
-    this.checkScrolledToBottom();
+    this.checkScrolledToBottom()
   },
   unmounted() {
-    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom);
-    this.scrollbar.unMount();
-    this.stopLoading = true;
+    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom)
+    this.scrollbar.unMount()
+    this.stopLoading = true
   },
   methods: {
     reloadDeviceChanges() {
       if (this.model) {
-        this.buildsChanges = ApiService.getDeviceChanges(this.model);
+        this.buildsChanges = ApiService.getDeviceChanges(this.model)
       }
     },
     isScrolledToBottom(el) {
-      return el.scrollHeight - el.scrollTop - el.clientHeight < 1;
+      return el.scrollHeight - el.scrollTop - el.clientHeight < 1
     },
     checkScrolledToBottom() {
       if (!this.isScrolledToBottom(this.scrollable)) {
-        return;
+        return
       }
 
       if (this.stopLoading) {
-        return;
+        return
       }
 
-      this.loadMoreChanges();
+      this.loadMoreChanges()
     },
     async loadMoreChanges() {
       try {
-        await ApiService.loadMoreChanges();
+        await ApiService.loadMoreChanges()
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

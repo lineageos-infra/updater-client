@@ -1,9 +1,10 @@
 <template>
   <div>
     <div>
-      <slot name="title"
-            v-bind:isExpanded="isExpanded"
-            v-bind:toggleManualExpansion="toggleManualExpansion"
+      <slot
+        name="title"
+        v-bind:isExpanded="isExpanded"
+        v-bind:toggleManualExpansion="toggleManualExpansion"
       ></slot>
     </div>
     <height-transition v-show="isExpanded">
@@ -13,48 +14,48 @@
 </template>
 
 <script>
-import HeightTransition from './HeightTransition.vue';
+import HeightTransition from './HeightTransition.vue'
 
 export default {
   name: 'CollapsibleItem',
   components: {
-    HeightTransition,
+    HeightTransition
   },
   props: {
     forceExpanded: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   watch: {
     forceExpanded() {
-      this.refreshExpansion();
-    },
+      this.refreshExpansion()
+    }
   },
   data() {
     return {
       isManuallyExpanded: false,
-      isExpanded: false,
-    };
+      isExpanded: false
+    }
   },
   mounted() {
-    this.refreshExpansion();
+    this.refreshExpansion()
   },
   methods: {
     refreshExpansion() {
       if (this.forceExpanded) {
-        this.isExpanded = true;
+        this.isExpanded = true
       } else {
-        this.isExpanded = this.isManuallyExpanded;
+        this.isExpanded = this.isManuallyExpanded
       }
     },
     toggleManualExpansion() {
       if (this.forceExpanded) {
-        return;
+        return
       }
 
-      this.isManuallyExpanded = !this.isManuallyExpanded;
-      this.refreshExpansion();
+      this.isManuallyExpanded = !this.isManuallyExpanded
+      this.refreshExpansion()
     }
   }
 }

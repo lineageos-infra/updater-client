@@ -7,7 +7,7 @@
       <div class="right">
         <slot name="right">
           <div class="logo">
-            <img src="../../assets/navbar-logo.svg" alt="LineageOS Logo">
+            <img src="../../assets/navbar-logo.svg" alt="LineageOS Logo" />
           </div>
         </slot>
       </div>
@@ -24,25 +24,25 @@ export default {
   props: {
     model: {
       type: String,
-      default: undefined,
+      default: undefined
     },
     name: {
       type: String,
-      default: undefined,
+      default: undefined
     },
     oem: {
       type: String,
-      default: undefined,
+      default: undefined
     },
     text: {
       type: String,
-      default: undefined,
+      default: undefined
     },
     versions: {
       type: Array,
-      default: () => [],
-    },
-  },
+      default: () => []
+    }
+  }
 }
 </script>
 
@@ -108,7 +108,7 @@ export default {
 }
 
 #app.dark .navbar .tabs::v-deep(.tab) {
-  color: rgba(255, 255, 255, 0.87)
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .navbar .tabs::v-deep(.mobile-visible-tab) {

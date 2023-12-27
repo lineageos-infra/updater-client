@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import DeviceSelector from '../device-selector/DeviceSelector.vue';
+import DeviceSelector from '../device-selector/DeviceSelector.vue'
 
 export default {
   name: 'DevicesTab',
   components: {
-    DeviceSelector,
-  },
+    DeviceSelector
+  }
 }
 </script>
 
