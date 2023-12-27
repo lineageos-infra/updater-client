@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import DeviceView from '../views/DeviceView.vue'
+import ErrorView from '../views/ErrorView.vue'
+import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
-import HomeMain from '../components/home-main/HomeMain.vue'
 import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue'
-import DeviceMain from '../components/device-main/DeviceMain.vue'
 import Builds from '../components/builds-tab/BuildsTabPage.vue'
-import ErrorMain from '../components/error-main/ErrorMain.vue'
 import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue'
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue'
 import MediaQueryUtils from '../js/MediaQueryUtils'
@@ -27,10 +27,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home-main',
+      name: 'home_view',
       components: {
         sidebar: SideBar,
-        main: HomeMain
+        main: HomeView
       },
       children: [
         {
@@ -57,10 +57,10 @@ const router = createRouter({
     },
     {
       path: '/devices/:model',
-      name: 'device-main',
+      name: 'device_view',
       components: {
         sidebar: SideBar,
-        main: DeviceMain
+        main: DeviceView
       },
       props: {
         sidebar(route) {
@@ -115,7 +115,7 @@ const router = createRouter({
       props: true,
       components: {
         sidebar: SideBar,
-        main: ErrorMain
+        main: ErrorView
       }
     },
     {
@@ -128,7 +128,7 @@ const router = createRouter({
       },
       components: {
         sidebar: SideBar,
-        main: ErrorMain
+        main: ErrorView
       }
     }
   ]

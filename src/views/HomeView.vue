@@ -1,6 +1,6 @@
 <template>
   <div class="home-main">
-    <navbar>
+    <NavBar>
       <template v-slot:left>
         <span class="text"> All devices </span>
       </template>
@@ -23,7 +23,7 @@
           Changes
         </router-link>
       </template>
-    </navbar>
+    </NavBar>
 
     <div class="content">
       <router-view></router-view>
@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import NavBar from '../navbar/NavBar.vue'
+import NavBar from '../components/navbar/NavBar.vue'
 
 export default {
-  name: 'HomeMain',
+  name: 'HomeView',
   components: {
-    navbar: NavBar
+    NavBar
   }
 }
 </script>

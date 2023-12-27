@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'ErrorMain',
+  name: 'ErrorView',
   props: {
     message: {
       type: String,

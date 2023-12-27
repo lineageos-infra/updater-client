@@ -1,6 +1,6 @@
 <template>
   <div class="device-main">
-    <navbar>
+    <NavBar>
       <template v-slot:left>
         <span class="oem">{{ oem }}</span>
         <i class="mdi mdi-chevron-right arrow"></i>
@@ -44,7 +44,7 @@
           <span class="mdi mdi-open-in-new"></span>
         </a>
       </template>
-    </navbar>
+    </NavBar>
 
     <div class="content">
       <router-view></router-view>
@@ -53,18 +53,18 @@
 </template>
 
 <script>
-import NavBar from '../navbar/NavBar.vue'
-import ApiService from '../../js/ApiService'
-import { beforeTryError } from '../../js/router_utils'
+import NavBar from '../components/navbar/NavBar.vue'
+import ApiService from '../js/ApiService'
+import { beforeTryError } from '../js/router_utils'
 
 const loadDeviceBeforeHook = beforeTryError((to) => {
   return ApiService.loadDevice(to.params.model)
 })
 
 export default {
-  name: 'DeviceMain',
+  name: 'DeviceView',
   components: {
-    navbar: NavBar
+    NavBar
   },
   props: {
     model: String
