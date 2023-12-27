@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import HorizontalLoader from './utils/HorizontalLoader.vue';
-import { applyAppTheme } from '../js/ThemeUtils';
+import HorizontalLoader from './components/utils/HorizontalLoader.vue';
+import { applyAppTheme } from './js/ThemeUtils';
 
 export default {
   name: 'App',

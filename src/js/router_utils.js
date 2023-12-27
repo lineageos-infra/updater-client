@@ -1,4 +1,4 @@
-import store from './store';
+import store from '../store';
 
 export const beforeTryError = fn => async (to, from, next) => {
     try {

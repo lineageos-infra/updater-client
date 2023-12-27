@@ -8,7 +8,7 @@ import Builds from '../components/builds-tab/BuildsTabPage.vue';
 import ErrorMain from '../components/error-main/ErrorMain.vue';
 import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue';
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue';
-import MediaQueryUtils from './MediaQueryUtils';
+import MediaQueryUtils from '../js/MediaQueryUtils';
 
 const getRedirectForHomeIndex = (deviceType) => {
     if (deviceType !== MediaQueryUtils.DESKTOP_TYPE) {

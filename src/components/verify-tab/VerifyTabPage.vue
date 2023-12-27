@@ -63,7 +63,7 @@
 
 <script>
 import CryptoService from '../../js/CryptoService';
-import store from './../../js/store';
+import store from './../../store';
 
 export default {
   name: 'VerifyTabPage',
