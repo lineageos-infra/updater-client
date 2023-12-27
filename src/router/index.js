@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import Sidebar from '../components/sidebar/Sidebar.vue';
+import SideBar from '../components/sidebar/SideBar.vue';
 import HomeMain from '../components/home-main/HomeMain.vue';
 import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue';
 import DeviceMain from '../components/device-main/DeviceMain.vue';
@@ -29,7 +29,7 @@ const router = createRouter({
             path: '/',
             name: 'home-main',
             components: {
-                sidebar: Sidebar,
+                sidebar: SideBar,
                 main: HomeMain,
             },
             children: [
@@ -59,7 +59,7 @@ const router = createRouter({
             path: '/devices/:model',
             name: 'device-main',
             components: {
-                sidebar: Sidebar,
+                sidebar: SideBar,
                 main: DeviceMain,
             },
             props: {
@@ -114,7 +114,7 @@ const router = createRouter({
             name: 'error',
             props: true,
             components: {
-                sidebar: Sidebar,
+                sidebar: SideBar,
                 main: ErrorMain,
             },
         },
@@ -127,7 +127,7 @@ const router = createRouter({
                 },
             },
             components: {
-                sidebar: Sidebar,
+                sidebar: SideBar,
                 main: ErrorMain,
             },
         }

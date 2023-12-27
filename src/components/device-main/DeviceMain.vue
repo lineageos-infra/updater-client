@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import Navbar from '../navbar/Navbar.vue';
+import NavBar from '../navbar/NavBar.vue';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 
@@ -68,7 +68,7 @@ const loadDeviceBeforeHook = beforeTryError((to) => {
 export default {
   name: 'DeviceMain',
   components: {
-    Navbar,
+    navbar: NavBar,
   },
   props: {
     model: String,

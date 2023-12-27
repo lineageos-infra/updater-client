@@ -15,7 +15,7 @@
 import DeviceSelector from '../device-selector/DeviceSelector.vue';
 
 export default {
-  name: 'Sidebar',
+  name: 'SideBar',
   components: {
     DeviceSelector,
   },

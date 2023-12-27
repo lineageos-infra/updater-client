@@ -6,8 +6,8 @@
     >
       <div class="list">
         <template v-if="model">
-          <template v-for="buildChanges in buildsChanges">
-            <changes-group v-bind="buildChanges"></changes-group>
+          <template v-for="change in buildsChanges" :key="change.id">
+            <changes-group v-bind="change"></changes-group>
           </template>
         </template>
         <template v-else>
@@ -24,7 +24,6 @@
 
 <script>
 import SimpleBar from 'simplebar';
-import Change from './Change.vue';
 import ChangesGroup from './ChangesGroup.vue';
 import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
@@ -41,7 +40,6 @@ export default {
   name: 'ChangesTabPage',
   components: {
     ChangesGroup,
-    Change,
   },
   props: {
     model: String,

@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: 'Change',
+  name: 'ChangeTab',
   props: {
     url: String,
     subject: String,

@@ -6,19 +6,19 @@
     >
       {{ title }}
     </div>
-    <template v-for="item in items">
-      <downloadable v-bind="item"></downloadable>
+    <template v-for="item in items" :key="item.id">
+      <downloadable-item v-bind="item"></downloadable-item>
     </template>
   </div>
 </template>
 
 <script>
-import Downloadable from './Downloadable.vue';
+import DownloadableItem from './DownloadableItem.vue';
 
 export default {
   name: 'DownloadableGroup',
   components: {
-    Downloadable,
+    DownloadableItem,
   },
   props: {
     title: {

@@ -1,5 +1,5 @@
 <template>
-  <collapsible
+  <collapsible-item
       class="oem"
       v-bind:forceExpanded="forceExpanded"
       v-show="!hidden"
@@ -29,23 +29,23 @@
     <template v-slot:content>
       <div class="devices-container">
         <div class="devices">
-          <template v-for="device in devices">
-            <device
+          <template v-for="device in devices" :key="device.model">
+            <device-item
                 v-bind="device"
-            ></device>
+            ></device-item>
           </template>
         </div>
       </div>
     </template>
-  </collapsible>
+  </collapsible-item>
 </template>
 
 <script>
-import Collapsible from '../utils/Collapsible.vue';
-import Device from './Device.vue';
+import CollapsibleItem from '../utils/CollapsibleItem.vue';
+import DeviceItem from './DeviceItem.vue';
 
 export default {
-  name: 'Oem',
+  name: 'DeviceOem',
   props: {
     name: String,
     devices: Array,
@@ -59,8 +59,8 @@ export default {
     },
   },
   components: {
-    Device,
-    Collapsible,
+    CollapsibleItem,
+    DeviceItem,
   },
 }
 </script>

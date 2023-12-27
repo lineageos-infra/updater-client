@@ -16,7 +16,7 @@
 import HeightTransition from './HeightTransition.vue';
 
 export default {
-  name: 'Collapsible',
+  name: 'CollapsibleItem',
   components: {
     HeightTransition,
   },

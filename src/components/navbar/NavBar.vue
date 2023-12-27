@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'Navbar',
+  name: 'NavBar',
   props: {
     model: {
       type: String,
@@ -40,7 +40,7 @@ export default {
     },
     versions: {
       type: Array,
-      default: [],
+      default: () => [],
     },
   },
 }

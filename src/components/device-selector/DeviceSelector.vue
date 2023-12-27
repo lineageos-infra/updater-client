@@ -8,22 +8,23 @@
         class="oems"
         data-simplebar
     >
-      <oem
+      <device-oem
           v-for="oem in oems"
           v-bind="oem"
-      ></oem>
+          :key="oem.name"
+      ></device-oem>
     </div>
   </div>
 </template>
 
 <script>
 import ApiService from '../../js/ApiService';
-import Oem from './Oem.vue';
+import DeviceOem from './DeviceOem.vue';
 
 export default {
   name: 'DeviceSelector',
   components: {
-    Oem,
+    DeviceOem,
   },
   props: {
     activeModel: String,

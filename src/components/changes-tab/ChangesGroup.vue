@@ -11,19 +11,19 @@
         Included in {{ build.filename }}
       </template>
     </div>
-    <template v-for="change in items">
-      <change v-bind:="change" v-bind:build="build"></change>
+    <template v-for="change in items" :key="change.id">
+      <change-tab v-bind:="change" :build="build"></change-tab>
     </template>
   </div>
 </template>
 
 <script>
-import Change from './Change.vue';
+import ChangeTab from './ChangeTab.vue';
 
 export default {
   name: 'ChangesGroup',
   components: {
-    Change,
+    ChangeTab,
   },
   props: {
     build: Object,

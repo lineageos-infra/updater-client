@@ -1,5 +1,5 @@
 <template>
-  <collapsible
+  <collapsible-item
       class="downloadable"
   >
     <template
@@ -65,17 +65,17 @@
         </div>
       </div>
     </template>
-  </collapsible>
+  </collapsible-item>
 </template>
 
 <script>
-import Collapsible from '../utils/Collapsible.vue';
+import CollapsibleItem from '../utils/CollapsibleItem.vue';
 import DownloadableDetail from './DownloadableDetail.vue';
 
 export default {
-  name: 'Downloadable',
+  name: 'DownloadableItem',
   components: {
-    Collapsible,
+    CollapsibleItem,
     DownloadableDetail,
   },
   props: {

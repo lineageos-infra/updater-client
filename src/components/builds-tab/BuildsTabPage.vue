@@ -13,12 +13,8 @@
           You can verify that a file has not been tampered by <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank">checking its signature</a>.</p>
         </div>
         <div class="list-label">Latest</div>
-        <template v-for="build in builds">
-          <downloadable-group
-              v-bind="{
-                items: build.files,
-              }"
-          ></downloadable-group>
+        <template v-for="build in builds" :key="build.id">
+          <downloadable-group :items="build.files"></downloadable-group>
         </template>
       </div>
     </div>
@@ -42,15 +38,12 @@ import ApiService from '../../js/ApiService';
 import {beforeTryError} from '../../js/router_utils';
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue';
 
-const VERIFY_BUILD_BANNER_HIDE = 'verify-build-banner-hide';
-const ADDITIONAL_IMAGES_BANNER_HIDE = 'additional-images-banner-hide';
-
 const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
   return ApiService.loadDeviceBuilds(to.params.model);
 });
 
 export default {
-  name: 'Builds',
+  name: 'BuildsTab',
   components: {
     DownloadableGroup,
   },

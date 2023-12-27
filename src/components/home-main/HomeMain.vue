@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import Navbar from '../navbar/Navbar.vue';
+import NavBar from '../navbar/NavBar.vue';
 
 export default {
   name: 'HomeMain',
   components: {
-    Navbar,
+    navbar: NavBar,
   },
 }
 </script>
