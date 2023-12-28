@@ -77,12 +77,7 @@
           </tr>
         </table>
         <div class="flex justify-center">
-          <button
-            class="px-4 py-1 rounded-full bg-brand-light text-black dark:bg-brand-dark dark:text-brand-light hover:bg-brand-primary transition duration-150 ease-out"
-            @click="verifyClicked"
-          >
-            Verify OTA package signature
-          </button>
+          <button class="btn px-4 py-1" @click="verifyClicked">Verify OTA package signature</button>
         </div>
         <form>
           <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
@@ -146,6 +141,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../css/button.css';
 @import '../../css/tab-page.css';
 @import '../../css/table.css';
 

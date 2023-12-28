@@ -1,0 +1,5 @@
+.btn {
+  @apply rounded-full bg-brand-light text-black
+  dark:bg-brand-dark dark:text-brand-light
+  hover:bg-brand-primary transition duration-150 ease-out;
+}

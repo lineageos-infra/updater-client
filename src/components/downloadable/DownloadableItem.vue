@@ -11,10 +11,7 @@
           {{ name || filename }}
         </div>
         <div class="controls">
-          <a
-            v-bind:href="url"
-            class="download-icon bg-brand-light dark:bg-brand-dark hover:bg-brand-primary"
-          >
+          <a :href="url" class="btn px-5 py-2">
             <svg
               width="16"
               height="16"
@@ -121,6 +118,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../css/button.css';
 .downloadable {
   line-height: 24px;
   vertical-align: center;
@@ -156,19 +154,6 @@ export default {
   cursor: pointer;
 
   user-select: none; /* prevent automatic selection of the details contents */
-}
-
-.downloadable .title-container .controls .download-icon {
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  padding: 4px 16px;
-  gap: 10px;
-  border-radius: 16px;
-  width: 56px;
-  height: 32px;
-  justify-content: center;
-  transition: background 0.125s ease-out;
 }
 
 .downloadable .details-wrapper {
