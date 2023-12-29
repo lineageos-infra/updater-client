@@ -1,12 +1,9 @@
 <template>
   <div class="device-selector">
-    <div class="search-container">
-      <input
-        class="bg-black dark:bg-white opacity-85 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15 focus:border-b-2 focus:border-brand-primary"
-        type="text"
-        placeholder="Search..."
-        v-model="filterText"
-      />
+    <div
+      class="search-container text-sm border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15 focus:border-b-2 focus:border-brand-primary"
+    >
+      <input type="text" placeholder="Search..." v-model="filterText" />
       <i class="mdi mdi-close clear opacity-35" v-if="filterText" v-on:click="clearFilterText"></i>
     </div>
     <div class="oems" data-simplebar>
