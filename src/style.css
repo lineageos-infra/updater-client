@@ -53,7 +53,7 @@
 
 .simplebar-scrollbar::before {
   border-radius: 5px;
-  @apply bg-black dark:bg-white opacity-35 !important;
+  @apply bg-black dark:bg-white bg-opacity-35 dark:bg-opacity-35 !important;
 }
 
 @media (max-width: 1024px) {
