@@ -1,7 +1,7 @@
 <template>
-  <div class="tab-page changes-tab-page">
-    <div class="list-container" ref="scrollable">
-      <div class="list">
+  <div class="w-full h-full flex flex-col">
+    <div class="flex-grow w-full h-full overflow-auto" ref="scrollable">
+      <div class="min-w-0 max-w-[756px] mx-auto px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
             <changes-group v-bind="change"></changes-group>
@@ -108,7 +108,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@import '../../css/tab-page.css';
-</style>

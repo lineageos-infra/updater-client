@@ -1,12 +1,12 @@
 <template>
   <div
-    class="tab-page verify-tab-page"
+    class="w-full h-full flex flex-col verify-tab-page"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
-    <div class="list-container" data-simplebar>
-      <div class="list">
+    <div class="flex-grow w-full h-full overflow-auto" data-simplebar>
+      <div class="min-w-0 max-w-[756px] mx-auto px-8">
         <div class="header">
           <h1>OTA Verifier</h1>
           <div>
@@ -142,7 +142,6 @@ export default {
 
 <style scoped>
 @import '../../css/button.css';
-@import '../../css/tab-page.css';
 @import '../../css/table.css';
 
 .bg-error {

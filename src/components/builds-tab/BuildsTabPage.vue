@@ -1,7 +1,7 @@
 <template>
-  <div class="builds-tab-page tab-page">
-    <div class="list-container" data-simplebar v-if="builds.length > 0">
-      <div class="list">
+  <div class="builds-tab-page w-full h-full flex flex-col">
+    <div class="flex-grow w-full h-full overflow-auto" data-simplebar v-if="builds.length > 0">
+      <div class="min-w-0 max-w-[756px] mx-auto px-8">
         <div class="header">
           <h1>Download builds</h1>
           <p>
@@ -99,8 +99,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../css/tab-page.css';
-
 .builds-tab-page .list-placeholder {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 <template>
-  <div class="devices-tab-page tab-page">
-    <div class="list-container">
-      <device-selector class="list"></device-selector>
+  <div class="devices-tab-page w-full h-full flex flex-col">
+    <div class="flex-grow w-full h-full overflow-auto">
+      <device-selector class="h-100"></device-selector>
     </div>
   </div>
 </template>
@@ -16,11 +16,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@import '../../css/tab-page.css';
-
-.devices-tab-page .list {
-  height: 100%;
-}
-</style>
