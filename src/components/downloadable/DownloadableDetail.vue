@@ -1,6 +1,6 @@
 <template>
   <div class="downloadable-detail">
-    <div class="title text-opacity-50 dark:text-opacity-50">{{ title }}</div>
+    <div class="title opacity-50">{{ title }}</div>
     <div class="value">
       {{ value }}
       <div v-if="title == 'SHA256'">

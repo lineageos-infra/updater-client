@@ -36,7 +36,7 @@
       </div>
     </template>
     <template v-slot:content>
-      <div class="details-wrapper dark:bg-white dark:bg-opacity-5">
+      <div class="details-wrapper dark:bg-white dark:bg-opacity-5 rounded-md">
         <div class="details">
           <span class="details-title">Details</span>
           <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>
