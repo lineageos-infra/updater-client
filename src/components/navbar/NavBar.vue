@@ -98,17 +98,12 @@ export default {
 .navbar .tabs::v-deep(.tab) {
   padding: 8px 16px 16px 16px;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.87);
 
   display: block;
 
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
-}
-
-#app.dark .navbar .tabs::v-deep(.tab) {
-  color: rgba(255, 255, 255, 0.87);
 }
 
 .navbar .tabs::v-deep(.mobile-visible-tab) {

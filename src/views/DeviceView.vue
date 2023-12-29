@@ -5,7 +5,7 @@
         <span class="oem">{{ oem }}</span>
         <i class="mdi mdi-chevron-right arrow"></i>
         <span class="name">{{ name }}</span>
-        <span class="model">{{ model }}</span>
+        <span class="model opacity-50">{{ model }}</span>
       </template>
       <template v-slot:tabs>
         <router-link
@@ -120,11 +120,6 @@ export default {
 
 .device-main .navbar .model {
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-#app.dark .device-main .navbar .model {
-  color: rgba(255, 255, 255, 0.5);
 }
 
 .device-main .content {

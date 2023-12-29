@@ -1,6 +1,6 @@
 <template>
   <div class="downloadable-detail">
-    <div class="title">{{ title }}</div>
+    <div class="title text-opacity-50 dark:text-opacity-50">{{ title }}</div>
     <div class="value">
       {{ value }}
       <div v-if="title == 'SHA256'">
@@ -58,16 +58,11 @@ export default {
 .downloadable-detail .title {
   width: 20%;
   flex-shrink: 0;
-  color: rgba(0, 0, 0, 0.5);
 }
 
 .downloadable-detail .value a {
   color: #167c80;
   text-decoration: none;
-}
-
-#app.dark .downloadable-detail .title {
-  color: rgba(255, 255, 255, 0.5);
 }
 
 .downloadable-detail .value {

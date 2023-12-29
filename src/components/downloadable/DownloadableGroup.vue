@@ -1,5 +1,7 @@
 <template>
-  <div class="group">
+  <div
+    class="group p-4 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+  >
     <div class="group-header" v-if="title">
       {{ title }}
     </div>

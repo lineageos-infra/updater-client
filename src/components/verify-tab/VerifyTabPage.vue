@@ -28,7 +28,7 @@
         </div>
         <table v-if="verifyResult">
           <tr>
-            <th colspan="2" :class="{ 'bg-red': !isVerified }">
+            <th colspan="2" :class="{ 'bg-error': !isVerified }">
               {{ verifyResult }}
             </th>
           </tr>
@@ -76,8 +76,13 @@
             </td>
           </tr>
         </table>
-        <div class="flex-center">
-          <a href="#" class="verify-icon" @click="verifyClicked">Verify OTA package signature</a>
+        <div class="flex justify-center">
+          <button
+            class="px-4 py-1 rounded-full bg-brand-light text-black dark:bg-brand-dark dark:text-brand-light hover:bg-brand-primary transition duration-150 ease-out"
+            @click="verifyClicked"
+          >
+            Verify OTA package signature
+          </button>
         </div>
         <form>
           <input type="file" ref="inputRef" @change="verifyFileInput" style="display: none" />
@@ -144,45 +149,8 @@ export default {
 @import '../../css/tab-page.css';
 @import '../../css/table.css';
 
-.verify-icon {
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  padding: 4px 16px;
-  gap: 10px;
-  background: #cce8e9;
-  color: #000;
-  text-decoration: none;
-  border-radius: 16px;
-  height: 32px;
-  justify-content: center;
-  transition: background 0.125s ease-out;
-  width: fit-content;
-  margin-bottom: 24px;
-}
-
-#app.dark .verify-icon {
-  background: #324b4c !important;
-  color: #cce8e9 !important;
-}
-
-@media (hover: hover), (-moz-touch-enabled: 0) {
-  .verify-icon:hover {
-    background: #167c80 !important;
-  }
-
-  #app.dark .verify-icon:hover {
-    background: #167c80 !important;
-  }
-}
-
-.bg-red {
-  background-color: #f8d7da !important;
-}
-
-#app.dark .bg-red {
-  background-color: #522b2a !important;
-  color: #f8d7da !important;
+.bg-error {
+  @apply bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da];
 }
 
 .dragover-border {

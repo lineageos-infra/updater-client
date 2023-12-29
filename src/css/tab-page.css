@@ -17,11 +17,7 @@
 
   padding: 16px 16px 15px 16px;
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-#app.dark .tab-page .banner {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  @apply border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15;
 }
 
 .tab-page .banner.hidden {

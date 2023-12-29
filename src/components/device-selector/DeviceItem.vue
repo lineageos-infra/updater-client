@@ -55,14 +55,6 @@ export default {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.device .model {
-  color: rgba(0, 0, 0, 0.25);
-}
-
-#app.dark .device .model {
-  color: rgba(255, 255, 255, 0.25);
-}
-
 .device.selected {
   background: #167c80;
 }

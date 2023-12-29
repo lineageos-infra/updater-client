@@ -1,5 +1,9 @@
 <template>
-  <collapsible-item class="oem" v-bind:forceExpanded="forceExpanded" v-show="!hidden">
+  <collapsible-item
+    class="oem border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+    v-bind:forceExpanded="forceExpanded"
+    v-show="!hidden"
+  >
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
         class="title-container"
@@ -11,7 +15,7 @@
         <span class="title">
           {{ name }}
         </span>
-        <i class="mdi mdi-chevron-down icon" v-if="!forceExpanded"> </i>
+        <i class="mdi mdi-chevron-down icon opacity-35" v-if="!forceExpanded"> </i>
       </div>
     </template>
     <template v-slot:content>
@@ -53,13 +57,7 @@ export default {
 
 <style scoped>
 .oem {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
   user-select: none;
-}
-
-#app.dark .oem {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .oem .title-container {
@@ -88,11 +86,7 @@ export default {
   height: 64px;
   padding: 24px 16px;
 
-  background: rgba(0, 0, 0, 0.12);
-}
-
-#app.dark .oem .title-container.expanded {
-  background: rgba(255, 255, 255, 0.05);
+  @apply bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-5;
 }
 
 .oem .title-container .icon {
@@ -101,24 +95,9 @@ export default {
   transition:
     top 0.25s ease-out,
     transform 0.125s ease-out;
-
-  color: rgba(0, 0, 0, 0.38);
-}
-
-#app.dark .oem .title-container .icon {
-  color: rgba(255, 255, 255, 0.38);
 }
 
 .oem .title-container.expanded .icon {
   transform: rotate(-180deg);
-}
-
-.oem a {
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-#app.dark .oem a {
-  color: rgba(255, 255, 255, 0.87);
 }
 </style>

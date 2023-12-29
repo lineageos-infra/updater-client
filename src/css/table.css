@@ -12,11 +12,7 @@ td {
 }
 
 tr {
-  background-color: #f0f0f0;
-}
-
-#app.dark tr {
-  background-color: #212529;
+  @apply bg-[#f0f0f0] dark:bg-[#212529];
 }
 
 td {
@@ -24,19 +20,9 @@ td {
 }
 
 tr:nth-child(odd) {
-  background-color: #d3d3d3;
-}
-
-#app.dark tr:nth-child(odd) {
-  background-color: #2c3034;
+  @apply bg-[#d3d3d3] dark:bg-[#2c3034];
 }
 
 th {
-  background-color: #cce8e9;
-  color: #000;
-}
-
-#app.dark th {
-  background: #324b4c;
-  color: #cce8e9;
+  @apply text-dark dark:text-brand-light bg-brand-light dark:bg-brand-dark;
 }

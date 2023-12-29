@@ -159,12 +159,7 @@ export default {
 }
 
 div.group:nth-child(3) {
-  border: 1px solid rgba(0, 0, 0, 0.25) !important;
-  border-radius: 16px;
-}
-
-#app.dark div.group:nth-child(3) {
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  @apply border border-solid border-black dark:border-white border-opacity-25 dark:border-opacity-25;
   border-radius: 16px;
 }
 

@@ -4,11 +4,14 @@
       {{ subject }}
     </a>
     <div class="repository-type">
-      <span class="badge">
+      <span class="badge bg-dark dark:bg-white bg-opacity-15 dark:bg-opacity-15">
         {{ type }}
       </span>
 
-      <span class="badge" v-if="!build?.version">
+      <span
+        class="badge bg-dark dark:bg-white bg-opacity-15 dark:bg-opacity-15"
+        v-if="!build?.version"
+      >
         {{ branch }}
       </span>
 
@@ -68,11 +71,5 @@ export default {
   border-radius: 12px;
   padding: 0 8px;
   margin-right: 8px;
-
-  background: rgba(0, 0, 0, 0.15);
-}
-
-#app.dark .change .badge {
-  background: rgba(255, 255, 255, 0.15);
 }
 </style>
