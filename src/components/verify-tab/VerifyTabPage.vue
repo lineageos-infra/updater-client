@@ -26,8 +26,8 @@
             </p>
           </div>
         </div>
-        <table v-if="verifyResult">
-          <tr>
+        <table v-if="verifyResult" class="text-left">
+          <tr class="text-center">
             <th colspan="2" :class="{ 'bg-error': !isVerified }">
               {{ verifyResult }}
             </th>
@@ -141,9 +141,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../css/button.css';
-@import '../../css/table.css';
-
 .bg-error {
   @apply bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da];
 }

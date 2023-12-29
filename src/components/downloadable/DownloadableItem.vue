@@ -118,7 +118,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../css/button.css';
 .downloadable {
   line-height: 24px;
   vertical-align: center;

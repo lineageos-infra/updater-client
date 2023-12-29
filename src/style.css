@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply p-0 m-0 w-full h-full;
+  }
+
+  #app {
+    @apply text-black dark:text-white dark:bg-dark text-opacity-85 dark:text-opacity-85;
+  }
+
+  table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+
+  tr {
+    @apply bg-[#f0f0f0] dark:bg-[#212529];
+  }
+
+  tr:nth-child(odd) {
+    @apply bg-[#d3d3d3] dark:bg-[#2c3034];
+  }
+
+  th {
+    @apply text-dark dark:text-brand-light bg-brand-light dark:bg-brand-dark;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply rounded-full bg-brand-light text-black
+    dark:bg-brand-dark dark:text-brand-light
+    hover:bg-brand-primary transition duration-150 ease-out;
+  }
+}
+
+.simplebar-track,
+.simplebar-track.simplebar-vertical {
+  width: 10px;
+}
+
+.simplebar-scrollbar::before {
+  border-radius: 5px;
+  @apply bg-black dark:bg-white opacity-35 !important;
+}
+
+@media (max-width: 1024px) {
+  .simplebar-track,
+  .simplebar-track.simplebar-vertical {
+    width: 6px;
+  }
+
+  .simplebar-scrollbar::before {
+    border-radius: 3px;
+  }
+}
