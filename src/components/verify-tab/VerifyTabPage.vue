@@ -1,15 +1,15 @@
 <template>
   <div
-    class="w-full h-full flex flex-col verify-tab-page"
+    class="w-full h-full flex flex-col border-2 border-dashed border-brand-primary border-opacity-0"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
     <div class="flex-grow w-full h-full overflow-auto" data-simplebar>
       <div class="min-w-0 max-w-[756px] mx-auto px-8">
-        <div class="header">
-          <h1>OTA Verifier</h1>
-          <div>
+        <div class="flex flex-col items-start py-10 px-6 sm:px-4 gap-4">
+          <h1 class="flex-none self-stretch text-3xl m-0 font-semibold">OTA Verifier</h1>
+          <div class="flex-none order-1 self-stretch flex-grow-0">
             <p>
               You can verify that your downloaded builds are signed with LineageOS private keys and
               are untampered by either dragging and dropping a file here or using the button
@@ -19,16 +19,23 @@
             </p>
             <p>
               For manual verification, check our
-              <a href="https://wiki.lineageos.org/verifying-builds.html" target="_blank"
-                >Verifying Build Authenticity</a
+              <a
+                href="https://wiki.lineageos.org/verifying-builds.html"
+                target="_blank"
+                class="no-underline font-semibold text-brand-primary"
               >
+                Verifying Build Authenticity
+              </a>
               guide.
             </p>
           </div>
         </div>
         <table v-if="verifyResult" class="text-left">
           <tr class="text-center">
-            <th colspan="2" :class="{ 'bg-error': !isVerified }">
+            <th
+              colspan="2"
+              :class="{ 'bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da]': !isVerified }"
+            >
               {{ verifyResult }}
             </th>
           </tr>
@@ -76,7 +83,7 @@
             </td>
           </tr>
         </table>
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-4">
           <button class="btn px-4 py-1" @click="verifyClicked">Verify OTA package signature</button>
         </div>
         <form>
@@ -101,13 +108,13 @@ export default {
   }),
   methods: {
     fileDragOver(event) {
-      event.currentTarget.classList.add('dragover-border')
+      event.currentTarget.classList.remove('border-opacity-0')
     },
     fileDragLeave(event) {
-      event.currentTarget.classList.remove('dragover-border')
+      event.currentTarget.classList.add('border-opacity-0')
     },
     fileDropped(event) {
-      event.currentTarget.classList.remove('dragover-border')
+      event.currentTarget.classList.add('border-opacity-0')
       this.verifyFile(event.dataTransfer.files[0])
     },
     formatDate(dateStr) {
@@ -139,55 +146,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.bg-error {
-  @apply bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da];
-}
-
-.dragover-border {
-  border: 2px dashed #167c80;
-}
-
-.verify-tab-page .header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 24px;
-  gap: 16px;
-}
-
-.verify-tab-page .header h1 {
-  flex: none;
-  align-self: stretch;
-  font-size: 32px;
-  line-height: 38px;
-  margin: 0;
-  font-weight: 500;
-}
-
-.verify-tab-page .header p {
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-}
-
-.verify-tab-page .header a {
-  color: #167c80;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-@media (max-width: 479px) {
-  .verify-tab-page .header {
-    padding: 40px 16px;
-  }
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
