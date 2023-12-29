@@ -19,9 +19,13 @@
           </p>
         </div>
         <div class="list-label">Latest</div>
-        <template v-for="build in builds" :key="build.id">
-          <downloadable-group :items="build.files"></downloadable-group>
-        </template>
+        <downloadable-group
+          v-for="(build, idx) in builds"
+          :key="build.id"
+          :items="build.files"
+          :class="{ 'border rounded-2xl border-opacity-25 dark:border-opacity-25': idx === 0 }"
+        >
+        </downloadable-group>
       </div>
     </div>
     <div class="list-placeholder" v-else>
@@ -155,21 +159,6 @@ export default {
 
   .builds-tab-page .list-label {
     padding: 0px 16px 16px;
-  }
-}
-
-div.group:nth-child(3) {
-  @apply border border-solid border-black dark:border-white border-opacity-25 dark:border-opacity-25;
-  border-radius: 16px;
-}
-
-.group {
-  padding: 24px 18px 24px 24px;
-}
-
-@media (max-width: 479px) {
-  .group {
-    padding: 16px 10px 16px 16px;
   }
 }
 </style>

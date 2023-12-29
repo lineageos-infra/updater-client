@@ -1,6 +1,9 @@
 <template>
-  <div class="group" v-if="items.length">
-    <div class="group-header" v-if="build">
+  <div
+    class="p-4 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+    v-if="items.length"
+  >
+    <div class="text-xs font-medium uppercase text-brand-primary tracking-widest" v-if="build">
       <template v-if="build.filename === 'next'">
         To be included in the next {{ build.version }} build
       </template>
@@ -26,7 +29,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@import '../../css/group.css';
-</style>
