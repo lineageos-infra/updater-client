@@ -84,7 +84,7 @@
           </tr>
         </table>
         <div class="flex justify-center mb-4">
-          <button class="btn px-4 py-1" @click="verifyClicked">Verify OTA package signature</button>
+          <button class="btn px-4 py-1" @click="verifyClicked" :disabled="verifying">{{ verifying ? "Verifying, please wait..." : "Verify OTA package signature" }}</button>
         </div>
         <form>
           <input class="hidden" type="file" ref="inputRef" @change="verifyFileInput" />
@@ -104,6 +104,7 @@ export default {
     verifyResult: '',
     verifySignInfo: null,
     fileName: '',
+    verifying: false,
     isVerified: false
   }),
   methods: {
@@ -135,7 +136,9 @@ export default {
         this.isVerified = result.status
         this.verifyResult = result.msg
         this.verifySignInfo = result.signInfo
+        this.verifying = false
       }
+      this.verifying = true
       fileReader.onloadstart = () => store.commit('startRequest')
       fileReader.onloadend = () => store.commit('endRequest')
       fileReader.readAsArrayBuffer(blob)
