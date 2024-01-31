@@ -1,6 +1,6 @@
 <template>
   <collapsible-item
-    class="oem border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+    class="oem border-b border-solid border-black border-opacity-15 dark:border-white dark:border-opacity-15"
     v-bind:forceExpanded="forceExpanded"
     v-show="!hidden"
   >
@@ -86,7 +86,7 @@ export default {
   height: 64px;
   padding: 24px 16px;
 
-  @apply bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-5;
+  @apply bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-5;
 }
 
 .oem .title-container .icon {

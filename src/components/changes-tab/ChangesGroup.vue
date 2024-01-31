@@ -1,9 +1,9 @@
 <template>
   <div
-    class="p-4 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+    class="border-b border-solid border-black border-opacity-15 p-4 dark:border-white dark:border-opacity-15"
     v-if="items.length"
   >
-    <div class="text-xs font-medium uppercase text-brand-primary tracking-widest" v-if="build">
+    <div class="text-xs font-medium uppercase tracking-widest text-brand-primary" v-if="build">
       <template v-if="build.filename === 'next'">
         To be included in the next {{ build.version }} build
       </template>

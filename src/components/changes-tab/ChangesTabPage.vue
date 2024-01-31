@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex flex-col">
-    <div class="flex-grow w-full h-full overflow-auto" ref="scrollable">
-      <div class="min-w-0 max-w-[756px] mx-auto px-8">
+  <div class="flex h-full w-full flex-col">
+    <div class="h-full w-full flex-grow overflow-auto" ref="scrollable">
+      <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
             <changes-group v-bind="change"></changes-group>

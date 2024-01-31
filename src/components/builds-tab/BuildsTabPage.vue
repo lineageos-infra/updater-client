@@ -1,7 +1,7 @@
 <template>
-  <div class="builds-tab-page w-full h-full flex flex-col">
-    <div class="flex-grow w-full h-full overflow-auto" data-simplebar v-if="builds.length > 0">
-      <div class="min-w-0 max-w-[756px] mx-auto px-8">
+  <div class="builds-tab-page flex h-full w-full flex-col">
+    <div class="h-full w-full flex-grow overflow-auto" data-simplebar v-if="builds.length > 0">
+      <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <div class="header">
           <h1>Download builds</h1>
           <p>
@@ -14,7 +14,7 @@
                 name: 'home_verify'
               }"
             >
-              checking its signature </router-link
+              checking its signature</router-link
             >.
           </p>
         </div>
@@ -23,7 +23,7 @@
           v-for="(build, idx) in builds"
           :key="build.id"
           :items="build.files"
-          :class="{ 'border rounded-2xl border-opacity-25 dark:border-opacity-25': idx === 0 }"
+          :class="{ 'rounded-2xl border border-opacity-25 dark:border-opacity-25': idx === 0 }"
         >
         </downloadable-group>
       </div>

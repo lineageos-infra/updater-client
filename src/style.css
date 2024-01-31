@@ -5,11 +5,11 @@
 @layer base {
   html,
   body {
-    @apply p-0 m-0 w-full h-full;
+    @apply m-0 h-full w-full p-0;
   }
 
   #app {
-    @apply text-black dark:text-white dark:bg-dark text-opacity-85 dark:text-opacity-85;
+    @apply text-black text-opacity-85 dark:bg-dark dark:text-white dark:text-opacity-85;
   }
 
   table {
@@ -37,15 +37,15 @@
   }
 
   th {
-    @apply text-dark dark:text-brand-light bg-brand-light dark:bg-brand-dark;
+    @apply bg-brand-light text-dark dark:bg-brand-dark dark:text-brand-light;
   }
 }
 
 @layer components {
   .btn {
     @apply rounded-full bg-brand-light text-black
-    dark:bg-brand-dark dark:text-brand-light
-    hover:bg-brand-primary transition duration-150 ease-out;
+    transition duration-150
+    ease-out hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light;
   }
 }
 
@@ -56,7 +56,7 @@
 
 .simplebar-scrollbar::before {
   border-radius: 5px;
-  @apply bg-black dark:bg-white bg-opacity-35 dark:bg-opacity-35 !important;
+  @apply bg-black bg-opacity-35 dark:bg-white dark:bg-opacity-35 !important;
 }
 
 @media (max-width: 1024px) {

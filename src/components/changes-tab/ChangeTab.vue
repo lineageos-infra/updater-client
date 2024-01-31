@@ -4,12 +4,12 @@
       {{ subject }}
     </a>
     <div class="repository-type">
-      <span class="badge bg-dark dark:bg-white bg-opacity-15 dark:bg-opacity-15">
+      <span class="badge bg-dark bg-opacity-15 dark:bg-white dark:bg-opacity-15">
         {{ type }}
       </span>
 
       <span
-        class="badge bg-dark dark:bg-white bg-opacity-15 dark:bg-opacity-15"
+        class="badge bg-dark bg-opacity-15 dark:bg-white dark:bg-opacity-15"
         v-if="!build?.version"
       >
         {{ branch }}

@@ -18,7 +18,7 @@
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="text-brand-dark dark:text-brand-light hover:text-white hover:transition hover:duration-150 hover:ease-out"
+              class="text-brand-dark hover:text-white hover:transition hover:duration-150 hover:ease-out dark:text-brand-light"
             >
               <path
                 d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
@@ -28,7 +28,7 @@
             </svg>
           </a>
           <i
-            class="mdi icon expand-icon opacity-55 dark:opacity-55 hover:bg-dark hover:bg-opacity-15 dark:hover:bg-white dark:hover:bg-opacity-15"
+            class="mdi icon expand-icon opacity-55 hover:bg-dark hover:bg-opacity-15 dark:opacity-55 dark:hover:bg-white dark:hover:bg-opacity-15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
             v-on:click="toggleManualExpansion"
           ></i>
@@ -36,7 +36,7 @@
       </div>
     </template>
     <template v-slot:content>
-      <div class="details-wrapper dark:bg-white dark:bg-opacity-5 rounded-md">
+      <div class="details-wrapper rounded-md dark:bg-white dark:bg-opacity-5">
         <div class="details">
           <span class="details-title">Details</span>
           <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>

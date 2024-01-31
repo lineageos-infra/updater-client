@@ -1,6 +1,6 @@
 <template>
-  <div class="devices-tab-page w-full h-full flex flex-col">
-    <div class="flex-grow w-full h-full overflow-auto">
+  <div class="devices-tab-page flex h-full w-full flex-col">
+    <div class="h-full w-full flex-grow overflow-auto">
       <device-selector class="h-100"></device-selector>
     </div>
   </div>

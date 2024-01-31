@@ -1,8 +1,8 @@
 <template>
   <div
-    class="p-6 md:p-4 border-b border-solid border-black dark:border-white border-opacity-15 dark:border-opacity-15"
+    class="border-b border-solid border-black border-opacity-15 p-6 md:p-4 dark:border-white dark:border-opacity-15"
   >
-    <div class="text-xs font-medium uppercase text-brand-primary tracking-widest" v-if="title">
+    <div class="text-xs font-medium uppercase tracking-widest text-brand-primary" v-if="title">
       {{ title }}
     </div>
     <template v-for="item in items" :key="item.id">

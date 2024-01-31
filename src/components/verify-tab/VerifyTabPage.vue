@@ -1,15 +1,15 @@
 <template>
   <div
-    class="w-full h-full flex flex-col border-2 border-dashed border-brand-primary border-opacity-0"
+    class="flex h-full w-full flex-col border-2 border-dashed border-brand-primary border-opacity-0"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
-    <div class="flex-grow w-full h-full overflow-auto" data-simplebar>
-      <div class="min-w-0 max-w-[756px] mx-auto px-8">
-        <div class="flex flex-col items-start py-10 px-6 sm:px-4 gap-4">
-          <h1 class="flex-none self-stretch text-3xl m-0 font-medium">OTA Verifier</h1>
-          <div class="flex-none order-1 self-stretch flex-grow-0">
+    <div class="h-full w-full flex-grow overflow-auto" data-simplebar>
+      <div class="mx-auto min-w-0 max-w-[756px] px-8">
+        <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
+          <h1 class="m-0 flex-none self-stretch text-3xl font-medium">OTA Verifier</h1>
+          <div class="order-1 flex-none flex-grow-0 self-stretch">
             <p>
               You can use your browser to verify that downloaded OTA packages (lineage-*.zip) are
               signed with LineageOS private keys and are untampered. Drag a file here or use the
@@ -20,7 +20,7 @@
               <a
                 href="https://wiki.lineageos.org/verifying-builds.html"
                 target="_blank"
-                class="no-underline font-medium text-brand-primary"
+                class="font-medium text-brand-primary no-underline"
               >
                 Verifying Build Authenticity
               </a>
@@ -33,7 +33,7 @@
             <th
               colspan="2"
               :class="{
-                'bg-[#f8d7da] dark:bg-[#522b2a] dark:text-[#f8d7da] font-medium': !isVerified
+                'bg-[#f8d7da] font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]': !isVerified
               }"
             >
               {{ verifyResult }}
@@ -83,7 +83,7 @@
             </td>
           </tr>
         </table>
-        <div class="flex justify-center mb-4">
+        <div class="mb-4 flex justify-center">
           <button class="btn px-4 py-1" @click="verifyClicked" :disabled="verifying">{{ verifying ? "Verifying, please wait..." : "Verify OTA package signature" }}</button>
         </div>
         <form>
