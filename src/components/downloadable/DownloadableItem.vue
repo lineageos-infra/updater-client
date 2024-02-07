@@ -90,7 +90,8 @@ export default {
       if (this.os_patch_level !== undefined) {
         return new Date(this.os_patch_level).toLocaleString('en-US', {
           month: 'long',
-          year: 'numeric'
+          year: 'numeric',
+          timeZone: 'UTC'
         })
       }
       return ''
