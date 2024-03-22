@@ -4,7 +4,7 @@
   >
     <RouterLink to="/">
       <div class="logo bg-brand-primary flex h-25 shrink-0 items-center justify-center">
-        <img class="h-10" src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
+        <div class="h-10 [&_path]:fill-white" v-html="logo"></div>
       </div>
     </RouterLink>
     <DeviceSelector :active-model="activeModel" />
@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
+import logo from '../../assets/logo.svg?raw'
 
 defineProps<{ activeModel?: string }>()
 </script>
