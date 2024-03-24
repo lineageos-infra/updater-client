@@ -1,6 +1,7 @@
 import forge from 'node-forge'
 import { sha1, sha256 } from '@awasm/noble'
 import type { CryptoRequest, VerifyResult } from './CryptoService'
+import { BRAND_NAME } from './config'
 
 const u8ArrayToString = (data: Uint8Array): string =>
   String.fromCharCode.apply(null, Array.from(data))
@@ -132,7 +133,7 @@ const verifyPackage = async (blob: Blob): Promise<VerifyResult> => {
     default:
       return {
         status: false,
-        msg: 'Signature check failed (file is not signed by LineageOS)',
+        msg: `Signature check failed (file is not signed by ${BRAND_NAME})`,
         signInfo: signInfo
       }
   }
