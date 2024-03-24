@@ -37,7 +37,7 @@
         This device doesn't have any builds available, please see
         <a
           class="text-brand-primary no-underline"
-          href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
+          :href="`${WIKI_URL}/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they`"
           target="_blank"
         >
           FAQ
@@ -54,6 +54,7 @@ import { ref, watch } from 'vue'
 import { useDeviceStore, type Build } from '@/stores/device'
 import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 import { useSeoMeta } from '@unhead/vue'
+import { WIKI_URL } from '@/services/config'
 
 const props = defineProps<{
   model: string
