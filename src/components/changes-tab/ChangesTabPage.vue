@@ -1,6 +1,10 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div class="h-full w-full flex-grow overflow-auto" ref="scrollable">
+    <div
+      class="h-full w-full flex-grow overflow-auto"
+      @scroll.passive="handleScroll"
+      ref="scrollContainer"
+    >
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
@@ -20,7 +24,6 @@
 </template>
 
 <script>
-import SimpleBar from 'simplebar'
 import ChangesGroup from './ChangesGroup.vue'
 import ApiService from '../../js/ApiService'
 import { beforeTryError } from '../../js/router_utils'
@@ -44,8 +47,6 @@ export default {
   data() {
     return {
       buildsChanges: [],
-      scrollbar: null,
-      scrollable: null,
       stopLoading: false
     }
   },
@@ -59,24 +60,14 @@ export default {
   watch: {
     model() {
       this.reloadDeviceChanges()
+      this.loadMoreChanges()
     },
     changes() {
       this.reloadDeviceChanges()
-      this.checkScrolledToBottom()
     }
   },
   mounted() {
-    this.stopLoading = false
-    this.scrollbar = new SimpleBar(this.$refs.scrollable)
-    this.scrollable = this.scrollbar.getScrollElement()
-    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom)
-
-    this.checkScrolledToBottom()
-  },
-  unmounted() {
-    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom)
-    this.scrollbar.unMount()
-    this.stopLoading = true
+    this.loadMoreChanges()
   },
   methods: {
     reloadDeviceChanges() {
@@ -84,19 +75,13 @@ export default {
         this.buildsChanges = ApiService.getDeviceChanges(this.model)
       }
     },
-    isScrolledToBottom(el) {
-      return el.scrollHeight - el.scrollTop - el.clientHeight < 1
-    },
-    checkScrolledToBottom() {
-      if (!this.isScrolledToBottom(this.scrollable)) {
-        return
+    handleScroll() {
+      const scrollContainer = this.$refs.scrollContainer
+      const isAtBottom =
+        scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight
+      if (isAtBottom && !this.stopLoading) {
+        this.loadMoreChanges()
       }
-
-      if (this.stopLoading) {
-        return
-      }
-
-      this.loadMoreChanges()
     },
     async loadMoreChanges() {
       try {
