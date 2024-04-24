@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full w-full flex-col">
     <div
-      class="h-full w-full flex-grow overflow-auto"
+      class="h-full w-full flex-grow overflow-y-auto"
       @scroll.passive="handleScroll"
       ref="scrollContainer"
     >

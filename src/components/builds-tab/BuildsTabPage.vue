@@ -1,6 +1,6 @@
 <template>
   <div class="builds-tab-page flex h-full w-full flex-col">
-    <div class="h-full w-full flex-grow overflow-auto" v-if="builds.length > 0">
+    <div class="h-full w-full flex-grow overflow-y-auto" v-if="builds.length > 0">
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <div class="header">
           <h1>Download builds</h1>
