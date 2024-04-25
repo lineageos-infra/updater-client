@@ -6,7 +6,7 @@
       <input type="text" placeholder="Search..." v-model="filterText" />
       <i class="mdi mdi-close clear opacity-35" v-if="filterText" v-on:click="clearFilterText"></i>
     </div>
-    <div class="oems" data-simplebar>
+    <div class="oems">
       <device-oem v-for="oem in oems" v-bind="oem" :key="oem.name"></device-oem>
     </div>
   </div>
