@@ -46,8 +46,7 @@ export default {
   },
   data() {
     return {
-      buildsChanges: [],
-      stopLoading: false
+      buildsChanges: []
     }
   },
   computed: {
@@ -79,7 +78,7 @@ export default {
       const scrollContainer = this.$refs.scrollContainer
       const isAtBottom =
         scrollContainer.scrollTop + scrollContainer.clientHeight === scrollContainer.scrollHeight
-      if (isAtBottom && !this.stopLoading) {
+      if (isAtBottom) {
         this.loadMoreChanges()
       }
     },
