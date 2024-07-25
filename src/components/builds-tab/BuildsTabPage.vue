@@ -35,7 +35,7 @@
           href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
           target="_blank"
         >
-          wiki
+          FAQ
         </a>
         for more info
       </span>
