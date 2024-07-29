@@ -84,7 +84,14 @@
           </tr>
         </table>
         <div class="mb-4 flex justify-center">
-          <button class="btn px-4 py-1" @click="verifyClicked">Verify OTA package signature</button>
+          <button
+            class="btn px-4 py-1"
+            :class="{ 'opacity-50': isVerifying }"
+            :disabled="isVerifying"
+            @click="verifyClicked"
+          >
+            Verify OTA package signature
+          </button>
         </div>
         <form>
           <input class="hidden" type="file" ref="inputRef" @change="verifyFileInput" />
@@ -104,7 +111,8 @@ export default {
     verifyResult: '',
     verifySignInfo: null,
     fileName: '',
-    isVerified: false
+    isVerified: false,
+    isVerifying: false
   }),
   methods: {
     fileDragOver(event) {
@@ -136,12 +144,21 @@ export default {
         this.verifyResult = result.msg
         this.verifySignInfo = result.signInfo
       }
-      fileReader.onloadstart = () => store.commit('startRequest')
-      fileReader.onloadend = () => store.commit('endRequest')
+      fileReader.onloadstart = () => (this.isVerifying = true)
+      fileReader.onloadend = () => (this.isVerifying = false)
       fileReader.readAsArrayBuffer(blob)
     },
     verifyFileInput(event) {
       this.verifyFile(event.currentTarget.files[0])
+    }
+  },
+  watch: {
+    isVerifying: function (val) {
+      if (val) {
+        store.commit('startRequest')
+      } else {
+        store.commit('endRequest')
+      }
     }
   }
 }
