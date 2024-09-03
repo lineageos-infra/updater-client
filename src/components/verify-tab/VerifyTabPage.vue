@@ -29,59 +29,63 @@
           </div>
         </div>
         <table v-if="verifyResult" class="text-left">
-          <tr class="text-center">
-            <th
-              colspan="2"
-              :class="{
-                'bg-[#f8d7da] font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]': !isVerified
-              }"
-            >
-              {{ verifyResult }}
-            </th>
-          </tr>
-          <tr>
-            <td>File Name</td>
-            <td>{{ fileName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.commonName">
-            <td>Common Name</td>
-            <td>{{ verifySignInfo.commonName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.organizationalUnitName">
-            <td>Organizational Unit</td>
-            <td>{{ verifySignInfo.organizationalUnitName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.organizationName">
-            <td>Organization</td>
-            <td>{{ verifySignInfo.organizationName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.localityName">
-            <td>Locality</td>
-            <td>{{ verifySignInfo.localityName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.stateOrProvinceName">
-            <td>State or Province Name</td>
-            <td>{{ verifySignInfo.stateOrProvinceName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.countryName">
-            <td>Country Name</td>
-            <td>{{ verifySignInfo.countryName }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.publicKeyFingerprint">
-            <td>Public Key Fingerprint</td>
-            <td class="break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.serialNumber">
-            <td>Serial Number</td>
-            <td>{{ verifySignInfo.serialNumber }}</td>
-          </tr>
-          <tr v-if="verifySignInfo?.validity">
-            <td>Validity</td>
-            <td>
-              From {{ formatDate(verifySignInfo.validity.notBefore) }} to
-              {{ formatDate(verifySignInfo.validity.notAfter) }}
-            </td>
-          </tr>
+          <thead>
+            <tr class="text-center">
+              <th
+                colspan="2"
+                :class="{
+                  'bg-[#f8d7da] font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]': !isVerified
+                }"
+              >
+                {{ verifyResult }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>File Name</td>
+              <td>{{ fileName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.commonName">
+              <td>Common Name</td>
+              <td>{{ verifySignInfo.commonName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.organizationalUnitName">
+              <td>Organizational Unit</td>
+              <td>{{ verifySignInfo.organizationalUnitName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.organizationName">
+              <td>Organization</td>
+              <td>{{ verifySignInfo.organizationName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.localityName">
+              <td>Locality</td>
+              <td>{{ verifySignInfo.localityName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.stateOrProvinceName">
+              <td>State or Province Name</td>
+              <td>{{ verifySignInfo.stateOrProvinceName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.countryName">
+              <td>Country Name</td>
+              <td>{{ verifySignInfo.countryName }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.publicKeyFingerprint">
+              <td>Public Key Fingerprint</td>
+              <td class="break-all">{{ verifySignInfo.publicKeyFingerprint }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.serialNumber">
+              <td>Serial Number</td>
+              <td>{{ verifySignInfo.serialNumber }}</td>
+            </tr>
+            <tr v-if="verifySignInfo?.validity">
+              <td>Validity</td>
+              <td>
+                From {{ formatDate(verifySignInfo.validity.notBefore) }} to
+                {{ formatDate(verifySignInfo.validity.notAfter) }}
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div class="mb-4 flex justify-center">
           <button
