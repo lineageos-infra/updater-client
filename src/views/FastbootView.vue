@@ -13,10 +13,12 @@
               <input class="hidden" type="file" ref="bootImageRef" @change="bootImageExec" />
               <input class="hidden" type="file" ref="flashImageRef" @change="flashImageExec" />
 
-              <button class="btn mr-3 px-4 py-1" @click="bootImage">Boot image</button>
-              <button class="btn mr-3 px-4 py-1" @click="flashImage">Flash image</button>
-              <button class="btn mr-3 px-4 py-1" @click="getVariable">Get variable</button>
-              <button class="btn px-4 py-1" @click="rebootToRecovery">Reboot to recovery</button>
+              <button class="btn mb-3 mr-3 px-4 py-1" @click="bootImage">Boot image</button>
+              <button class="btn mb-3 mr-3 px-4 py-1" @click="flashImage">Flash image</button>
+              <button class="btn mb-3 mr-3 px-4 py-1" @click="getVariable">Get variable</button>
+              <button class="btn mb-3 mr-3 px-4 py-1" @click="rebootToRecovery">
+                Reboot to recovery
+              </button>
             </div>
           </div>
         </div>
