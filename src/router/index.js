@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
+import FastbootView from '../views/FastbootView.vue'
 import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
 import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue'
@@ -108,6 +109,15 @@ const router = createRouter({
           }
         }
       ]
+    },
+    {
+      path: '/fastboot',
+      name: 'fastboot',
+      props: true,
+      components: {
+        sidebar: SideBar,
+        main: FastbootView
+      }
     },
     {
       path: '/error',
