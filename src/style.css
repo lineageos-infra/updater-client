@@ -43,9 +43,7 @@
 
 @layer components {
   .btn {
-    @apply rounded-full bg-brand-light text-black
-    transition duration-150
-    ease-out hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light;
+    @apply rounded-full bg-brand-light text-black transition duration-150 ease-out hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light;
   }
 }
 
