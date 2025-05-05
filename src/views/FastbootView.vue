@@ -6,7 +6,7 @@
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
-          <div class="order-1 flex-none flex-grow-0 self-stretch">
+          <div class="order-1 flex-none flex-grow-0 self-stretch" v-show="webUsbSupported">
             <div class="mb-4 justify-center" v-show="connected">
               <textarea class="bg-transparent" cols="80" rows="20" v-model="log"></textarea>
 
@@ -20,10 +20,11 @@
                 Reboot to recovery
               </button>
             </div>
+            <div class="mb-4 flex justify-center" v-show="!connected">
+              <button class="btn px-4 py-1" @click="connect">Connect</button>
+            </div>
           </div>
-        </div>
-        <div class="mb-4 flex justify-center" v-show="!connected">
-          <button class="btn px-4 py-1" @click="connect">Connect</button>
+          <p v-show="!webUsbSupported">Your browser does not support WebUSB!</p>
         </div>
       </div>
     </div>
@@ -40,7 +41,8 @@ export default {
       connected: false,
       device: null,
       log: '',
-      partition: ''
+      partition: '',
+      webUsbSupported: navigator.usb !== undefined
     }
   },
   mounted() {
