@@ -8,7 +8,7 @@
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
           <div class="order-1 flex-none flex-grow-0 self-stretch" v-show="webUsbSupported">
             <div class="mb-4 justify-center" v-show="connected">
-              <textarea class="bg-transparent" cols="80" rows="20" v-model="log"></textarea>
+              <textarea class="resize-none" cols="80" rows="20" v-model="log"></textarea>
 
               <input class="hidden" type="file" ref="bootImageRef" @change="bootImageExec" />
               <input class="hidden" type="file" ref="flashImageRef" @change="flashImageExec" />
