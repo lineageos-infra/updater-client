@@ -98,7 +98,7 @@
           </button>
         </div>
         <form>
-          <input class="hidden" type="file" ref="inputRef" @change="verifyFileInput" />
+          <input class="hidden" type="file" ref="input" @change="verifyFileInput" />
         </form>
       </div>
     </div>
@@ -136,7 +136,7 @@ export default {
       return tempDate.toISOString().split('T')[0]
     },
     verifyClicked() {
-      const input = this.$refs.inputRef
+      const input = this.$refs.input
       input.click()
     },
     verifyFile(blob) {

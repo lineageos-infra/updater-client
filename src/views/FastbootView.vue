@@ -8,10 +8,10 @@
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
           <div class="order-1 flex-none flex-grow-0 self-stretch" v-show="webUsbSupported">
             <div class="mb-4 justify-center" v-show="connected">
-              <textarea class="resize-none" cols="80" rows="20" ref="logRef"></textarea>
+              <textarea class="resize-none" cols="80" rows="20" ref="log"></textarea>
 
-              <input class="hidden" type="file" ref="bootImageRef" @change="bootImageExec" />
-              <input class="hidden" type="file" ref="flashImageRef" @change="flashImageExec" />
+              <input class="hidden" type="file" ref="bootImage" @change="bootImageExec" />
+              <input class="hidden" type="file" ref="flashImage" @change="flashImageExec" />
 
               <button class="btn mb-3 mr-3 px-4 py-1" @click="bootImage">Boot image</button>
               <button class="btn mb-3 mr-3 px-4 py-1" @click="flashImage">Flash image</button>
@@ -51,7 +51,7 @@ export default {
     fastboot.setDebugLogger((...data) => {
       console.log(...data)
 
-      const log = this.$refs.logRef
+      const log = this.$refs.log
       if (log.value.length > 0) {
         log.value += '\n'
       }
@@ -69,7 +69,7 @@ export default {
       try {
         await this.device.connect()
 
-        this.$refs.logRef.value = ''
+        this.$refs.log.value = ''
         this.connected = true
 
         await this.device.getVariable('product')
@@ -80,7 +80,7 @@ export default {
       }
     },
     async bootImage() {
-      const input = this.$refs.bootImageRef
+      const input = this.$refs.bootImage
       input.click()
     },
     async bootImageExec(event) {
@@ -90,7 +90,7 @@ export default {
       this.partition = window.prompt('Partition name (e.g. boot)', '')
 
       if (this.partition.length > 0) {
-        const input = this.$refs.flashImageRef
+        const input = this.$refs.flashImage
         input.click()
       }
     },
