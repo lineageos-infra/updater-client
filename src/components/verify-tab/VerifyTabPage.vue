@@ -5,7 +5,7 @@
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
-    <div class="h-full w-full flex-grow overflow-auto" data-simplebar>
+    <div class="h-full w-full flex-grow overflow-auto">
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">OTA Verifier</h1>

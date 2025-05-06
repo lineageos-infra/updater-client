@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div class="h-full w-full flex-grow overflow-auto" ref="scrollable">
+    <div class="h-full w-full flex-grow overflow-y-auto" ref="scrollable">
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import SimpleBar from 'simplebar'
 import ChangesGroup from './ChangesGroup.vue'
 import ApiService from '../../js/ApiService'
 import { beforeTryError } from '../../js/router_utils'
@@ -44,8 +43,6 @@ export default {
   data() {
     return {
       buildsChanges: [],
-      scrollbar: null,
-      scrollable: null,
       stopLoading: false
     }
   },
@@ -67,15 +64,12 @@ export default {
   },
   mounted() {
     this.stopLoading = false
-    this.scrollbar = new SimpleBar(this.$refs.scrollable)
-    this.scrollable = this.scrollbar.getScrollElement()
-    this.scrollable.addEventListener('scroll', this.checkScrolledToBottom)
+    this.$refs.scrollable.addEventListener('scroll', this.checkScrolledToBottom)
 
     this.checkScrolledToBottom()
   },
   unmounted() {
-    this.scrollable.removeEventListener('scroll', this.checkScrolledToBottom)
-    this.scrollbar.unMount()
+    this.$refs.scrollable.removeEventListener('scroll', this.checkScrolledToBottom)
     this.stopLoading = true
   },
   methods: {
@@ -88,7 +82,7 @@ export default {
       return el.scrollHeight - el.scrollTop - el.clientHeight < 1
     },
     checkScrolledToBottom() {
-      if (!this.isScrolledToBottom(this.scrollable)) {
+      if (!this.isScrolledToBottom(this.$refs.scrollable)) {
         return
       }
 
