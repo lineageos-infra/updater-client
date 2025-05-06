@@ -8,7 +8,7 @@
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
           <div class="order-1 flex-none flex-grow-0 self-stretch" v-show="webUsbSupported">
             <div class="mb-4 justify-center" v-show="connected">
-              <textarea class="resize-none" cols="80" rows="20" v-model="log"></textarea>
+              <textarea class="resize-none" cols="80" rows="20" ref="logRef"></textarea>
 
               <input class="hidden" type="file" ref="bootImageRef" @change="bootImageExec" />
               <input class="hidden" type="file" ref="flashImageRef" @change="flashImageExec" />
@@ -40,7 +40,6 @@ export default {
     return {
       connected: false,
       device: null,
-      log: '',
       partition: '',
       webUsbSupported: navigator.usb !== undefined
     }
@@ -51,13 +50,18 @@ export default {
     fastboot.setDebugLevel(2 /* verbose */)
     fastboot.setDebugLogger((...data) => {
       console.log(...data)
-      this.log += [...data].join(' ') + '\n'
+
+      const log = this.$refs.logRef
+      if (log.value.length > 0) {
+        log.value += '\n'
+      }
+      log.value += [...data].join(' ')
+      log.scrollTop = log.scrollHeight
     })
   },
   unmounted() {
     this.connected = false
     this.device = null
-    this.log = ''
     this.partition = null
   },
   methods: {
@@ -65,7 +69,7 @@ export default {
       try {
         await this.device.connect()
 
-        this.log = ''
+        this.$refs.logRef.value = ''
         this.connected = true
 
         await this.device.getVariable('product')
