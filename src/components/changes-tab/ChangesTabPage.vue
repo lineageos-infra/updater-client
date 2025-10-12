@@ -69,7 +69,6 @@ export default {
     this.checkScrolledToBottom()
   },
   unmounted() {
-    this.$refs.scrollable.removeEventListener('scroll', this.checkScrolledToBottom)
     this.stopLoading = true
   },
   methods: {
