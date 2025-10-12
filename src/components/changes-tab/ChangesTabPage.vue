@@ -1,6 +1,10 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div class="h-full w-full flex-grow overflow-y-auto" ref="scrollable">
+    <div
+      class="h-full w-full flex-grow overflow-y-auto"
+      ref="scrollable"
+      @scroll="checkScrolledToBottom"
+    >
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
@@ -64,8 +68,6 @@ export default {
   },
   mounted() {
     this.stopLoading = false
-    this.$refs.scrollable.addEventListener('scroll', this.checkScrolledToBottom)
-
     this.checkScrolledToBottom()
   },
   unmounted() {
