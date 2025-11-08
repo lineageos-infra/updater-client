@@ -1,6 +1,6 @@
 <template>
   <collapsible-item
-    class="oem border-b border-solid border-black border-opacity-15 dark:border-white dark:border-opacity-15"
+    class="oem border-b border-solid border-black/15 dark:border-white/15"
     v-bind:forceExpanded="forceExpanded"
     v-show="!hidden"
   >

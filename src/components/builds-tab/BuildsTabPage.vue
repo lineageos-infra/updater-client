@@ -23,7 +23,7 @@
           v-for="(build, idx) in builds"
           :key="build.id"
           :items="build.files"
-          :class="{ 'rounded-2xl border border-opacity-25 dark:border-opacity-25': idx === 0 }"
+          :class="{ 'rounded-2xl border border-black/25 dark:border-white/25': idx === 0 }"
         >
         </downloadable-group>
       </div>

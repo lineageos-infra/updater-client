@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="border-b border-solid border-black border-opacity-15 p-6 md:p-4 dark:border-white dark:border-opacity-15"
-  >
+  <div class="border-b border-solid border-black/15 p-6 md:p-4 dark:border-white/15">
     <div class="text-xs font-medium uppercase tracking-widest text-brand-primary" v-if="title">
       {{ title }}
     </div>

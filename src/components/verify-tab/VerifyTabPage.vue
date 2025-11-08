@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-full w-full flex-col border-2 border-dashed border-brand-primary border-opacity-0"
+    class="flex h-full w-full flex-col border-2 border-dashed border-brand-primary/0"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
@@ -120,13 +120,16 @@ export default {
   }),
   methods: {
     fileDragOver(event) {
-      event.currentTarget.classList.remove('border-opacity-0')
+      event.currentTarget.classList.add('border-brand-primary/100')
+      event.currentTarget.classList.remove('border-brand-primary/0')
     },
     fileDragLeave(event) {
-      event.currentTarget.classList.add('border-opacity-0')
+      event.currentTarget.classList.remove('border-brand-primary/100')
+      event.currentTarget.classList.add('border-brand-primary/0')
     },
     fileDropped(event) {
-      event.currentTarget.classList.add('border-opacity-0')
+      event.currentTarget.classList.remove('border-brand-primary/100')
+      event.currentTarget.classList.add('border-brand-primary/0')
       this.verifyFile(event.dataTransfer.files[0])
     },
     formatDate(dateStr) {
