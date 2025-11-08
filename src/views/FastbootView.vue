@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex h-full w-full flex-col border-2 border-dashed border-brand-primary border-opacity-0"
-  >
+  <div class="flex h-full w-full flex-col">
     <div class="h-full w-full flex-grow overflow-auto">
       <div class="mx-auto min-w-0 max-w-[756px] px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
