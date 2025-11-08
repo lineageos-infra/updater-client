@@ -86,7 +86,7 @@ export default {
   height: 64px;
   padding: 24px 16px;
 
-  @apply bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-5;
+  @apply bg-black/10 dark:bg-white/5;
 }
 
 .oem .title-container .icon {

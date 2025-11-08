@@ -28,7 +28,7 @@
             </svg>
           </a>
           <i
-            class="mdi icon expand-icon opacity-55 hover:bg-dark hover:bg-opacity-15 dark:opacity-55 dark:hover:bg-white dark:hover:bg-opacity-15"
+            class="mdi icon expand-icon opacity-55 hover:bg-dark/15 dark:opacity-55 dark:hover:bg-white/15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
             v-on:click="toggleManualExpansion"
           ></i>
@@ -36,7 +36,7 @@
       </div>
     </template>
     <template v-slot:content>
-      <div class="details-wrapper rounded-md dark:bg-white dark:bg-opacity-5">
+      <div class="details-wrapper rounded-md dark:bg-white/5">
         <div class="details">
           <span class="details-title">Details</span>
           <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>
