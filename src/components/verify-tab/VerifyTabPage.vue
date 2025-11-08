@@ -120,16 +120,13 @@ export default {
   }),
   methods: {
     fileDragOver(event) {
-      event.currentTarget.classList.add('border-brand-primary')
-      event.currentTarget.classList.remove('border-brand-primary/0')
+      event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
     },
     fileDragLeave(event) {
-      event.currentTarget.classList.remove('border-brand-primary')
-      event.currentTarget.classList.add('border-brand-primary/0')
+      event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
     },
     fileDropped(event) {
-      event.currentTarget.classList.remove('border-brand-primary')
-      event.currentTarget.classList.add('border-brand-primary/0')
+      event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
       this.verifyFile(event.dataTransfer.files[0])
     },
     formatDate(dateStr) {
