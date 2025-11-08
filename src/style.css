@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-dark: #121212;
+  --color-brand-light: #cce8e9;
+  --color-brand-dark: #324b4c;
+  --color-brand-primary: #167c80;
+}
 
 @layer base {
   @media (prefers-color-scheme: dark) {
@@ -15,7 +20,7 @@
   }
 
   #app {
-    @apply text-black/85 dark:bg-dark dark:text-white/85;
+    @apply dark:bg-dark text-black/85 dark:text-white/85;
   }
 
   table {
@@ -47,8 +52,6 @@
   }
 }
 
-@layer components {
-  .btn {
-    @apply rounded-full bg-brand-light text-black transition duration-150 ease-out hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light;
-  }
+@utility btn {
+  @apply bg-brand-light hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light rounded-full text-black transition duration-150 ease-out;
 }

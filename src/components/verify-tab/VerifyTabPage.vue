@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex h-full w-full flex-col border-2 border-dashed border-brand-primary/0"
+    class="border-brand-primary/0 flex h-full w-full flex-col border-2 border-dashed"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
   >
-    <div class="h-full w-full flex-grow overflow-auto">
-      <div class="mx-auto min-w-0 max-w-[756px] px-8">
+    <div class="h-full w-full grow overflow-auto">
+      <div class="mx-auto max-w-[756px] min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">OTA Verifier</h1>
-          <div class="order-1 flex-none flex-grow-0 self-stretch">
+          <div class="order-1 flex-none grow-0 self-stretch">
             <p>
               You can use your browser to verify that downloaded OTA packages (lineage-*.zip) are
               signed with LineageOS private keys and are untampered. Drag a file here or use the
@@ -20,7 +20,7 @@
               <a
                 href="https://wiki.lineageos.org/verifying-builds.html"
                 target="_blank"
-                class="font-medium text-brand-primary no-underline"
+                class="text-brand-primary font-medium no-underline"
               >
                 Verifying Build Authenticity
               </a>
@@ -120,15 +120,15 @@ export default {
   }),
   methods: {
     fileDragOver(event) {
-      event.currentTarget.classList.add('border-brand-primary/100')
+      event.currentTarget.classList.add('border-brand-primary')
       event.currentTarget.classList.remove('border-brand-primary/0')
     },
     fileDragLeave(event) {
-      event.currentTarget.classList.remove('border-brand-primary/100')
+      event.currentTarget.classList.remove('border-brand-primary')
       event.currentTarget.classList.add('border-brand-primary/0')
     },
     fileDropped(event) {
-      event.currentTarget.classList.remove('border-brand-primary/100')
+      event.currentTarget.classList.remove('border-brand-primary')
       event.currentTarget.classList.add('border-brand-primary/0')
       this.verifyFile(event.dataTransfer.files[0])
     },

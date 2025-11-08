@@ -1,11 +1,11 @@
 <template>
   <div class="flex h-full w-full flex-col">
     <div
-      class="h-full w-full flex-grow overflow-y-auto"
+      class="h-full w-full grow overflow-y-auto"
       ref="scrollable"
       @scroll="checkScrolledToBottom"
     >
-      <div class="mx-auto min-w-0 max-w-[756px] px-8">
+      <div class="mx-auto max-w-[756px] min-w-0 px-8">
         <template v-if="model">
           <template v-for="change in buildsChanges" :key="change.id">
             <changes-group v-bind="change"></changes-group>

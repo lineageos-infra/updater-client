@@ -1,7 +1,7 @@
 <template>
   <div class="device-selector">
     <div
-      class="search-container border-b border-solid border-black/15 text-sm focus:border-b-2 focus:border-brand-primary dark:border-white/15"
+      class="search-container focus:border-brand-primary border-b border-solid border-black/15 text-sm focus:border-b-2 dark:border-white/15"
     >
       <input type="text" placeholder="Search..." v-model="filterText" />
       <i class="mdi mdi-close clear opacity-35" v-if="filterText" v-on:click="clearFilterText"></i>

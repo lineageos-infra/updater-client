@@ -56,6 +56,8 @@ export default {
 </script>
 
 <style scoped>
+@reference 'tailwindcss';
+
 .oem {
   user-select: none;
 }

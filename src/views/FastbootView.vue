@@ -1,20 +1,20 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div class="h-full w-full flex-grow overflow-auto">
-      <div class="mx-auto min-w-0 max-w-[756px] px-8">
+    <div class="h-full w-full grow overflow-auto">
+      <div class="mx-auto max-w-[756px] min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
-          <div class="order-1 flex-none flex-grow-0 self-stretch" v-show="webUsbSupported">
+          <div class="order-1 flex-none grow-0 self-stretch" v-show="webUsbSupported">
             <div class="mb-4 justify-center" v-show="connected">
               <textarea class="resize-none" cols="80" rows="20" ref="log"></textarea>
 
               <input class="hidden" type="file" ref="bootImage" @change="bootImageExec" />
               <input class="hidden" type="file" ref="flashImage" @change="flashImageExec" />
 
-              <button class="btn mb-3 mr-3 px-4 py-1" @click="bootImage">Boot image</button>
-              <button class="btn mb-3 mr-3 px-4 py-1" @click="flashImage">Flash image</button>
-              <button class="btn mb-3 mr-3 px-4 py-1" @click="getVariable">Get variable</button>
-              <button class="btn mb-3 mr-3 px-4 py-1" @click="rebootToRecovery">
+              <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
+              <button class="btn mr-3 mb-3 px-4 py-1" @click="flashImage">Flash image</button>
+              <button class="btn mr-3 mb-3 px-4 py-1" @click="getVariable">Get variable</button>
+              <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">
                 Reboot to recovery
               </button>
             </div>
