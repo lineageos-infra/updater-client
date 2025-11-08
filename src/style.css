@@ -15,7 +15,7 @@
   }
 
   #app {
-    @apply text-black text-opacity-85 dark:bg-dark dark:text-white dark:text-opacity-85;
+    @apply text-black/85 dark:bg-dark dark:text-white/85;
   }
 
   table {
