@@ -44,6 +44,7 @@ export default {
   display: block;
 
   vertical-align: text-bottom;
+  word-break: break-word;
 }
 
 .change .subject {
