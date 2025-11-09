@@ -1,7 +1,7 @@
 <template>
   <div class="devices-tab-page flex h-full w-full flex-col">
     <div class="h-full w-full grow overflow-auto">
-      <device-selector class="h-100"></device-selector>
+      <device-selector></device-selector>
     </div>
   </div>
 </template>
