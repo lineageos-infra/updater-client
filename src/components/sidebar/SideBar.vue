@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <div class="logo">
-      <router-link to="/">
+    <router-link to="/">
+      <div class="logo">
         <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
-      </router-link>
-    </div>
+      </div>
+    </router-link>
     <device-selector v-bind:active-model="activeModel"></device-selector>
   </div>
 </template>
