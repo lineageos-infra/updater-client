@@ -40,7 +40,7 @@ This will build the app and place all the static files into the `dist` subdirect
 You can then serve the app with any static file server you want.
 
 Example `nginx` configuration:
-```
+```nginx
 server {
         server_name updater.example.com;
 
