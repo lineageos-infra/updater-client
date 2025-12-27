@@ -6,7 +6,7 @@
           <h1>Download builds</h1>
           <p>
             Not all images are necessary for installation or upgrades. Check your device's
-            <a v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
+            <a v-bind:href="[model.match(/^sdk_phone_(x86_64|arm64)$/) ? 'https://wiki.lineageos.org/emulator' : info_url]" target="_blank">wiki guides</a> for more info.<br />
             You can verify that a file has not been tampered by
             <router-link
               class="tab"
