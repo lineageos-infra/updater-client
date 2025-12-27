@@ -1,4 +1,4 @@
-FROM node:23 as builder
+FROM node:25 as builder
 
 COPY . /app
 COPY fly/.env.production /app
