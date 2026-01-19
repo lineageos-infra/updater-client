@@ -156,10 +156,6 @@ export default {
   user-select: none; /* prevent automatic selection of the details contents */
 }
 
-.downloadable .details-wrapper {
-  margin-right: 6px;
-}
-
 .downloadable .details {
   line-height: 24px;
   padding: 16px;
