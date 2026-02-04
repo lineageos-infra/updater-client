@@ -41,7 +41,7 @@ function loadDeviceDetails() {
   oem.value = data.oem
 }
 
-watch(() => props.model, loadDeviceDetails, { immediate: true })
+watch(props.model, loadDeviceDetails, { immediate: true })
 
 const tabs = computed(() => [
   {
