@@ -7,8 +7,8 @@ import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
 import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
-import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue'
-import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue'
+import VerifyTab from '../components/verify-tab/VerifyTab.vue'
+import DevicesTab from '../components/devices-tab/DevicesTab.vue'
 import MediaQueryUtils from '../js/MediaQueryUtils'
 
 const getRedirectForHomeIndex = (deviceType) => {
@@ -42,7 +42,7 @@ const router = createRouter({
         {
           path: 'devices',
           name: 'home_devices',
-          component: DevicesTabPage
+          component: DevicesTab
         },
         {
           path: 'changes',
@@ -52,7 +52,7 @@ const router = createRouter({
         {
           path: 'verify',
           name: 'home_verify',
-          component: VerifyTabPage
+          component: VerifyTab
         }
       ]
     },

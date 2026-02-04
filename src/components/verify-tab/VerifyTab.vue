@@ -6,7 +6,7 @@
     @drop.prevent="fileDropped"
   >
     <div class="h-full w-full grow overflow-auto">
-      <div class="mx-auto max-w-[756px] min-w-0 px-8">
+      <div class="mx-auto max-w-189 min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">OTA Verifier</h1>
           <div class="order-1 flex-none grow-0 self-stretch">
@@ -105,65 +105,71 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import CryptoService from '../../js/CryptoService'
-import store from './../../store'
 
-export default {
-  name: 'VerifyTabPage',
-  data: () => ({
-    verifyResult: '',
-    verifySignInfo: null,
-    fileName: '',
-    isVerified: false,
-    isVerifying: false
-  }),
-  methods: {
-    fileDragOver(event) {
-      event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
-    },
-    fileDragLeave(event) {
-      event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
-    },
-    fileDropped(event) {
-      event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
-      this.verifyFile(event.dataTransfer.files[0])
-    },
-    formatDate(dateStr) {
-      let tempDate = new Date(dateStr)
-      const offset = tempDate.getTimezoneOffset()
-      tempDate = new Date(tempDate.getTime() - offset * 60 * 1000)
-      return tempDate.toISOString().split('T')[0]
-    },
-    verifyClicked() {
-      const input = this.$refs.input
-      input.click()
-    },
-    verifyFile(blob) {
-      const fileReader = new FileReader()
-      fileReader.onload = async () => {
-        const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result))
-        this.fileName = blob.name
-        this.isVerified = result.status
-        this.verifyResult = result.msg
-        this.verifySignInfo = result.signInfo
-      }
-      fileReader.onloadstart = () => (this.isVerifying = true)
-      fileReader.onloadend = () => (this.isVerifying = false)
-      fileReader.readAsArrayBuffer(blob)
-    },
-    verifyFileInput(event) {
-      this.verifyFile(event.currentTarget.files[0])
-    }
-  },
-  watch: {
-    isVerifying: function (val) {
-      if (val) {
-        store.commit('startRequest')
-      } else {
-        store.commit('endRequest')
-      }
-    }
+const store = useStore()
+const input = ref(null)
+const verifyResult = ref('')
+const verifySignInfo = ref(null)
+const fileName = ref('')
+const isVerified = ref(false)
+const isVerifying = ref(false)
+
+const fileDragOver = (event) => {
+  event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
+}
+
+const fileDragLeave = (event) => {
+  event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+}
+
+const fileDropped = (event) => {
+  event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+  verifyFile(event.dataTransfer.files[0])
+}
+
+const formatDate = (dateStr) => {
+  let tempDate = new Date(dateStr)
+  const offset = tempDate.getTimezoneOffset()
+  tempDate = new Date(tempDate.getTime() - offset * 60 * 1000)
+  return tempDate.toISOString().split('T')[0]
+}
+
+const verifyClicked = () => {
+  if (input.value) {
+    input.value.click()
   }
 }
+
+const verifyFile = (blob) => {
+  if (!blob) {
+    return
+  }
+  const fileReader = new FileReader()
+  fileReader.onload = async () => {
+    const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result))
+    fileName.value = blob.name
+    isVerified.value = result.status
+    verifyResult.value = result.msg
+    verifySignInfo.value = result.signInfo
+  }
+  fileReader.onloadstart = () => (isVerifying.value = true)
+  fileReader.onloadend = () => (isVerifying.value = false)
+  fileReader.readAsArrayBuffer(blob)
+}
+
+const verifyFileInput = (event) => {
+  verifyFile(event.currentTarget.files[0])
+}
+
+watch(isVerifying, (val) => {
+  if (val) {
+    store.commit('startRequest')
+  } else {
+    store.commit('endRequest')
+  }
+})
 </script>

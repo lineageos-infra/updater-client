@@ -7,56 +7,51 @@
         :toggleManualExpansion="toggleManualExpansion"
       ></slot>
     </div>
-    <height-transition v-show="isExpanded">
+    <HeightTransition v-show="isExpanded">
       <slot name="content"></slot>
-    </height-transition>
+    </HeightTransition>
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref, watch } from 'vue'
 import HeightTransition from './HeightTransition.vue'
 
-export default {
-  name: 'CollapsibleItem',
-  components: {
-    HeightTransition
-  },
-  props: {
-    forceExpanded: {
-      type: Boolean,
-      default: false
-    }
-  },
-  watch: {
-    forceExpanded() {
-      this.refreshExpansion()
-    }
-  },
-  data() {
-    return {
-      isManuallyExpanded: false,
-      isExpanded: false
-    }
-  },
-  mounted() {
-    this.refreshExpansion()
-  },
-  methods: {
-    refreshExpansion() {
-      if (this.forceExpanded) {
-        this.isExpanded = true
-      } else {
-        this.isExpanded = this.isManuallyExpanded
-      }
-    },
-    toggleManualExpansion() {
-      if (this.forceExpanded) {
-        return
-      }
+const props = defineProps({
+  forceExpanded: {
+    type: Boolean,
+    default: false
+  }
+})
 
-      this.isManuallyExpanded = !this.isManuallyExpanded
-      this.refreshExpansion()
-    }
+const isManuallyExpanded = ref(false)
+const isExpanded = ref(false)
+
+const refreshExpansion = () => {
+  if (props.forceExpanded) {
+    isExpanded.value = true
+  } else {
+    isExpanded.value = isManuallyExpanded.value
   }
 }
+
+const toggleManualExpansion = () => {
+  if (props.forceExpanded) {
+    return
+  }
+
+  isManuallyExpanded.value = !isManuallyExpanded.value
+  refreshExpansion()
+}
+
+watch(
+  () => props.forceExpanded,
+  () => {
+    refreshExpansion()
+  }
+)
+
+onMounted(() => {
+  refreshExpansion()
+})
 </script>
