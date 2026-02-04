@@ -28,7 +28,7 @@
             </svg>
           </a>
           <span
-            class="mdi transition-[background 0.125s ease-out] hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
+            class="mdi transition-[background 0.125s ease-out] hover:bg-dark/15 block size-9 shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
             @click="toggleManualExpansion"
           ></span>
