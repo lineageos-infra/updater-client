@@ -7,22 +7,16 @@
       <template v-else> Included in {{ build.filename }} </template>
     </div>
     <template v-for="change in items" :key="change.id">
-      <change-tab v-bind:="change" :build="build"></change-tab>
+      <ChangeTab v-bind:="change" :build="build"></ChangeTab>
     </template>
   </div>
 </template>
 
-<script>
+<script setup>
 import ChangeTab from './ChangeTab.vue'
 
-export default {
-  name: 'ChangesGroup',
-  components: {
-    ChangeTab
-  },
-  props: {
-    build: Object,
-    items: Array
-  }
-}
+defineProps({
+  build: Object,
+  items: Array
+})
 </script>
