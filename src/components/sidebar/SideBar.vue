@@ -5,14 +5,14 @@
         <img class="h-10" src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
       </div>
     </RouterLink>
-    <DeviceSelector :active-model="props.activeModel" />
+    <DeviceSelector :active-model="activeModel" />
   </div>
 </template>
 
 <script setup>
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
 
-const props = defineProps({
+defineProps({
   activeModel: String
 })
 </script>

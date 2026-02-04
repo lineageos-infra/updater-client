@@ -1,37 +1,39 @@
 <template>
   <div class="builds-tab-page flex h-full w-full flex-col">
     <div v-if="builds.length > 0" class="h-full w-full grow overflow-auto">
-      <div class="mx-auto max-w-[756px] min-w-0 px-8">
-        <div class="header">
-          <h1>Download builds</h1>
-          <p>
+      <div class="mx-auto max-w-189 min-w-0 px-8">
+        <div class="flex flex-col items-start gap-4 px-4 py-10 @min-[480px]:px-6">
+          <h1 class="m-0 flex-none self-stretch text-[32px] leading-9.5 font-medium">
+            Download builds
+          </h1>
+          <p class="order-1 flex-none grow-0 self-stretch">
             Not all images are necessary for installation or upgrades. Check your device's
-            <a :href="info_url" target="_blank">wiki guides</a> for more info.<br />
-            You can verify that a file has not been tampered by
-            <router-link
-              class="tab"
-              :to="{
-                name: 'home_verify'
-              }"
+            <a class="text-brand-primary font-medium no-underline" :href="info_url" target="_blank"
+              >wiki guides</a
             >
-              checking its signature</router-link
+            for more info.<br />
+            You can verify that a file has not been tampered by
+            <RouterLink class="tab" :to="{ name: 'home_verify' }">
+              checking its signature </RouterLink
             >.
           </p>
         </div>
-        <div class="list-label">Latest</div>
-        <downloadable-group
+        <div class="list-label px-4 pt-0 pb-4 text-2xl leading-7 font-medium @min-[480px]:px-6">
+          Latest
+        </div>
+        <DownloadableGroup
           v-for="(build, idx) in builds"
           :key="build.id"
           :items="build.files"
           :class="{ 'rounded-2xl border border-black/25 dark:border-white/25': idx === 0 }"
-        >
-        </downloadable-group>
+        />
       </div>
     </div>
-    <div v-else class="list-placeholder">
+    <div v-else class="flex h-100 items-center justify-center text-center text-2xl">
       <span>
         This device doesn't have any builds available, please see
         <a
+          class="text-brand-primary no-underline"
           href="https://wiki.lineageos.org/faq#my-device-is-officially-supported-but-theres-no-zips-for-it-on-the-download-page-where-are-they"
           target="_blank"
         >
@@ -97,66 +99,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.builds-tab-page .list-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 24px;
-  height: 100%;
-}
-
-.builds-tab-page .list-placeholder a {
-  text-decoration: none;
-  color: #167c80;
-}
-
-.builds-tab-page .header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 24px;
-  gap: 16px;
-}
-
-.builds-tab-page .header h1 {
-  flex: none;
-  align-self: stretch;
-  font-size: 32px;
-  line-height: 38px;
-  margin: 0;
-  font-weight: 500;
-}
-
-.builds-tab-page .header p {
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-}
-
-.builds-tab-page .header a {
-  color: #167c80;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.builds-tab-page .list-label {
-  font-size: 24px;
-  line-height: 28px;
-  padding: 0px 24px 16px;
-  font-weight: 500;
-}
-
-@media (max-width: 479px) {
-  .builds-tab-page .header {
-    padding: 40px 16px;
-  }
-
-  .builds-tab-page .list-label {
-    padding: 0px 16px 16px;
-  }
-}
-</style>
