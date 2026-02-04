@@ -5,7 +5,7 @@
         <img src="../../assets/sidebar-logo.svg" alt="LineageOS Logo" />
       </div>
     </router-link>
-    <device-selector v-bind:active-model="activeModel"></device-selector>
+    <device-selector :active-model="activeModel"></device-selector>
   </div>
 </template>
 

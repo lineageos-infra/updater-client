@@ -6,11 +6,11 @@
           <h1>Download builds</h1>
           <p>
             Not all images are necessary for installation or upgrades. Check your device's
-            <a v-bind:href="info_url" target="_blank">wiki guides</a> for more info.<br />
+            <a :href="info_url" target="_blank">wiki guides</a> for more info.<br />
             You can verify that a file has not been tampered by
             <router-link
               class="tab"
-              v-bind:to="{
+              :to="{
                 name: 'home_verify'
               }"
             >

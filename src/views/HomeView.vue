@@ -7,7 +7,7 @@
       <template v-slot:tabs>
         <router-link
           class="mobile-visible-tab tab"
-          v-bind:to="{
+          :to="{
             name: 'home_devices'
           }"
         >
@@ -16,7 +16,7 @@
 
         <router-link
           class="tab"
-          v-bind:to="{
+          :to="{
             name: 'home_changes'
           }"
         >
@@ -25,7 +25,7 @@
 
         <router-link
           class="tab"
-          v-bind:to="{
+          :to="{
             name: 'home_verify'
           }"
         >

@@ -1,6 +1,6 @@
 <template>
   <div class="change">
-    <a class="subject" target="_blank" v-bind:href="url">
+    <a class="subject" target="_blank" :href="url">
       {{ subject }}
     </a>
     <div class="repository-type">
@@ -12,7 +12,7 @@
         {{ branch }}
       </span>
 
-      <a class="repository" target="_blank" v-bind:href="`https://github.com/${project}`">
+      <a class="repository" target="_blank" :href="`https://github.com/${project}`">
         {{ repository }}
       </a>
     </div>

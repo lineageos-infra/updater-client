@@ -1,6 +1,6 @@
 <template>
   <router-link
-    v-bind:to="{
+    :to="{
       name: 'device_index',
       params: {
         model
@@ -9,7 +9,7 @@
   >
     <div
       class="device"
-      v-bind:class="{
+      :class="{
         selected: selected
       }"
       v-show="!hidden"

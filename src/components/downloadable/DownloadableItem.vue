@@ -3,7 +3,7 @@
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
         class="title-container"
-        v-bind:class="{
+        :class="{
           expanded: isExpanded
         }"
       >
@@ -30,7 +30,7 @@
           <i
             class="mdi icon expand-icon hover:bg-dark/15 opacity-55 dark:opacity-55 dark:hover:bg-white/15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
-            v-on:click="toggleManualExpansion"
+            @click="toggleManualExpansion"
           ></i>
         </div>
       </div>
@@ -39,23 +39,19 @@
       <div class="details-wrapper rounded-md dark:bg-white/5">
         <div class="details">
           <span class="details-title">Details</span>
-          <downloadable-detail title="Date" v-if="date" v-bind:value="date"></downloadable-detail>
+          <downloadable-detail title="Date" v-if="date" :value="date"></downloadable-detail>
           <downloadable-detail
             title="OS patch level"
             v-if="osPatchLevelHuman"
-            v-bind:value="osPatchLevelHuman"
+            :value="osPatchLevelHuman"
           ></downloadable-detail>
-          <downloadable-detail title="Type" v-if="type" v-bind:value="type"></downloadable-detail>
+          <downloadable-detail title="Type" v-if="type" :value="type"></downloadable-detail>
           <downloadable-detail
             title="Size"
             v-if="sizeHuman"
-            v-bind:value="sizeHuman"
+            :value="sizeHuman"
           ></downloadable-detail>
-          <downloadable-detail
-            title="SHA256"
-            v-if="sha256"
-            v-bind:value="sha256"
-          ></downloadable-detail>
+          <downloadable-detail title="SHA256" v-if="sha256" :value="sha256"></downloadable-detail>
         </div>
       </div>
     </template>

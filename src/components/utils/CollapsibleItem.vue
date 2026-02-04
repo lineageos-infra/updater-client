@@ -3,8 +3,8 @@
     <div>
       <slot
         name="title"
-        v-bind:isExpanded="isExpanded"
-        v-bind:toggleManualExpansion="toggleManualExpansion"
+        :isExpanded="isExpanded"
+        :toggleManualExpansion="toggleManualExpansion"
       ></slot>
     </div>
     <height-transition v-show="isExpanded">

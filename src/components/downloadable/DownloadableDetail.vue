@@ -4,7 +4,7 @@
     <div class="value">
       {{ value }}
       <div v-if="title == 'SHA256'">
-        <a href="#" v-on:click="compareSha256">Compare</a>
+        <a href="#" @click="compareSha256">Compare</a>
         <input class="hidden" type="file" ref="input" />
       </div>
     </div>

@@ -1,14 +1,14 @@
 <template>
   <collapsible-item
     class="oem border-b border-solid border-black/15 dark:border-white/15"
-    v-bind:forceExpanded="forceExpanded"
+    :forceExpanded="forceExpanded"
     v-show="!hidden"
   >
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
         class="title-container"
-        v-on:click="toggleManualExpansion"
-        v-bind:class="{
+        @click="toggleManualExpansion"
+        :class="{
           expanded: isExpanded
         }"
       >

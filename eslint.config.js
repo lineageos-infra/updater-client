@@ -21,6 +21,10 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest'
       }
+    },
+    rules: {
+      'vue/v-bind-style': ['error', 'shorthand'],
+      'vue/v-on-style': ['error', 'shorthand']
     }
   },
   includeIgnoreFile(gitignorePath),

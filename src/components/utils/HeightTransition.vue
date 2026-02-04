@@ -4,7 +4,7 @@
     @enter="enter"
     @after-enter="afterEnter"
     @leave="leave"
-    v-bind:style="{
+    :style="{
       transition: `height ${this.speed} ${this.timing}`
     }"
   >

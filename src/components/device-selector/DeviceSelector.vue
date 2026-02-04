@@ -4,7 +4,7 @@
       class="search-container focus:border-brand-primary border-b border-solid border-black/15 text-sm focus:border-b-2 dark:border-white/15"
     >
       <input type="text" placeholder="Search..." v-model="filterText" />
-      <i class="mdi mdi-close clear opacity-35" v-if="filterText" v-on:click="clearFilterText"></i>
+      <i class="mdi mdi-close clear opacity-35" v-if="filterText" @click="clearFilterText"></i>
     </div>
     <div class="oems">
       <device-oem v-for="oem in oems" v-bind="oem" :key="oem.name"></device-oem>
