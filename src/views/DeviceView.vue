@@ -3,7 +3,7 @@
     <NavBar :tabs="tabs">
       <template v-slot:left>
         <span class="oem">{{ oem }}</span>
-        <i class="mdi mdi-chevron-right arrow mx-2 h-6"></i>
+        <span class="mdi mdi-chevron-right arrow mx-2 h-6"></span>
         <span class="name">{{ name }}</span>
         <span class="model mx-2 text-base opacity-50">{{ model }}</span>
       </template>
@@ -15,83 +15,67 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import NavBar from '../components/navbar/NavBar.vue'
-import ApiService from '../js/ApiService'
-import { beforeTryError } from '../js/router_utils'
+import { loadDeviceBeforeHook } from '../js/loadBeforeHooks'
+import { computed, watch, ref } from 'vue'
+import { useStore } from 'vuex'
 
-const loadDeviceBeforeHook = beforeTryError((to) => {
-  return ApiService.loadDevice(to.params.model)
+const props = defineProps({
+  model: String
 })
 
-export default {
-  name: 'DeviceView',
-  components: {
-    NavBar
-  },
-  props: {
-    model: String
-  },
-  data() {
-    return {
-      info_url: '',
-      name: '',
-      oem: ''
-    }
-  },
-  beforeRouteEnter: loadDeviceBeforeHook,
-  beforeRouteUpdate: loadDeviceBeforeHook,
-  watch: {
-    model() {
-      this.loadDeviceDetails()
-    }
-  },
-  computed: {
-    tabs() {
-      return [
-        {
-          to: 'home_index',
-          label: 'Home',
-          icon: 'mdi mdi-exit-to-app'
-        },
-        {
-          to: {
-            name: 'device_builds',
-            params: {
-              model: this.model
-            }
-          },
-          label: 'Builds'
-        },
-        {
-          to: {
-            name: 'device_changes',
-            params: {
-              model: this.model
-            }
-          },
-          label: 'Changes'
-        },
-        {
-          href: this.info_url,
-          label: 'Guides & info',
-          icon: 'mdi mdi-open-in-new'
-        }
-      ]
-    }
-  },
-  mounted() {
-    this.loadDeviceDetails()
-  },
-  methods: {
-    loadDeviceDetails() {
-      const data = this.$store.getters.getDevice(this.model)
-      if (!data) {
-        throw new Error('Failed to get device-main data')
-      }
+const store = useStore()
 
-      ;['info_url', 'name', 'oem'].forEach((k) => (this[k] = data[k]))
-    }
+const infoUrl = ref('')
+const name = ref('')
+const oem = ref('')
+
+function loadDeviceDetails() {
+  const data = store.getters.getDevice(props.model)
+  if (!data) {
+    throw new Error('Failed to get device-main data')
   }
+  infoUrl.value = data.info_url
+  name.value = data.name
+  oem.value = data.oem
 }
+
+watch(() => props.model, loadDeviceDetails, { immediate: true })
+
+const tabs = computed(() => [
+  {
+    to: 'home_index',
+    label: 'Home',
+    icon: 'mdi mdi-exit-to-app'
+  },
+  {
+    to: {
+      name: 'device_builds',
+      params: {
+        model: props.model
+      }
+    },
+    label: 'Builds'
+  },
+  {
+    to: {
+      name: 'device_changes',
+      params: {
+        model: props.model
+      }
+    },
+    label: 'Changes'
+  },
+  {
+    href: infoUrl,
+    label: 'Guides & info',
+    icon: 'mdi mdi-open-in-new'
+  }
+])
+
+defineOptions({
+  beforeRouteEnter: loadDeviceBeforeHook,
+  beforeRouteUpdate: loadDeviceBeforeHook
+})
 </script>
