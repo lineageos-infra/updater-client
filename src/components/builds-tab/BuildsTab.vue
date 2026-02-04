@@ -8,7 +8,7 @@
           </h1>
           <p class="order-1 flex-none grow-0 self-stretch">
             Not all images are necessary for installation or upgrades. Check your device's
-            <a class="text-brand-primary font-medium no-underline" :href="info_url" target="_blank"
+            <a class="text-brand-primary font-medium no-underline" :href="infoUrl" target="_blank"
               >wiki guides</a
             >
             for more info.<br />
@@ -45,57 +45,48 @@
   </div>
 </template>
 
-<script>
-import ApiService from '../../js/ApiService'
-import { beforeTryError } from '../../js/router_utils'
+<script setup>
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
+import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
+import { loadDeviceBuildsBeforeHook } from '@/js/loadBeforeHooks'
 
-const loadDeviceBuildsBeforeHook = beforeTryError((to) => {
-  return ApiService.loadDeviceBuilds(to.params.model)
+const props = defineProps({
+  model: String
 })
 
-export default {
-  name: 'BuildsTab',
-  components: {
-    DownloadableGroup
-  },
-  props: {
-    model: String
-  },
-  data() {
-    return {
-      builds: []
-    }
-  },
-  beforeRouteEnter: loadDeviceBuildsBeforeHook,
-  beforeRouteUpdate: loadDeviceBuildsBeforeHook,
-  watch: {
-    model() {
-      this.loadBuilds()
-      this.loadDeviceDetails()
-    }
-  },
-  mounted() {
-    this.loadBuilds()
-    this.loadDeviceDetails()
-  },
-  methods: {
-    async loadBuilds() {
-      const data = this.$store.getters.getDeviceBuilds(this.model)
-      if (!data) {
-        throw new Error('Failed to get device-main builds-tab')
-      }
+const store = useStore()
+const builds = ref([])
+const infoUrl = ref('')
 
-      this.builds = data
-    },
-    loadDeviceDetails() {
-      const data = this.$store.getters.getDevice(this.model)
-      if (!data) {
-        throw new Error('Failed to get device-main data')
-      }
-
-      ;['info_url'].forEach((k) => (this[k] = data[k]))
-    }
+async function loadBuilds() {
+  const data = store.getters.getDeviceBuilds(props.model)
+  if (!data) {
+    throw new Error('Failed to get device-main builds-tab')
   }
+
+  builds.value = data
 }
+
+function loadDeviceDetails() {
+  const data = store.getters.getDevice(props.model)
+  if (!data) {
+    throw new Error('Failed to get device-main data')
+  }
+  infoUrl.value = data.info_url
+}
+
+watch(
+  () => props.model,
+  () => {
+    loadBuilds()
+    loadDeviceDetails()
+  },
+  { immediate: true }
+)
+
+defineOptions({
+  beforeRouteEnter: loadDeviceBuildsBeforeHook,
+  beforeRouteUpdate: loadDeviceBuildsBeforeHook
+})
 </script>
