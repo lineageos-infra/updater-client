@@ -1,69 +1,32 @@
 <template>
-  <router-link
+  <RouterLink
     :to="{
       name: 'device_index',
       params: {
-        model
+        model: props.model
       }
     }"
   >
     <div
-      v-show="!hidden"
-      class="device"
-      :class="{
-        selected: selected
-      }"
+      v-show="!props.hidden"
+      class="flex items-center justify-between gap-4 border-t border-black/12 p-4 pl-8 text-sm leading-4 font-medium"
+      :class="props.selected ? 'bg-brand-primary' : ''"
     >
-      <span class="name">
-        {{ name }}
+      <span :class="props.selected ? 'text-white/87' : ''">
+        {{ props.name }}
       </span>
-      <span class="model">
-        {{ model }}
+      <span :class="props.selected ? 'text-white/50' : ''">
+        {{ props.model }}
       </span>
     </div>
-  </router-link>
+  </RouterLink>
 </template>
 
-<script>
-export default {
-  name: 'DeviceItem',
-  props: {
-    hidden: Boolean,
-    selected: Boolean,
-    name: String,
-    model: String
-  }
-}
+<script setup>
+const props = defineProps({
+  hidden: Boolean,
+  selected: Boolean,
+  name: String,
+  model: String
+})
 </script>
-
-<style scoped>
-.device {
-  line-height: 16px;
-
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.device {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 16px;
-  padding: 16px 16px 16px 32px;
-
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.device.selected {
-  background: #167c80;
-}
-
-.device.selected .name {
-  color: rgba(255, 255, 255, 0.87);
-}
-
-.device.selected .model {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-</style>
