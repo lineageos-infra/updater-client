@@ -77,7 +77,7 @@ function loadDeviceDetails() {
 }
 
 watch(
-  props.model,
+  () => props.model,
   () => {
     loadBuilds()
     loadDeviceDetails()

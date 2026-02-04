@@ -83,7 +83,7 @@ onUnmounted(() => {
   stopLoading.value = true
 })
 
-watch(props.model, reloadDeviceChanges, { immediate: true })
+watch(() => props.model, reloadDeviceChanges, { immediate: true })
 watch(
   changes,
   () => {

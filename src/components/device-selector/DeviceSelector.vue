@@ -1,180 +1,134 @@
 <template>
-  <div class="device-selector">
+  <div class="flex flex-col overflow-auto">
     <div
-      class="search-container focus:border-brand-primary border-b border-solid border-black/15 text-sm focus:border-b-2 dark:border-white/15"
+      class="focus:border-brand-primary relative flex h-16 w-full shrink-0 border-b border-solid border-black/15 text-sm focus:border-b-2 dark:border-white/15"
     >
-      <input v-model="filterText" type="text" placeholder="Search..." />
-      <i v-if="filterText" class="mdi mdi-close clear opacity-35" @click="clearFilterText"></i>
+      <input
+        v-model="filterText"
+        class="transition-[border 0.125s ease-out] h-full w-full border-0 bg-transparent p-4 outline-0"
+        type="text"
+        placeholder="Search..."
+      />
+      <span
+        v-if="filterText"
+        class="mdi mdi-close clear absolute top-4 right-4 block h-8 w-8 cursor-pointer text-2xl leading-8 opacity-35"
+        @click="clearFilterText"
+      ></span>
     </div>
-    <div class="oems">
-      <device-oem v-for="oem in oems" v-bind="oem" :key="oem.name"></device-oem>
+    <div class="h-full grow overflow-auto">
+      <DeviceOem v-for="oem in oems" v-bind="oem" :key="oem.name" />
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import ApiService from '../../js/ApiService'
 import DeviceOem from './DeviceOem.vue'
+import { ref, computed, onBeforeMount, watch } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
-  name: 'DeviceSelector',
-  components: {
-    DeviceOem
-  },
-  props: {
-    activeModel: String
-  },
-  data() {
-    return {
-      filterText: ''
-    }
-  },
-  computed: {
-    oems() {
-      return this.$store.getters.oems
-    }
-  },
-  watch: {
-    activeModel() {
-      const cleared = this.clearFilterText()
-      if (!cleared) {
-        this.refreshDevices()
-      }
-    },
-    filterText() {
-      this.onFilterChange()
-    },
-    oems() {
-      this.refreshDevices()
-    }
-  },
-  async beforeMount() {
-    try {
-      await ApiService.loadOems()
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  methods: {
-    clearFilterText() {
-      if (this.filterText === '') {
-        return false
-      }
+const props = defineProps({
+  activeModel: String
+})
+const store = useStore()
+const filterText = ref('')
+const oems = computed(() => store.getters.oems)
 
-      this.filterText = ''
-      return true
-    },
-    resetFilterDevices() {
-      for (const oem of this.oems) {
-        oem.forceExpanded = false
-        oem.hidden = false
-        for (const device of oem.devices) {
-          device.hidden = false
-          device.selected = false
-        }
-      }
-    },
-    selectActiveDevice() {
-      for (const oem of this.oems) {
-        for (const device of oem.devices) {
-          if (device.model === this.activeModel) {
-            oem.forceExpanded = true
-            oem.hidden = false
-            device.hidden = false
-            device.selected = true
-            return
-          }
-        }
-      }
-    },
-    refreshDevices() {
-      this.resetFilterDevices()
-      this.selectActiveDevice()
-    },
-    filterDevices(filterText) {
-      if (!filterText) {
-        this.refreshDevices()
-        return
-      }
+onBeforeMount(async () => {
+  try {
+    await ApiService.loadOems()
+  } catch (err) {
+    console.error(err)
+  }
+})
 
-      this.resetFilterDevices()
+function clearFilterText() {
+  if (filterText.value === '') {
+    return false
+  }
 
-      for (const oem of this.oems) {
-        if (oem.name.toLowerCase().includes(filterText)) {
-          oem.forceExpanded = true
-          continue
-        }
+  filterText.value = ''
+  return true
+}
 
-        oem.hidden = true
-        for (const device of oem.devices) {
-          device.hidden = true
-
-          if (`${oem.name} ${device.name} ${device.model}`.toLowerCase().includes(filterText)) {
-            oem.forceExpanded = true
-            oem.hidden = false
-            device.hidden = false
-          }
-        }
-      }
-
-      this.selectActiveDevice()
-    },
-    onFilterChange() {
-      this.filterDevices(this.filterText.toLowerCase())
+function resetFilterDevices() {
+  for (const oem of oems.value) {
+    oem.forceExpanded = false
+    oem.hidden = false
+    for (const device of oem.devices) {
+      device.hidden = false
+      device.selected = false
     }
   }
 }
+
+function selectActiveDevice() {
+  for (const oem of oems.value) {
+    for (const device of oem.devices) {
+      if (device.model === props.activeModel) {
+        oem.forceExpanded = true
+        oem.hidden = false
+        device.hidden = false
+        device.selected = true
+        return
+      }
+    }
+  }
+}
+
+function refreshDevices() {
+  resetFilterDevices()
+  selectActiveDevice()
+}
+
+function filterDevices(text) {
+  if (!text) {
+    refreshDevices()
+    return
+  }
+
+  resetFilterDevices()
+
+  for (const oem of oems.value) {
+    if (oem.name.toLowerCase().includes(text)) {
+      oem.forceExpanded = true
+      continue
+    }
+
+    oem.hidden = true
+    for (const device of oem.devices) {
+      device.hidden = true
+
+      if (`${oem.name} ${device.name} ${device.model}`.toLowerCase().includes(text)) {
+        oem.forceExpanded = true
+        oem.hidden = false
+        device.hidden = false
+      }
+    }
+  }
+
+  selectActiveDevice()
+}
+
+function onFilterChange() {
+  filterDevices(filterText.value.toLowerCase())
+}
+
+watch(
+  () => props.activeModel,
+  () => {
+    const cleared = clearFilterText()
+    if (!cleared) {
+      refreshDevices()
+    }
+  }
+)
+
+watch(filterText, () => {
+  onFilterChange()
+})
+
+watch(oems, () => {
+  refreshDevices()
+})
 </script>
-
-<style scoped>
-.device-selector {
-  display: flex;
-  flex-direction: column;
-
-  overflow: auto;
-}
-
-.device-selector .search-container {
-  width: 100%;
-  height: 64px;
-
-  display: flex;
-
-  position: relative;
-
-  flex-shrink: 0;
-}
-
-.device-selector .search-container input {
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-
-  outline: 0;
-  border: 0;
-  background: transparent;
-
-  transition: border 0.125s ease-out;
-}
-
-.device-selector .search-container .clear {
-  display: block;
-  position: absolute;
-  right: 16px;
-  top: 16px;
-
-  height: 32px;
-  width: 32px;
-  line-height: 32px;
-
-  font-size: 24px;
-
-  cursor: pointer;
-}
-
-.device-selector .oems {
-  flex-grow: 1;
-  height: 100%;
-  overflow: auto;
-}
-</style>
