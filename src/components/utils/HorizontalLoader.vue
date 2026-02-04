@@ -5,12 +5,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HorizontalLoader'
-}
-</script>
-
 <style scoped>
 .loader-track {
   height: 4px;

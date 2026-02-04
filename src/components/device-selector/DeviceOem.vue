@@ -1,5 +1,5 @@
 <template>
-  <collapsible-item
+  <CollapsibleItem
     v-show="!hidden"
     class="oem border-b border-solid border-black/15 dark:border-white/15"
     :forceExpanded="forceExpanded"
@@ -22,37 +22,30 @@
       <div class="devices-container">
         <div class="devices">
           <template v-for="device in devices" :key="device.model">
-            <device-item v-bind="device"></device-item>
+            <DeviceItem v-bind="device"></DeviceItem>
           </template>
         </div>
       </div>
     </template>
-  </collapsible-item>
+  </CollapsibleItem>
 </template>
 
-<script>
+<script setup>
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DeviceItem from './DeviceItem.vue'
 
-export default {
-  name: 'DeviceOem',
-  props: {
-    name: String,
-    devices: Array,
-    forceExpanded: {
-      type: Boolean,
-      default: false
-    },
-    hidden: {
-      type: Boolean,
-      default: false
-    }
+defineProps({
+  name: String,
+  devices: Array,
+  forceExpanded: {
+    type: Boolean,
+    default: false
   },
-  components: {
-    CollapsibleItem,
-    DeviceItem
+  hidden: {
+    type: Boolean,
+    default: false
   }
-}
+})
 </script>
 
 <style scoped>

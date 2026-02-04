@@ -19,19 +19,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ChangeTab',
-  props: {
-    url: String,
-    subject: String,
-    project: String,
-    repository: String,
-    type: String,
-    branch: String,
-    build: Object
-  }
-}
+<script setup>
+defineProps({
+  url: String,
+  subject: String,
+  project: String,
+  repository: String,
+  type: String,
+  branch: String,
+  build: Object
+})
 </script>
 
 <style scoped>
