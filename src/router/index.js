@@ -6,7 +6,7 @@ import FastbootView from '../views/FastbootView.vue'
 import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
 import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue'
-import Builds from '../components/builds-tab/BuildsTabPage.vue'
+import BuildsTab from '../components/builds-tab/BuildsTab.vue'
 import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue'
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue'
 import MediaQueryUtils from '../js/MediaQueryUtils'
@@ -82,7 +82,7 @@ const router = createRouter({
         {
           path: 'builds',
           name: 'device_builds',
-          component: Builds,
+          component: BuildsTab,
           props: true
         },
         {
