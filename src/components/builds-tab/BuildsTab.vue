@@ -1,5 +1,5 @@
 <template>
-  <div class="builds-tab-page flex h-full w-full flex-col">
+  <div class="flex h-full w-full flex-col">
     <div v-if="builds.length > 0" class="h-full w-full grow overflow-auto">
       <div class="mx-auto max-w-189 min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-4 py-10 @min-[480px]:px-6">
@@ -13,7 +13,10 @@
             >
             for more info.<br />
             You can verify that a file has not been tampered by
-            <RouterLink class="tab" :to="{ name: 'home_verify' }">
+            <RouterLink
+              class="text-brand-primary font-medium no-underline"
+              :to="{ name: 'home_verify' }"
+            >
               checking its signature </RouterLink
             >.
           </p>
@@ -29,7 +32,7 @@
         />
       </div>
     </div>
-    <div v-else class="flex h-100 items-center justify-center text-center text-2xl">
+    <div v-else class="flex h-full items-center justify-center text-center text-2xl">
       <span>
         This device doesn't have any builds available, please see
         <a
