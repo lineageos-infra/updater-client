@@ -1,8 +1,8 @@
 <template>
   <div class="flex h-full w-full flex-col">
     <div
-      class="h-full w-full grow overflow-y-auto"
       ref="scrollable"
+      class="h-full w-full grow overflow-y-auto"
       @scroll="checkScrolledToBottom"
     >
       <div class="mx-auto max-w-[756px] min-w-0 px-8">

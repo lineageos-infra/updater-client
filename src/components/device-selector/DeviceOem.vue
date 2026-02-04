@@ -1,21 +1,21 @@
 <template>
   <collapsible-item
+    v-show="!hidden"
     class="oem border-b border-solid border-black/15 dark:border-white/15"
     :forceExpanded="forceExpanded"
-    v-show="!hidden"
   >
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
         class="title-container"
-        @click="toggleManualExpansion"
         :class="{
           expanded: isExpanded
         }"
+        @click="toggleManualExpansion"
       >
         <span class="title">
           {{ name }}
         </span>
-        <i class="mdi mdi-chevron-down icon opacity-35" v-if="!forceExpanded"> </i>
+        <i v-if="!forceExpanded" class="mdi mdi-chevron-down icon opacity-35"> </i>
       </div>
     </template>
     <template v-slot:content>

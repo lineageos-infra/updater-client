@@ -1,12 +1,12 @@
 <template>
   <transition
     name="expand"
-    @enter="enter"
-    @after-enter="afterEnter"
-    @leave="leave"
     :style="{
       transition: `height ${this.speed} ${this.timing}`
     }"
+    @enter="enter"
+    @after-enter="afterEnter"
+    @leave="leave"
   >
     <slot />
   </transition>

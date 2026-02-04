@@ -1,6 +1,6 @@
 <template>
   <div class="builds-tab-page flex h-full w-full flex-col">
-    <div class="h-full w-full grow overflow-auto" v-if="builds.length > 0">
+    <div v-if="builds.length > 0" class="h-full w-full grow overflow-auto">
       <div class="mx-auto max-w-[756px] min-w-0 px-8">
         <div class="header">
           <h1>Download builds</h1>
@@ -28,7 +28,7 @@
         </downloadable-group>
       </div>
     </div>
-    <div class="list-placeholder" v-else>
+    <div v-else class="list-placeholder">
       <span>
         This device doesn't have any builds available, please see
         <a

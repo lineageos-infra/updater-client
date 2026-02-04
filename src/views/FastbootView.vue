@@ -4,12 +4,12 @@
       <div class="mx-auto max-w-[756px] min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
-          <div class="order-1 flex-none grow-0 self-stretch" v-show="webUsbSupported">
-            <div class="mb-4 justify-center" v-show="connected">
-              <textarea class="resize-none" cols="80" rows="20" ref="log"></textarea>
+          <div v-show="webUsbSupported" class="order-1 flex-none grow-0 self-stretch">
+            <div v-show="connected" class="mb-4 justify-center">
+              <textarea ref="log" class="resize-none" cols="80" rows="20"></textarea>
 
-              <input class="hidden" type="file" ref="bootImage" @change="bootImageExec" />
-              <input class="hidden" type="file" ref="flashImage" @change="flashImageExec" />
+              <input ref="bootImage" class="hidden" type="file" @change="bootImageExec" />
+              <input ref="flashImage" class="hidden" type="file" @change="flashImageExec" />
 
               <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
               <button class="btn mr-3 mb-3 px-4 py-1" @click="flashImage">Flash image</button>
@@ -18,7 +18,7 @@
                 Reboot to recovery
               </button>
             </div>
-            <div class="mb-4 flex justify-center" v-show="!connected">
+            <div v-show="!connected" class="mb-4 flex justify-center">
               <button class="btn px-4 py-1" @click="connect">Connect</button>
             </div>
           </div>

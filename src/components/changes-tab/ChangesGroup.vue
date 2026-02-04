@@ -1,6 +1,6 @@
 <template>
-  <div class="border-b border-solid border-black/15 p-4 dark:border-white/15" v-if="items.length">
-    <div class="text-brand-primary text-xs font-medium tracking-widest uppercase" v-if="build">
+  <div v-if="items.length" class="border-b border-solid border-black/15 p-4 dark:border-white/15">
+    <div v-if="build" class="text-brand-primary text-xs font-medium tracking-widest uppercase">
       <template v-if="build.filename === 'next'">
         To be included in the next {{ build.version }} build
       </template>

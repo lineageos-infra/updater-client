@@ -8,7 +8,7 @@
         {{ type }}
       </span>
 
-      <span class="badge bg-dark/15 dark:bg-white/15" v-if="!build?.version">
+      <span v-if="!build?.version" class="badge bg-dark/15 dark:bg-white/15">
         {{ branch }}
       </span>
 

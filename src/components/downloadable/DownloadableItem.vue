@@ -39,19 +39,19 @@
       <div class="details-wrapper rounded-md dark:bg-white/5">
         <div class="details">
           <span class="details-title">Details</span>
-          <downloadable-detail title="Date" v-if="date" :value="date"></downloadable-detail>
+          <downloadable-detail v-if="date" title="Date" :value="date"></downloadable-detail>
           <downloadable-detail
-            title="OS patch level"
             v-if="osPatchLevelHuman"
+            title="OS patch level"
             :value="osPatchLevelHuman"
           ></downloadable-detail>
-          <downloadable-detail title="Type" v-if="type" :value="type"></downloadable-detail>
+          <downloadable-detail v-if="type" title="Type" :value="type"></downloadable-detail>
           <downloadable-detail
-            title="Size"
             v-if="sizeHuman"
+            title="Size"
             :value="sizeHuman"
           ></downloadable-detail>
-          <downloadable-detail title="SHA256" v-if="sha256" :value="sha256"></downloadable-detail>
+          <downloadable-detail v-if="sha256" title="SHA256" :value="sha256"></downloadable-detail>
         </div>
       </div>
     </template>

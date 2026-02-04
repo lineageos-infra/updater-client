@@ -98,7 +98,7 @@
           </button>
         </div>
         <form>
-          <input class="hidden" type="file" ref="input" @change="verifyFileInput" />
+          <input ref="input" class="hidden" type="file" @change="verifyFileInput" />
         </form>
       </div>
     </div>

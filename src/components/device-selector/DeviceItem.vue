@@ -8,11 +8,11 @@
     }"
   >
     <div
+      v-show="!hidden"
       class="device"
       :class="{
         selected: selected
       }"
-      v-show="!hidden"
     >
       <span class="name">
         {{ name }}

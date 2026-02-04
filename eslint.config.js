@@ -23,6 +23,7 @@ export default [
       }
     },
     rules: {
+      'vue/attributes-order': 'error',
       'vue/v-bind-style': ['error', 'shorthand'],
       'vue/v-on-style': ['error', 'shorthand']
     }

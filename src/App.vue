@@ -1,7 +1,7 @@
 <template>
   <router-view id="sidebar" name="sidebar"></router-view>
   <router-view id="main" name="main"></router-view>
-  <horizontal-loader id="loader" v-if="anyLoading"></horizontal-loader>
+  <horizontal-loader v-if="anyLoading" id="loader"></horizontal-loader>
 </template>
 
 <script>
