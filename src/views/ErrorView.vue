@@ -1,30 +1,21 @@
 <template>
-  <div class="error-main">
-    <span>{{ this.$store.getters.error || message }}</span>
+  <div class="flex items-center justify-center text-center text-2xl">
+    <span>{{ store.getters.error || message }}</span>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ErrorView',
-  props: {
-    message: {
-      type: String,
-      default: 'An unknown error-main occurred'
-    }
-  },
-  mounted() {
-    history.pushState({}, null, '/')
+<script setup>
+import { useStore } from 'vuex'
+import { onMounted } from 'vue'
+const store = useStore()
+defineProps({
+  message: {
+    type: String,
+    default: 'An unknown error occurred'
   }
-}
-</script>
+})
 
-<style scoped>
-.error-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 24px;
-}
-</style>
+onMounted(() => {
+  history.pushState({}, null, '/')
+})
+</script>
