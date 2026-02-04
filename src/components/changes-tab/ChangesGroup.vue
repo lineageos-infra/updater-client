@@ -7,13 +7,13 @@
       <template v-else> Included in {{ build.filename }} </template>
     </div>
     <template v-for="change in items" :key="change.id">
-      <ChangeTab v-bind:="change" :build="build"></ChangeTab>
+      <ChangeItem v-bind:="change" :build="build" />
     </template>
   </div>
 </template>
 
 <script setup>
-import ChangeTab from './ChangeTab.vue'
+import ChangeItem from './ChangeItem.vue'
 
 defineProps({
   build: Object,

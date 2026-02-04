@@ -5,7 +5,7 @@ import ErrorView from '../views/ErrorView.vue'
 import FastbootView from '../views/FastbootView.vue'
 import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
-import ChangesTabPage from '../components/changes-tab/ChangesTabPage.vue'
+import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
 import VerifyTabPage from '../components/verify-tab/VerifyTabPage.vue'
 import DevicesTabPage from '../components/devices-tab/DevicesTabPage.vue'
@@ -47,7 +47,7 @@ const router = createRouter({
         {
           path: 'changes',
           name: 'home_changes',
-          component: ChangesTabPage
+          component: ChangesTab
         },
         {
           path: 'verify',
@@ -88,7 +88,7 @@ const router = createRouter({
         {
           path: 'changes',
           name: 'device_changes',
-          component: ChangesTabPage,
+          component: ChangesTab,
           props: true
         }
       ]
