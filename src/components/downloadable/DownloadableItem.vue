@@ -1,16 +1,16 @@
 <template>
-  <collapsible-item class="downloadable">
+  <CollapsibleItem class="align-middle leading-6">
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
-        class="title-container"
+        class="mx-0 my-1 flex items-center justify-between gap-2"
         :class="{
           expanded: isExpanded
         }"
       >
-        <div class="title">
+        <div>
           {{ name || filename }}
         </div>
-        <div class="controls">
+        <div class="flex items-center gap-2">
           <a :href="url" class="btn px-5 py-2">
             <svg
               width="16"
@@ -27,147 +27,79 @@
               />
             </svg>
           </a>
-          <i
-            class="mdi icon expand-icon hover:bg-dark/15 opacity-55 dark:opacity-55 dark:hover:bg-white/15"
+          <span
+            class="mdi transition-[background 0.125s ease-out] hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
             :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
             @click="toggleManualExpansion"
-          ></i>
+          ></span>
         </div>
       </div>
     </template>
     <template v-slot:content>
-      <div class="details-wrapper rounded-md dark:bg-white/5">
-        <div class="details">
-          <span class="details-title">Details</span>
-          <downloadable-detail v-if="date" title="Date" :value="date"></downloadable-detail>
-          <downloadable-detail
+      <div class="rounded-md dark:bg-white/5">
+        <div class="flex flex-col gap-2 rounded-sm bg-black/5 p-4 text-sm leading-6">
+          <span class="flex leading-[150%]">Details</span>
+          <DownloadableDetail v-if="date" title="Date" :value="date" />
+          <DownloadableDetail
             v-if="osPatchLevelHuman"
             title="OS patch level"
             :value="osPatchLevelHuman"
-          ></downloadable-detail>
-          <downloadable-detail v-if="type" title="Type" :value="type"></downloadable-detail>
-          <downloadable-detail
-            v-if="sizeHuman"
-            title="Size"
-            :value="sizeHuman"
-          ></downloadable-detail>
-          <downloadable-detail v-if="sha256" title="SHA256" :value="sha256"></downloadable-detail>
+          />
+          <DownloadableDetail v-if="type" title="Type" :value="type" />
+          <DownloadableDetail v-if="sizeHuman" title="Size" :value="sizeHuman" />
+          <DownloadableDetail v-if="sha256" title="SHA256" :value="sha256" />
         </div>
       </div>
     </template>
-  </collapsible-item>
+  </CollapsibleItem>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DownloadableDetail from './DownloadableDetail.vue'
 
-export default {
-  name: 'DownloadableItem',
-  components: {
-    CollapsibleItem,
-    DownloadableDetail
-  },
-  props: {
-    date: String,
-    datetime: Number,
-    filename: String,
-    filepath: String,
-    name: String,
-    os_patch_level: String,
-    sha256: String,
-    size: Number,
-    type: String,
-    url: String,
-    version: String
-  },
-  computed: {
-    osPatchLevelHuman() {
-      if (typeof this.os_patch_level === 'string') {
-        return new Date(this.os_patch_level).toLocaleString('en-US', {
-          month: 'long',
-          year: 'numeric',
-          timeZone: 'UTC'
-        })
-      }
-      return ''
-    },
-    sizeHuman() {
-      if (this.size !== undefined) {
-        const units = {
-          GiB: 3,
-          MiB: 2,
-          KiB: 1
-        }
+const props = defineProps({
+  date: String,
+  datetime: Number,
+  filename: String,
+  filepath: String,
+  name: String,
+  os_patch_level: String,
+  sha256: String,
+  size: Number,
+  type: String,
+  url: String,
+  version: String
+})
 
-        for (const [unit, exponent] of Object.entries(units)) {
-          if (this.size >= Math.pow(1024, exponent)) {
-            return `${(this.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`
-          }
-        }
-
-        return `${this.size} B`
-      }
-      return ''
-    }
+const osPatchLevelHuman = computed(() => {
+  if (typeof props.os_patch_level === 'string') {
+    return new Date(props.os_patch_level).toLocaleString('en-US', {
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC'
+    })
   }
-}
+  return ''
+})
+
+const sizeHuman = computed(() => {
+  if (props.size !== undefined) {
+    const units = {
+      GiB: 3,
+      MiB: 2,
+      KiB: 1
+    }
+
+    for (const [unit, exponent] of Object.entries(units)) {
+      if (props.size >= Math.pow(1024, exponent)) {
+        return `${(props.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`
+      }
+    }
+
+    return `${props.size} B`
+  }
+  return ''
+})
 </script>
-
-<style scoped>
-.downloadable {
-  line-height: 24px;
-  vertical-align: center;
-}
-
-.downloadable .title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin: 4px 0;
-}
-
-.downloadable .title-container .controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.downloadable .title-container .controls .icon {
-  display: block;
-  flex-shrink: 0;
-
-  font-size: 24px;
-  line-height: 36px;
-  height: 36px;
-  width: 36px;
-  text-align: center;
-  border-radius: 50%;
-
-  transition: background 0.125s ease-out;
-
-  cursor: pointer;
-
-  user-select: none; /* prevent automatic selection of the details contents */
-}
-
-.downloadable .details {
-  line-height: 24px;
-  padding: 16px;
-  border-radius: 4px;
-
-  font-size: 14px;
-
-  background: rgba(0, 0, 0, 0.05);
-
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.downloadable .details .details-title {
-  display: flex;
-  line-height: 150%;
-}
-</style>
