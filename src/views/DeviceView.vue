@@ -1,53 +1,16 @@
 <template>
-  <div class="device-main">
-    <NavBar>
+  <div class="device-main flex flex-col">
+    <NavBar :tabs="tabs">
       <template v-slot:left>
         <span class="oem">{{ oem }}</span>
-        <i class="mdi mdi-chevron-right arrow"></i>
+        <i class="mdi mdi-chevron-right arrow mx-2 h-6"></i>
         <span class="name">{{ name }}</span>
-        <span class="model opacity-50">{{ model }}</span>
-      </template>
-      <template v-slot:tabs>
-        <router-link
-          class="tab"
-          :to="{
-            name: 'home_index'
-          }"
-        >
-          Home
-          <i class="mdi mdi-exit-to-app"></i>
-        </router-link>
-        <router-link
-          class="tab"
-          :to="{
-            name: 'device_builds',
-            params: {
-              model
-            }
-          }"
-        >
-          Builds
-        </router-link>
-        <router-link
-          class="tab"
-          :to="{
-            name: 'device_changes',
-            params: {
-              model
-            }
-          }"
-        >
-          Changes
-        </router-link>
-        <a class="tab" target="_blank" :href="info_url">
-          Guides &amp; info
-          <span class="mdi mdi-open-in-new"></span>
-        </a>
+        <span class="model mx-2 text-base opacity-50">{{ model }}</span>
       </template>
     </NavBar>
 
-    <div class="content">
-      <router-view></router-view>
+    <div class="grow overflow-auto">
+      <RouterView />
     </div>
   </div>
 </template>
@@ -83,6 +46,40 @@ export default {
       this.loadDeviceDetails()
     }
   },
+  computed: {
+    tabs() {
+      return [
+        {
+          to: 'home_index',
+          label: 'Home',
+          icon: 'mdi mdi-exit-to-app'
+        },
+        {
+          to: {
+            name: 'device_builds',
+            params: {
+              model: this.model
+            }
+          },
+          label: 'Builds'
+        },
+        {
+          to: {
+            name: 'device_changes',
+            params: {
+              model: this.model
+            }
+          },
+          label: 'Changes'
+        },
+        {
+          href: this.info_url,
+          label: 'Guides & info',
+          icon: 'mdi mdi-open-in-new'
+        }
+      ]
+    }
+  },
   mounted() {
     this.loadDeviceDetails()
   },
@@ -98,32 +95,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.device-main {
-  display: flex;
-  flex-direction: column;
-}
-
-.device-main .navbar {
-  flex-shrink: 0;
-}
-
-.device-main .navbar .arrow,
-.device-main .navbar .model {
-  margin: 0 8px;
-}
-
-.device-main .navbar .arrow {
-  height: 24px;
-}
-
-.device-main .navbar .model {
-  font-size: 16px;
-}
-
-.device-main .content {
-  flex-grow: 1;
-  overflow: auto;
-}
-</style>

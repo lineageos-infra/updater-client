@@ -1,13 +1,14 @@
 <template>
   <RouterView id="sidebar" name="sidebar"></RouterView>
   <RouterView id="main" name="main"></RouterView>
-  <horizontal-loader v-if="anyLoading" id="loader"></horizontal-loader>
+  <HorizontalLoader v-if="anyLoading" id="loader" />
 </template>
 
 <script setup>
 import HorizontalLoader from './components/utils/HorizontalLoader.vue'
-import store from './store'
 import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
 
 const anyLoading = computed(() => !!store.getters.ongoingRequests)
 </script>
