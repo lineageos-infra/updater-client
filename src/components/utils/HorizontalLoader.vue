@@ -1,9 +1,45 @@
 <template>
-  <div class="relative h-1 w-full overflow-hidden bg-[rgba(22,124,128,0.5)]">
+  <div v-if="showLoader" class="relative h-1 w-full overflow-hidden bg-[rgba(22,124,128,0.5)]">
     <div class="loader-first bg-brand-primary absolute top-0 left-0 h-full"></div>
     <div class="loader-second bg-brand-primary absolute top-0 left-0 h-full"></div>
   </div>
 </template>
+
+<script setup>
+import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const showLoader = ref(false)
+const HIDE_DELAY_MS = 250
+let hideTimeoutId
+
+watch(
+  () => store.getters.ongoingRequests,
+  (count) => {
+    if (count > 0) {
+      if (hideTimeoutId) {
+        clearTimeout(hideTimeoutId)
+        hideTimeoutId = undefined
+      }
+      showLoader.value = true
+      return
+    }
+
+    if (hideTimeoutId) {
+      clearTimeout(hideTimeoutId)
+    }
+
+    hideTimeoutId = setTimeout(() => {
+      if (store.getters.ongoingRequests === 0) {
+        showLoader.value = false
+      }
+      hideTimeoutId = undefined
+    }, HIDE_DELAY_MS)
+  },
+  { immediate: true }
+)
+</script>
 
 <style scoped>
 .loader-first {
