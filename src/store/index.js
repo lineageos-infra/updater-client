@@ -22,7 +22,7 @@ export default createStore({
       state.ongoingRequests++
     },
     endRequest(state) {
-      state.ongoingRequests--
+      state.ongoingRequests = Math.max(0, state.ongoingRequests - 1)
     },
     setOems(state, oems) {
       state.oems = oems
