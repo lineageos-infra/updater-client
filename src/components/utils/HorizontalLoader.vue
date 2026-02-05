@@ -1,35 +1,11 @@
 <template>
-  <div class="loader-track">
-    <div class="loader-first"></div>
-    <div class="loader-second"></div>
+  <div class="relative h-1 w-full overflow-hidden bg-[rgba(22,124,128,0.5)]">
+    <div class="loader-first bg-brand-primary absolute top-0 left-0 h-full"></div>
+    <div class="loader-second bg-brand-primary absolute top-0 left-0 h-full"></div>
   </div>
 </template>
 
 <style scoped>
-.loader-track {
-  height: 4px;
-  width: 100%;
-
-  position: relative;
-
-  overflow: hidden;
-
-  background: rgba(22, 124, 128, 0.5);
-}
-
-.loader-first,
-.loader-second {
-  height: 100%;
-  width: auto;
-
-  top: 0;
-  left: 0;
-
-  background: #167c80;
-
-  position: absolute;
-}
-
 .loader-first {
   animation: horizontal-loader-animation-first 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }

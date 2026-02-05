@@ -1,21 +1,26 @@
 <template>
   <CollapsibleItem
     v-show="!hidden"
-    class="oem border-b border-solid border-black/15 dark:border-white/15"
+    class="border-b border-solid border-black/15 select-none dark:border-white/15"
     :forceExpanded="forceExpanded"
   >
     <template v-slot:title="{ isExpanded, toggleManualExpansion }">
       <div
-        class="title-container"
+        class="relative flex h-12 cursor-pointer items-center justify-between p-4 text-sm leading-4 font-medium transition-[height,padding,background] duration-250 ease-out"
         :class="{
-          expanded: isExpanded
+          'h-16 bg-black/10 px-4 py-6 dark:bg-white/5': isExpanded
         }"
         @click="toggleManualExpansion"
       >
-        <span class="title">
+        <span>
           {{ name }}
         </span>
-        <i v-if="!forceExpanded" class="mdi mdi-chevron-down icon opacity-35"> </i>
+        <span
+          v-if="!forceExpanded"
+          class="mdi mdi-chevron-down text-2xl opacity-35 transition-transform duration-125 ease-out"
+          :class="isExpanded && '-rotate-180'"
+        >
+        </span>
       </div>
     </template>
     <template v-slot:content>
@@ -47,52 +52,3 @@ defineProps({
   }
 })
 </script>
-
-<style scoped>
-@reference 'tailwindcss';
-
-.oem {
-  user-select: none;
-}
-
-.oem .title-container {
-  line-height: 16px;
-
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.oem .title-container {
-  height: 48px;
-  padding: 16px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-
-  transition:
-    height 0.25s ease-out,
-    padding 0.25s ease-out,
-    background 0.25s ease-out;
-
-  cursor: pointer;
-}
-
-.oem .title-container.expanded {
-  height: 64px;
-  padding: 24px 16px;
-
-  @apply bg-black/10 dark:bg-white/5;
-}
-
-.oem .title-container .icon {
-  font-size: 24px;
-
-  transition:
-    top 0.25s ease-out,
-    transform 0.125s ease-out;
-}
-
-.oem .title-container.expanded .icon {
-  transform: rotate(-180deg);
-}
-</style>

@@ -1,18 +1,22 @@
 <template>
-  <div class="change">
-    <a class="subject" target="_blank" :href="url">
+  <div class="change py-2">
+    <a class="block leading-7 break-all text-inherit no-underline" target="_blank" :href="url">
       {{ subject }}
     </a>
-    <div class="repository-type">
-      <span class="badge bg-dark/15 dark:bg-white/15">
+    <div class="flex items-center text-xs leading-6">
+      <span class="bg-dark/15 mr-2 rounded-xl px-2 dark:bg-white/15">
         {{ type }}
       </span>
 
-      <span v-if="!build?.version" class="badge bg-dark/15 dark:bg-white/15">
+      <span v-if="!build?.version" class="bg-dark/15 mr-2 rounded-xl px-2 dark:bg-white/15">
         {{ branch }}
       </span>
 
-      <a class="repository" target="_blank" :href="`https://github.com/${project}`">
+      <a
+        class="block break-all text-inherit no-underline"
+        target="_blank"
+        :href="`https://github.com/${project}`"
+      >
         {{ repository }}
       </a>
     </div>
@@ -30,41 +34,3 @@ defineProps({
   build: Object
 })
 </script>
-
-<style scoped>
-.change {
-  padding: 8px 0;
-}
-
-.change .subject,
-.change .repository {
-  display: block;
-
-  vertical-align: text-bottom;
-  word-break: break-word;
-}
-
-.change .subject {
-  line-height: 28px;
-}
-
-.change .subject,
-.change .repository {
-  color: inherit;
-  text-decoration: none;
-}
-
-.change .repository-type {
-  font-size: 12px;
-  line-height: 24px;
-
-  display: flex;
-  align-items: center;
-}
-
-.change .badge {
-  border-radius: 12px;
-  padding: 0 8px;
-  margin-right: 8px;
-}
-</style>
