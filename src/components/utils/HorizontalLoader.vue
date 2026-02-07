@@ -7,15 +7,15 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useUiStore } from '@/stores/ui'
 
-const store = useStore()
+const store = useUiStore()
 const showLoader = ref(false)
 const HIDE_DELAY_MS = 250
 let hideTimeoutId
 
 watch(
-  () => store.getters.ongoingRequests,
+  () => store.ongoingRequests,
   (count) => {
     if (count > 0) {
       if (hideTimeoutId) {
@@ -31,7 +31,7 @@ watch(
     }
 
     hideTimeoutId = setTimeout(() => {
-      if (store.getters.ongoingRequests === 0) {
+      if (store.ongoingRequests === 0) {
         showLoader.value = false
       }
       hideTimeoutId = undefined

@@ -25,14 +25,14 @@
 import ApiService from '../../js/ApiService'
 import DeviceOem from './DeviceOem.vue'
 import { ref, computed, onBeforeMount, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useDeviceStore } from '@/stores/device'
 
 const props = defineProps({
   activeModel: String
 })
-const store = useStore()
+const store = useDeviceStore()
 const filterText = ref('')
-const oems = computed(() => store.getters.oems)
+const oems = computed(() => store.oems)
 
 onBeforeMount(async () => {
   try {

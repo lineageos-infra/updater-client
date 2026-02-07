@@ -1,13 +1,13 @@
 <template>
   <div class="flex items-center justify-center text-center text-2xl">
-    <span>{{ store.getters.error || message }}</span>
+    <span>{{ store.error || message }}</span>
   </div>
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useUiStore } from '@/stores/ui'
 import { onMounted } from 'vue'
-const store = useStore()
+const store = useUiStore()
 defineProps({
   message: {
     type: String,

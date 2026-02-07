@@ -1,11 +1,11 @@
 <template>
-  <div class="device-main flex flex-col">
+  <div class="flex flex-col">
     <NavBar :tabs="tabs">
       <template v-slot:left>
-        <span class="oem">{{ oem }}</span>
+        <span>{{ oem }}</span>
         <span class="mdi mdi-chevron-right arrow mx-2 h-6"></span>
-        <span class="name">{{ name }}</span>
-        <span class="model mx-2 text-base opacity-50">{{ model }}</span>
+        <span>{{ name }}</span>
+        <span class="mx-2 text-base opacity-50">{{ model }}</span>
       </template>
     </NavBar>
 
@@ -19,20 +19,20 @@
 import NavBar from '../components/navbar/NavBar.vue'
 import { loadDeviceBeforeHook } from '../js/loadBeforeHooks'
 import { computed, watch, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useDeviceStore } from '@/stores/device'
 
 const props = defineProps({
   model: String
 })
 
-const store = useStore()
+const store = useDeviceStore()
 
 const infoUrl = ref('')
 const name = ref('')
 const oem = ref('')
 
 function loadDeviceDetails() {
-  const data = store.getters.getDevice(props.model)
+  const data = store.getDevice(props.model)
   if (!data) {
     throw new Error('Failed to get device-main data')
   }

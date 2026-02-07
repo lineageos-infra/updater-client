@@ -1,6 +1,8 @@
-import store from '../store'
 import axios from 'axios'
 import { API_HOSTNAME } from './config'
+import { useDeviceStore } from '../stores/device'
+import { useChangeStore } from '../stores/change'
+import { useUiStore } from '../stores/ui'
 
 export default class ApiService {
   static sortOems(oems) {
@@ -16,29 +18,33 @@ export default class ApiService {
   }
 
   static async loadOems() {
+    const uiStore = useUiStore()
+    const deviceStore = useDeviceStore()
     try {
-      store.commit('startRequest')
+      uiStore.startRequest()
       const response = await axios.get(`${API_HOSTNAME}api/v2/oems`)
       this.sortOems(response.data)
-      store.commit('setOems', response.data)
-      store.commit('endRequest')
+      deviceStore.setOems(response.data)
+      uiStore.endRequest()
     } catch (err) {
-      store.commit('endRequest')
+      uiStore.endRequest()
       throw err
     }
   }
 
   static async loadDevice(model) {
+    const uiStore = useUiStore()
+    const deviceStore = useDeviceStore()
     try {
-      store.commit('startRequest')
+      uiStore.startRequest()
       const response = await axios.get(`${API_HOSTNAME}api/v2/devices/${model}`)
-      store.commit('setDevice', {
+      deviceStore.setDevice({
         model,
         data: response.data
       })
-      store.commit('endRequest')
+      uiStore.endRequest()
     } catch (err) {
-      store.commit('endRequest')
+      uiStore.endRequest()
       throw err
     }
   }
@@ -55,19 +61,21 @@ export default class ApiService {
   }
 
   static async loadDeviceBuilds(model) {
+    const uiStore = useUiStore()
+    const deviceStore = useDeviceStore()
     try {
-      store.commit('startRequest')
+      uiStore.startRequest()
       const response = await axios.get(`${API_HOSTNAME}api/v2/devices/${model}/builds`)
 
       this.sortDeviceBuilds(response.data)
 
-      store.commit('setDeviceBuilds', {
+      deviceStore.setDeviceBuilds({
         model,
         data: response.data
       })
-      store.commit('endRequest')
+      uiStore.endRequest()
     } catch (err) {
-      store.commit('endRequest')
+      uiStore.endRequest()
       throw err
     }
   }
@@ -91,13 +99,15 @@ export default class ApiService {
   }
 
   static async loadMoreChanges(minPages = -1) {
-    const page = store.getters.changesPage + 1
+    const uiStore = useUiStore()
+    const changeStore = useChangeStore()
+    const page = changeStore.page + 1
     if (minPages !== -1 && page >= minPages) {
       return
     }
 
     try {
-      store.commit('startRequest')
+      uiStore.startRequest()
       const response = await axios.get(`${API_HOSTNAME}api/v2/changes`, {
         params: {
           page
@@ -105,10 +115,10 @@ export default class ApiService {
       })
 
       const changes = this.filterChanges(response.data)
-      store.commit('addNextChangesPage', changes)
-      store.commit('endRequest')
+      changeStore.addNextChangesPage(changes)
+      uiStore.endRequest()
     } catch (err) {
-      store.commit('endRequest')
+      uiStore.endRequest()
       throw err
     }
   }
@@ -254,17 +264,19 @@ export default class ApiService {
   }
 
   static getDeviceChanges(model) {
-    const device = store.getters.getDevice(model)
+    const deviceStore = useDeviceStore()
+    const changeStore = useChangeStore()
+    const device = deviceStore.getDevice(model)
     if (!device) {
       throw new Error('Failed to get device-main data')
     }
 
-    const builds = store.getters.getDeviceBuilds(model)
+    const builds = deviceStore.getDeviceBuilds(model)
     if (!builds) {
       throw new Error('Failed to get device-main builds-tab')
     }
 
-    const changes = this.filterDeviceChanges(device, store.getters.changes)
+    const changes = this.filterDeviceChanges(device, changeStore.items)
     const bumpedChanges = this.extractBumpedChanges(changes)
 
     const changesGroups = this.createChangesGroups(builds, device.versions)

@@ -28,17 +28,17 @@ import ChangesGroup from './ChangesGroup.vue'
 import ApiService from '../../js/ApiService'
 import { loadDeviceBuildsBeforeHook } from '@/js/loadBeforeHooks'
 import { ref, computed, onMounted, onUnmounted, watch, useTemplateRef } from 'vue'
-import { useStore } from 'vuex'
+import { useChangeStore } from '@/stores/change'
 
 const props = defineProps({
   model: String
 })
-const store = useStore()
+const store = useChangeStore()
 const scrollable = useTemplateRef('scrollable')
 const buildChanges = ref([])
 const stopLoading = ref(false)
 
-const changes = computed(() => store.getters.changes)
+const changes = computed(() => store.items)
 
 function reloadDeviceChanges() {
   if (props.model) {
