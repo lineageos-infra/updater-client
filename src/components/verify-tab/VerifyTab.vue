@@ -107,10 +107,10 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useUiStore } from '@/stores/ui'
 import CryptoService from '../../js/CryptoService'
 
-const store = useStore()
+const store = useUiStore()
 const input = ref(null)
 const verifyResult = ref('')
 const verifySignInfo = ref(null)
@@ -167,9 +167,9 @@ const verifyFileInput = (event) => {
 
 watch(isVerifying, (val) => {
   if (val) {
-    store.commit('startRequest')
+    store.startRequest()
   } else {
-    store.commit('endRequest')
+    store.endRequest()
   }
 })
 </script>

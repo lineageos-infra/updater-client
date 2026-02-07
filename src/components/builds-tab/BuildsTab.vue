@@ -51,19 +51,19 @@
 <script setup>
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
 import { ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useDeviceStore } from '@/stores/device'
 import { loadDeviceBuildsBeforeHook } from '@/js/loadBeforeHooks'
 
 const props = defineProps({
   model: String
 })
 
-const store = useStore()
+const store = useDeviceStore()
 const builds = ref([])
 const infoUrl = ref('')
 
 async function loadBuilds() {
-  const data = store.getters.getDeviceBuilds(props.model)
+  const data = store.getDeviceBuilds(props.model)
   if (!data) {
     throw new Error('Failed to get device-main builds-tab')
   }
@@ -72,7 +72,7 @@ async function loadBuilds() {
 }
 
 function loadDeviceDetails() {
-  const data = store.getters.getDevice(props.model)
+  const data = store.getDevice(props.model)
   if (!data) {
     throw new Error('Failed to get device-main data')
   }
