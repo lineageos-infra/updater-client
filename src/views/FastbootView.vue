@@ -2,28 +2,33 @@
   <div class="flex h-full w-full flex-col">
     <div class="h-full w-full grow overflow-auto">
       <div class="mx-auto max-w-189 min-w-0 px-8">
-        <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
-          <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Fastboot client</h1>
-          <div v-show="webUsbSupported" class="order-1 flex-none grow-0 self-stretch">
-            <div v-show="connected" class="mb-4 justify-center">
-              <textarea ref="log" class="resize-none" cols="80" rows="20"></textarea>
-
-              <input ref="bootImage" class="hidden" type="file" @change="bootImageExec" />
-              <input ref="flashImage" class="hidden" type="file" @change="flashImageExec" />
-
-              <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
-              <button class="btn mr-3 mb-3 px-4 py-1" @click="flashImage">Flash image</button>
-              <button class="btn mr-3 mb-3 px-4 py-1" @click="getVariable">Get variable</button>
-              <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">
-                Reboot to recovery
-              </button>
-            </div>
-            <div v-show="!connected" class="mb-4 flex justify-center">
-              <button class="btn px-4 py-1" @click="connect">Connect</button>
-            </div>
-          </div>
-          <p v-show="!webUsbSupported">Your browser does not support WebUSB!</p>
+        <div class="flex flex-col items-start gap-4 px-4 py-10 @min-[480px]:px-6">
+          <h1 class="m-0 flex-none self-stretch text-[32px] font-medium">Fastboot client</h1>
         </div>
+        <div v-show="webUsbSupported" class="order-1 flex-none grow-0 self-stretch">
+          <div v-show="connected" class="mb-4 justify-center">
+            <textarea
+              ref="log"
+              class="mb-2 w-full resize-none rounded-2xl border border-b border-solid border-black/25 bg-black p-6 font-mono md:p-4 dark:border-white/25"
+              rows="20"
+            ></textarea>
+
+            <input ref="bootImageInput" class="hidden" type="file" @change="bootImageExec" />
+            <input ref="flashImageInput" class="hidden" type="file" @change="flashImageExec" />
+            <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
+            <button class="btn mr-3 mb-3 px-4 py-1" @click="flashImage">Flash image</button>
+            <button class="btn mr-3 mb-3 px-4 py-1" @click="getVariable">Get variable</button>
+            <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">
+              Reboot to recovery
+            </button>
+          </div>
+          <div v-show="!connected" class="mb-4 flex justify-center">
+            <button class="btn px-4 py-1" @click="connect">Connect</button>
+          </div>
+        </div>
+        <p v-show="!webUsbSupported">
+          Your browser does not support WebUSB! Please use a Chromium based browser.
+        </p>
       </div>
     </div>
   </div>
@@ -42,8 +47,8 @@ const partition = ref('')
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
 const log = useTemplateRef('log')
-const bootImageInput = useTemplateRef('bootImage')
-const flashImageInput = useTemplateRef('flashImage')
+const bootImageInput = useTemplateRef('bootImageInput')
+const flashImageInput = useTemplateRef('flashImageInput')
 
 onMounted(() => {
   device.value = new fastboot.FastbootDevice()
