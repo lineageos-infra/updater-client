@@ -12,5 +12,5 @@
 <script setup lang="ts">
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
 
-defineProps<{ activeModel: string }>()
+defineProps<{ activeModel?: string }>()
 </script>

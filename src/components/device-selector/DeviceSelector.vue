@@ -27,9 +27,7 @@ import DeviceOem from './DeviceOem.vue'
 import { ref, computed, onBeforeMount, watch } from 'vue'
 import { useDeviceStore } from '@/stores/device'
 
-const props = defineProps({
-  activeModel: String
-})
+const props = defineProps<{ activeModel?: string }>()
 const store = useDeviceStore()
 const filterText = ref('')
 const oems = computed(() => store.oems)
