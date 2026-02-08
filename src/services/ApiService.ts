@@ -1,12 +1,24 @@
 import axios from 'axios'
-import { API_HOSTNAME } from './config'
-import { useDeviceStore } from '../stores/device'
-import { useChangeStore } from '../stores/change'
+import { useDeviceStore, type Build, type Device, type Oem } from '../stores/device'
+import { useChangeStore, type Change } from '../stores/change'
 import { useUiStore } from '../stores/ui'
 
+type ChangesGroupBuild = {
+  filename: string
+  datetime: number
+  version: string
+}
+
+type ChangesGroup = {
+  build: ChangesGroupBuild
+  items: Change[]
+}
+
+const API_HOSTNAME = import.meta.env.VITE_API_HOSTNAME
+
 export default class ApiService {
-  static sortOems(oems) {
-    const nameSortFn = (first, second) => {
+  static sortOems(oems: Oem[]) {
+    const nameSortFn = (first: { name: string }, second: { name: string }) => {
       return first.name.localeCompare(second.name)
     }
 
@@ -32,7 +44,7 @@ export default class ApiService {
     }
   }
 
-  static async loadDevice(model) {
+  static async loadDevice(model: string) {
     const uiStore = useUiStore()
     const deviceStore = useDeviceStore()
     try {
@@ -49,18 +61,15 @@ export default class ApiService {
     }
   }
 
-  static sortDeviceBuilds(builds, newestFirst = true) {
-    let sortFn
-    if (newestFirst) {
-      sortFn = (first, second) => second.datetime - first.datetime
-    } else {
-      sortFn = (first, second) => first.datetime - second.datetime
-    }
+  static sortDeviceBuilds(builds: Build[], newestFirst = true) {
+    const sortFn = newestFirst
+      ? (first: Build, second: Build) => second.datetime - first.datetime
+      : (first: Build, second: Build) => first.datetime - second.datetime
 
     builds.sort(sortFn)
   }
 
-  static async loadDeviceBuilds(model) {
+  static async loadDeviceBuilds(model: string) {
     const uiStore = useUiStore()
     const deviceStore = useDeviceStore()
     try {
@@ -80,11 +89,11 @@ export default class ApiService {
     }
   }
 
-  static changeSubmittedCompare(first, second) {
+  static changeSubmittedCompare(first: Change, second: Change) {
     return second.submitted - first.submitted
   }
 
-  static filterChanges(changes) {
+  static filterChanges(changes: Change[]) {
     const filteredChanges = []
 
     for (const change of changes) {
@@ -123,13 +132,13 @@ export default class ApiService {
     }
   }
 
-  static isChangeForVersions(change, versions) {
+  static isChangeForVersions(change: Change, versions: string[]) {
     for (const version of versions) {
       if (change.branch.includes(version)) {
         return true
       }
 
-      if (['20.0', '21.0'].includes(version) && change.branch.includes(version.split('.')[0])) {
+      if (['20.0', '21.0'].includes(version) && change.branch.includes(version.split('.')[0]!)) {
         return true
       }
     }
@@ -137,15 +146,15 @@ export default class ApiService {
     return versions.length === 0
   }
 
-  static isDeviceSpecificChange(change) {
+  static isDeviceSpecificChange(change: Change) {
     return change.type === 'device specific'
   }
 
-  static isAndroidRepository(change) {
+  static isAndroidRepository(change: Change) {
     return change.repository.startsWith('android_')
   }
 
-  static isChangeForDependencies(change, dependencies) {
+  static isChangeForDependencies(change: Change, dependencies: string[]) {
     if (!this.isAndroidRepository(change)) {
       return false
     }
@@ -157,7 +166,7 @@ export default class ApiService {
     return dependencies.includes(change.repository)
   }
 
-  static filterDeviceChanges(device, changes) {
+  static filterDeviceChanges(device: Device, changes: Change[]) {
     const filteredChanges = []
 
     for (const change of changes) {
@@ -175,11 +184,11 @@ export default class ApiService {
     return filteredChanges
   }
 
-  static conditionalExtract(items, fn) {
-    const extractedItems = []
+  static conditionalExtract<T>(items: T[], fn: (item: T) => boolean): T[] {
+    const extractedItems: T[] = []
 
     for (let i = items.length - 1; i >= 0; i--) {
-      const item = items[i]
+      const item = items[i]!
       if (!fn(item)) {
         continue
       }
@@ -191,9 +200,9 @@ export default class ApiService {
     return extractedItems
   }
 
-  static conditionalInsertOne(items, newItem, compareFn) {
+  static conditionalInsertOne<T>(items: T[], newItem: T, compareFn: (a: T, b: T) => number) {
     for (let i = 0; i < items.length; i++) {
-      const result = compareFn(newItem, items[i])
+      const result = compareFn(newItem, items[i]!)
       if (result <= 0) {
         items.splice(i, 0, newItem)
         return
@@ -203,25 +212,29 @@ export default class ApiService {
     items.push(newItem)
   }
 
-  static conditionalInsertMany(items, newItems, compareFn) {
+  static conditionalInsertMany<T>(items: T[], newItems: T[], compareFn: (a: T, b: T) => number) {
     for (const newChange of newItems) {
       this.conditionalInsertOne(items, newChange, compareFn)
     }
   }
 
-  static extractBumpedChanges(changes) {
+  static extractBumpedChanges(changes: Change[]) {
     return this.conditionalExtract(changes, (change) => {
       return change.updated > change.submitted
     })
   }
 
-  static extractBuildChanges(build, changes) {
+  static extractBuildChanges(build: ChangesGroupBuild, changes: Change[]) {
     return this.conditionalExtract(changes, (change) => {
       return change.submitted <= build.datetime && this.isChangeForVersions(change, [build.version])
     })
   }
 
-  static insertChangesIntoGroups(changes, changesGroups, checkIfHasAny = false) {
+  static insertChangesIntoGroups(
+    changes: Change[],
+    changesGroups: ChangesGroup[],
+    checkIfHasAny = false
+  ) {
     for (const changesGroup of changesGroups) {
       const newChanges = this.extractBuildChanges(changesGroup.build, changes)
       if (checkIfHasAny && changesGroup.items.length === 0) {
@@ -232,8 +245,8 @@ export default class ApiService {
     }
   }
 
-  static createChangesGroups(builds, versions) {
-    const buildsChanges = []
+  static createChangesGroups(builds: Build[], versions: string[]): ChangesGroup[] {
+    const buildsChanges: ChangesGroup[] = []
     builds = builds.slice()
 
     this.sortDeviceBuilds(builds, false)
@@ -241,7 +254,7 @@ export default class ApiService {
     for (const build of builds) {
       buildsChanges.push({
         build: {
-          filename: build.files[0].filename,
+          filename: build.files[0]?.filename ?? '',
           datetime: build.datetime,
           version: build.version
         },
@@ -263,7 +276,7 @@ export default class ApiService {
     return buildsChanges
   }
 
-  static getDeviceChanges(model) {
+  static getDeviceChanges(model: string) {
     const deviceStore = useDeviceStore()
     const changeStore = useChangeStore()
     const device = deviceStore.getDevice(model)

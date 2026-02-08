@@ -17,7 +17,7 @@
 
 <script setup>
 import NavBar from '../components/navbar/NavBar.vue'
-import { loadDeviceBeforeHook } from '../js/loadBeforeHooks'
+import { loadDeviceBeforeHook } from '@/hooks/loadBeforeHooks'
 import { computed, watch, ref } from 'vue'
 import { useDeviceStore } from '@/stores/device'
 
