@@ -3,20 +3,16 @@
     <div v-if="title" class="text-brand-primary text-xs font-medium tracking-widest uppercase">
       {{ title }}
     </div>
-    <template v-for="item in items" :key="item.id">
-      <DownloadableItem v-bind="item"></DownloadableItem>
-    </template>
+    <DownloadableItem v-for="item in items" :key="item.sha1" v-bind="item" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { BuildFile } from '@/stores/device'
 import DownloadableItem from './DownloadableItem.vue'
 
-defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
-  items: Array
-})
+defineProps<{
+  title?: string
+  items: BuildFile[]
+}>()
 </script>

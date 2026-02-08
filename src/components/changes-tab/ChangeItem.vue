@@ -23,14 +23,9 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  url: String,
-  subject: String,
-  project: String,
-  repository: String,
-  type: String,
-  branch: String,
-  build: Object
-})
+<script setup lang="ts">
+import type { ChangeGroupBuild } from '@/services/ApiService'
+import type { Change } from '@/stores/change'
+
+defineProps<Change & { build?: ChangeGroupBuild }>()
 </script>

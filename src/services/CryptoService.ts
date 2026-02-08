@@ -1,5 +1,21 @@
 import forge from 'node-forge'
 
+export interface SignInfo {
+  commonName: string | undefined
+  countryName: string | undefined
+  localityName: string | undefined
+  organizationalUnitName: string | undefined
+  organizationName: string | undefined
+  stateOrProvinceName: string | undefined
+  publicKeyFingerprint: string
+  serialNumber: string
+  validity: { notBefore: Date; notAfter: Date }
+}
+
+export type VerifyResult =
+  | { status: boolean; msg: string; signInfo: SignInfo }
+  | { status: false; msg: string; signInfo?: undefined }
+
 export default class CryptoService {
   static arrayBufferToString(data: ArrayBuffer): string {
     return this.u8ArrayToString(new Uint8Array(data))
@@ -9,7 +25,7 @@ export default class CryptoService {
     return String.fromCharCode.apply(null, Array.from(data))
   }
 
-  static async verifyPackage(data: Uint8Array) {
+  static async verifyPackage(data: Uint8Array): Promise<VerifyResult> {
     if (data.length < 6) {
       return {
         status: false,

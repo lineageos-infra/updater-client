@@ -35,20 +35,10 @@
   </CollapsibleItem>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { Oem } from '@/stores/device'
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DeviceItem from './DeviceItem.vue'
 
-defineProps({
-  name: String,
-  devices: Array,
-  forceExpanded: {
-    type: Boolean,
-    default: false
-  },
-  hidden: {
-    type: Boolean,
-    default: false
-  }
-})
+defineProps<Oem>()
 </script>

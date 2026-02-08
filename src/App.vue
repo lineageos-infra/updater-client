@@ -4,7 +4,7 @@
   <HorizontalLoader id="loader" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import HorizontalLoader from './components/utils/HorizontalLoader.vue'
 </script>
 

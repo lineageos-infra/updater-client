@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useUiStore } from '@/stores/ui'
 import { onMounted } from 'vue'
 const store = useUiStore()
@@ -16,6 +16,6 @@ defineProps({
 })
 
 onMounted(() => {
-  history.pushState({}, null, '/')
+  history.pushState({}, '', '/')
 })
 </script>

@@ -15,15 +15,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import NavBar from '../components/navbar/NavBar.vue'
 import { loadDeviceBeforeHook } from '@/hooks/loadBeforeHooks'
 import { computed, watch, ref } from 'vue'
 import { useDeviceStore } from '@/stores/device'
 
-const props = defineProps({
-  model: String
-})
+const props = defineProps<{
+  model: string
+}>()
 
 const store = useDeviceStore()
 
@@ -45,7 +45,7 @@ watch(() => props.model, loadDeviceDetails, { immediate: true })
 
 const tabs = computed(() => [
   {
-    to: 'home_index',
+    to: 'home_view',
     label: 'Home',
     icon: 'mdi mdi-exit-to-app'
   },

@@ -26,7 +26,7 @@
         </div>
         <DownloadableGroup
           v-for="(build, idx) in builds"
-          :key="build.id"
+          :key="build.datetime"
           :items="build.files"
           :class="{ 'rounded-2xl border border-black/25 dark:border-white/25': idx === 0 }"
         />
@@ -48,21 +48,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
 import { ref, watch } from 'vue'
-import { useDeviceStore } from '@/stores/device'
+import { useDeviceStore, type Build } from '@/stores/device'
 import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 
-const props = defineProps({
-  model: String
-})
+const props = defineProps<{
+  model: string
+}>()
 
 const store = useDeviceStore()
-const builds = ref([])
+const builds = ref([] as Build[])
 const infoUrl = ref('')
 
-async function loadBuilds() {
+function loadBuilds() {
   const data = store.getDeviceBuilds(props.model)
   if (!data) {
     throw new Error('Failed to get device-main builds-tab')

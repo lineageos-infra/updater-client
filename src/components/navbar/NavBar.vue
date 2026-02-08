@@ -38,10 +38,10 @@
 <script setup lang="ts">
 defineProps<{
   tabs: ({
-    label: String
-    target?: String
-    class?: String
-    icon?: String
+    label: string
+    target?: string
+    class?: string
+    icon?: string
   } & ({ to: string | object } | { href: string }))[]
 }>()
 </script>

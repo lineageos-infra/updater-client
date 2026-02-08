@@ -11,27 +11,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useTemplateRef } from 'vue'
-defineProps({
-  title: String,
-  value: String
-})
+const props = defineProps<{
+  title: string
+  value: string
+}>()
 
 const input = useTemplateRef('input')
 
-function compareSha256(event) {
+function compareSha256(event: PointerEvent) {
   event.preventDefault()
+  if (!input.value) return
   input.value.onchange = () => {
+    if (!input.value || !input.value.files || !input.value.files[0]) return
     const fileReader = new FileReader()
     fileReader.onload = async () => {
+      if (!fileReader.result || !(fileReader.result instanceof ArrayBuffer)) return
       const hash = await crypto.subtle.digest('SHA-256', fileReader.result)
       const hashString = [...new Uint8Array(hash)]
         .map((x) => x.toString(16).padStart(2, '0'))
         .join('')
 
-      if (this.$props.value !== hashString) {
-        alert(`SHA256: ${this.$props.value} != ${hashString}`)
+      if (props.value !== hashString) {
+        alert(`SHA256: ${props.value} != ${hashString}`)
       } else {
         alert('SHA256: OK')
       }

@@ -1,5 +1,6 @@
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import { useUiStore } from '@/stores/ui'
+import { isAxiosError } from 'axios'
 
 export const beforeTryError =
   (
@@ -14,9 +15,15 @@ export const beforeTryError =
     try {
       await fn(to, from, next)
       next()
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      store.setError(err.response?.data?.error || err.message)
+      if (isAxiosError(err)) {
+        store.setError(err.response?.data?.error || err.message)
+      } else if (err instanceof Error) {
+        store.setError(err.message)
+      } else {
+        store.setError('An unknown error occurred')
+      }
       next({
         name: 'error'
       })
