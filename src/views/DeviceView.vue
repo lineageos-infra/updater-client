@@ -68,7 +68,7 @@ const tabs = computed(() => [
     label: 'Changes'
   },
   {
-    href: infoUrl,
+    href: infoUrl.value,
     label: 'Guides & info',
     icon: 'mdi mdi-open-in-new'
   }
