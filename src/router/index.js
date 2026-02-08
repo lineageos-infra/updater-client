@@ -9,19 +9,6 @@ import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
 import VerifyTab from '../components/verify-tab/VerifyTab.vue'
 import DevicesTab from '../components/devices-tab/DevicesTab.vue'
-import MediaQueryUtils from '../js/MediaQueryUtils'
-
-const getRedirectForHomeIndex = (deviceType) => {
-  if (deviceType !== MediaQueryUtils.DESKTOP_TYPE) {
-    return {
-      name: 'home_devices'
-    }
-  } else {
-    return {
-      name: 'home_changes'
-    }
-  }
-}
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,11 +21,6 @@ const router = createRouter({
         main: HomeView
       },
       children: [
-        {
-          path: '',
-          name: 'home_index',
-          redirect: () => getRedirectForHomeIndex(MediaQueryUtils.getDeviceType())
-        },
         {
           path: 'devices',
           name: 'home_devices',
@@ -144,15 +126,3 @@ const router = createRouter({
   ]
 })
 export default router
-
-MediaQueryUtils.onDeviceTypeChange(async (deviceType) => {
-  const name = router.currentRoute.value.name
-  if (name === 'home_devices' || name === 'home_changes') {
-    const newRoute = getRedirectForHomeIndex(deviceType)
-    try {
-      await router.push(newRoute)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-})

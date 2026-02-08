@@ -13,7 +13,25 @@
 </template>
 
 <script setup>
+import { useMediaQuery } from '@vueuse/core'
+import { watch } from 'vue'
 import NavBar from '../components/navbar/NavBar.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const isMobile = useMediaQuery('(max-width: 1024px)')
+
+watch(
+  isMobile,
+  (val) => {
+    if (val) {
+      router.push('/devices')
+    } else {
+      router.push('/changes')
+    }
+  },
+  { immediate: true }
+)
 
 const tabs = [
   {
