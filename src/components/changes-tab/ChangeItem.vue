@@ -3,7 +3,7 @@
     <a class="block leading-7 break-all text-inherit no-underline" target="_blank" :href="url">
       {{ subject }}
     </a>
-    <div class="flex items-center text-xs leading-6">
+    <div class="flex flex-wrap items-center text-xs leading-6">
       <span class="bg-dark/15 mr-2 rounded-xl px-2 dark:bg-white/15">
         {{ type }}
       </span>
