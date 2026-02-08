@@ -1,18 +1,25 @@
 import forge from 'node-forge'
 
 export default class CryptoService {
-  static arrayBufferToString(data) {
+  static arrayBufferToString(data: ArrayBuffer): string {
     return this.u8ArrayToString(new Uint8Array(data))
   }
 
-  static u8ArrayToString(data) {
-    return String.fromCharCode.apply(null, data)
+  static u8ArrayToString(data: Uint8Array): string {
+    return String.fromCharCode.apply(null, Array.from(data))
   }
 
-  static async verifyPackage(data) {
+  static async verifyPackage(data: Uint8Array) {
+    if (data.length < 6) {
+      return {
+        status: false,
+        msg: 'No signature in file (too small)'
+      }
+    }
+
     const footer = data.subarray(-6)
-    const commentSize = (footer[4] & 0xff) | ((footer[5] & 0xff) << 8)
-    const signatureStart = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8)
+    const commentSize = (footer[4]! & 0xff) | ((footer[5]! & 0xff) << 8)
+    const signatureStart = (footer[0]! & 0xff) | ((footer[1]! & 0xff) << 8)
 
     if (footer[2] != 0xff || footer[3] != 0xff) {
       return {
@@ -44,7 +51,7 @@ export default class CryptoService {
     const signature = data.subarray(-signatureStart, data.byteLength - footer.length)
     const asn = forge.asn1.fromDer(this.u8ArrayToString(signature))
     const pkcs = forge.pkcs7.messageFromAsn1(asn)
-    const certificate = pkcs.certificates[0]
+    const certificate = (pkcs as forge.pkcs7.PkcsSignedData).certificates[0]!
 
     const signInfo = {
       // Subject
@@ -66,7 +73,7 @@ export default class CryptoService {
       validity: certificate.validity
     }
 
-    const message = data.subarray(0, data.byteLength - commentSize - 2)
+    const message = data.subarray(0, data.byteLength - commentSize - 2) as Uint8Array<ArrayBuffer>
     let messageDigest = undefined
 
     switch (certificate.siginfo.algorithmOid) {
@@ -84,7 +91,8 @@ export default class CryptoService {
         }
     }
 
-    if (!certificate.publicKey.verify(messageDigest, pkcs.rawCapture.signature)) {
+    const publicKey = certificate.publicKey as forge.pki.rsa.PublicKey
+    if (!publicKey.verify(messageDigest, pkcs.rawCapture.signature)) {
       return {
         status: false,
         msg: 'Signature check failed (checksum mismatch)',
