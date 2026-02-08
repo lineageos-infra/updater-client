@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
-import FastbootView from '../views/FastbootView.vue'
 import HomeView from '../views/HomeView.vue'
+import InstallerTab from '../components/installer-tab/InstallerTab.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
 import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
@@ -36,6 +36,11 @@ const router = createRouter({
           path: 'verify',
           name: 'home_verify',
           component: VerifyTab
+        },
+        {
+          path: 'installer',
+          name: 'home_installer',
+          component: InstallerTab
         }
       ]
     },
@@ -92,15 +97,6 @@ const router = createRouter({
           }
         }
       ]
-    },
-    {
-      path: '/fastboot',
-      name: 'fastboot',
-      props: true,
-      components: {
-        sidebar: SideBar,
-        main: FastbootView
-      }
     },
     {
       path: '/error',

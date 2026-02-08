@@ -46,6 +46,10 @@ const tabs = [
   {
     to: 'home_verify',
     label: 'OTA Verifier'
+  },
+  {
+    to: 'home_installer',
+    label: 'Web Installer'
   }
 ]
 </script>
