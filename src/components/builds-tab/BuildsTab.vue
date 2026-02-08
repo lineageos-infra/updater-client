@@ -52,7 +52,7 @@
 import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
 import { ref, watch } from 'vue'
 import { useDeviceStore } from '@/stores/device'
-import { loadDeviceBuildsBeforeHook } from '@/js/loadBeforeHooks'
+import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 
 const props = defineProps({
   model: String

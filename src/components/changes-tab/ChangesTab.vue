@@ -25,8 +25,8 @@
 
 <script setup>
 import ChangesGroup from './ChangesGroup.vue'
-import ApiService from '../../js/ApiService'
-import { loadDeviceBuildsBeforeHook } from '@/js/loadBeforeHooks'
+import ApiService from '@/services/ApiService'
+import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 import { ref, computed, onMounted, onUnmounted, watch, useTemplateRef } from 'vue'
 import { useChangeStore } from '@/stores/change'
 

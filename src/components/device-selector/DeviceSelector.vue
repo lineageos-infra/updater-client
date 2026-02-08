@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import ApiService from '../../js/ApiService'
+import ApiService from '@/services/ApiService'
 import DeviceOem from './DeviceOem.vue'
 import { ref, computed, onBeforeMount, watch } from 'vue'
 import { useDeviceStore } from '@/stores/device'
