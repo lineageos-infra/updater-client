@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ApiService from '@/services/ApiService'
 import DeviceOem from './DeviceOem.vue'
 import { ref, computed, onBeforeMount, watch } from 'vue'
@@ -81,7 +81,7 @@ function refreshDevices() {
   selectActiveDevice()
 }
 
-function filterDevices(text) {
+function filterDevices(text: string) {
   if (!text) {
     refreshDevices()
     return

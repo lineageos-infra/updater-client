@@ -8,7 +8,7 @@
         }"
       >
         <div>
-          {{ name || filename }}
+          {{ filename }}
         </div>
         <div class="flex items-center gap-2">
           <a :href="url" class="btn px-5 py-2">
@@ -54,24 +54,13 @@
   </CollapsibleItem>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DownloadableDetail from './DownloadableDetail.vue'
+import type { BuildFile } from '@/stores/device'
 
-const props = defineProps({
-  date: String,
-  datetime: Number,
-  filename: String,
-  filepath: String,
-  name: String,
-  os_patch_level: String,
-  sha256: String,
-  size: Number,
-  type: String,
-  url: String,
-  version: String
-})
+const props = defineProps<BuildFile>()
 
 const osPatchLevelHuman = computed(() => {
   if (typeof props.os_patch_level === 'string') {

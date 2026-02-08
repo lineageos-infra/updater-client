@@ -12,30 +12,24 @@
           </template>
         </template>
         <template v-else>
-          <ChangesGroup
-            v-bind="{
-              items: changes
-            }"
-          />
+          <ChangesGroup :items="changes" />
         </template>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ChangesGroup from './ChangesGroup.vue'
-import ApiService from '@/services/ApiService'
+import ApiService, { type ChangeGroup } from '@/services/ApiService'
 import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 import { ref, computed, onMounted, onUnmounted, watch, useTemplateRef } from 'vue'
 import { useChangeStore } from '@/stores/change'
 
-const props = defineProps({
-  model: String
-})
+const props = defineProps<{ model: string }>()
 const store = useChangeStore()
 const scrollable = useTemplateRef('scrollable')
-const buildChanges = ref([])
+const buildChanges = ref([] as ChangeGroup[])
 const stopLoading = ref(false)
 
 const changes = computed(() => store.items)
@@ -54,7 +48,7 @@ async function loadMoreChanges() {
   }
 }
 
-function isScrolledToBottom(el) {
+function isScrolledToBottom(el: HTMLDivElement | null) {
   if (!el) {
     return false
   }
@@ -62,7 +56,7 @@ function isScrolledToBottom(el) {
   return el.scrollHeight - el.scrollTop - el.clientHeight < 1
 }
 
-function checkScrolledToBottom() {
+async function checkScrolledToBottom() {
   if (!isScrolledToBottom(scrollable.value)) {
     return
   }
@@ -71,12 +65,12 @@ function checkScrolledToBottom() {
     return
   }
 
-  loadMoreChanges()
+  await loadMoreChanges()
 }
 
-onMounted(() => {
+onMounted(async () => {
   stopLoading.value = false
-  checkScrolledToBottom()
+  await checkScrolledToBottom()
 })
 
 onUnmounted(() => {
@@ -86,9 +80,9 @@ onUnmounted(() => {
 watch(() => props.model, reloadDeviceChanges, { immediate: true })
 watch(
   changes,
-  () => {
+  async () => {
     reloadDeviceChanges()
-    checkScrolledToBottom()
+    await checkScrolledToBottom()
   },
   { immediate: true }
 )

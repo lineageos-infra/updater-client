@@ -105,33 +105,42 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue'
+<script setup lang="ts">
+import { ref, watch, useTemplateRef } from 'vue'
 import { useUiStore } from '@/stores/ui'
 import CryptoService from '@/services/CryptoService'
+import type { SignInfo } from '@/services/CryptoService'
 
 const store = useUiStore()
-const input = ref(null)
+const input = useTemplateRef('input')
 const verifyResult = ref('')
-const verifySignInfo = ref(null)
+const verifySignInfo = ref<SignInfo | null>(null)
 const fileName = ref('')
 const isVerified = ref(false)
 const isVerifying = ref(false)
 
-const fileDragOver = (event) => {
-  event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
+const fileDragOver = (event: DragEvent) => {
+  if (event.currentTarget instanceof HTMLElement) {
+    event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
+  }
 }
 
-const fileDragLeave = (event) => {
-  event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+const fileDragLeave = (event: DragEvent) => {
+  if (event.currentTarget instanceof HTMLElement) {
+    event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+  }
 }
 
-const fileDropped = (event) => {
-  event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
-  verifyFile(event.dataTransfer.files[0])
+const fileDropped = (event: DragEvent) => {
+  if (event.currentTarget instanceof HTMLElement) {
+    event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+  }
+  if (event.dataTransfer?.files) {
+    verifyFile(event.dataTransfer.files[0])
+  }
 }
 
-const formatDate = (dateStr) => {
+const formatDate = (dateStr: string | Date) => {
   let tempDate = new Date(dateStr)
   const offset = tempDate.getTimezoneOffset()
   tempDate = new Date(tempDate.getTime() - offset * 60 * 1000)
@@ -144,25 +153,30 @@ const verifyClicked = () => {
   }
 }
 
-const verifyFile = (blob) => {
+const verifyFile = (blob?: File) => {
   if (!blob) {
     return
   }
   const fileReader = new FileReader()
   fileReader.onload = async () => {
+    if (!(fileReader.result instanceof ArrayBuffer)) {
+      return
+    }
     const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result))
     fileName.value = blob.name
     isVerified.value = result.status
     verifyResult.value = result.msg
-    verifySignInfo.value = result.signInfo
+    verifySignInfo.value = result.signInfo ?? null
   }
   fileReader.onloadstart = () => (isVerifying.value = true)
   fileReader.onloadend = () => (isVerifying.value = false)
   fileReader.readAsArrayBuffer(blob)
 }
 
-const verifyFileInput = (event) => {
-  verifyFile(event.currentTarget.files[0])
+const verifyFileInput = (event: Event) => {
+  if (event.currentTarget instanceof HTMLInputElement) {
+    verifyFile(event.currentTarget.files?.[0])
+  }
 }
 
 watch(isVerifying, (val) => {

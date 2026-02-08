@@ -5,14 +5,14 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useUiStore } from '@/stores/ui'
 
 const store = useUiStore()
 const showLoader = ref(false)
 const HIDE_DELAY_MS = 250
-let hideTimeoutId
+let hideTimeoutId: NodeJS.Timeout | undefined
 
 watch(
   () => store.ongoingRequests,

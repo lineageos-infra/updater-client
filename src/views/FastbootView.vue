@@ -29,15 +29,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import * as fastboot from 'android-fastboot'
 
 defineOptions({ name: 'FastbootView' })
 
 const connected = ref(false)
-const device = ref(null)
+const device = ref<fastboot.FastbootDevice | null>(null)
 const partition = ref('')
+// @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
 const log = useTemplateRef('log')
@@ -83,17 +84,17 @@ async function connect() {
   }
 }
 
-async function bootImage() {
+function bootImage() {
   bootImageInput.value?.click()
 }
 
-async function bootImageExec(event) {
-  const file = event?.currentTarget?.files?.[0]
+async function bootImageExec(event: Event) {
+  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
   if (!file) return
   await device.value?.bootBlob(file)
 }
 
-async function flashImage() {
+function flashImage() {
   const promptValue = window.prompt('Partition name (e.g. boot)', '')
   partition.value = promptValue ?? ''
 
@@ -102,8 +103,8 @@ async function flashImage() {
   }
 }
 
-async function flashImageExec(event) {
-  const file = event?.currentTarget?.files?.[0]
+async function flashImageExec(event: Event) {
+  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
   if (!file || !partition.value) return
   await device.value?.flashBlob(partition.value, 'current', file)
 }

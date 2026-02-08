@@ -12,7 +12,7 @@
   </transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 defineProps({
   speed: {
     type: String,
@@ -24,37 +24,40 @@ defineProps({
   }
 })
 
-const enter = (element) => {
-  element.style.visibility = 'hidden'
-  element.style.height = 'auto'
+const enter = (element: Element) => {
+  const el = element as HTMLElement
+  el.style.visibility = 'hidden'
+  el.style.height = 'auto'
 
-  const height = getComputedStyle(element).height
+  const height = getComputedStyle(el).height
 
-  element.style.visibility = null
-  element.style.height = '0'
+  el.style.visibility = 'visible'
+  el.style.height = '0'
 
   // Force repaint to make sure the
   // animation is triggered correctly.
-  getComputedStyle(element).height
+  void getComputedStyle(el).height
 
   requestAnimationFrame(() => {
-    element.style.height = height
+    el.style.height = height
   })
 }
 
-const afterEnter = (element) => {
-  element.style.height = 'auto'
+const afterEnter = (element: Element) => {
+  const el = element as HTMLElement
+  el.style.height = 'auto'
 }
 
-const leave = (element) => {
-  element.style.height = getComputedStyle(element).height
+const leave = (element: Element) => {
+  const el = element as HTMLElement
+  el.style.height = getComputedStyle(el).height
 
   // Force repaint to make sure the
   // animation is triggered correctly.
-  getComputedStyle(element).height
+  void getComputedStyle(el).height
 
   requestAnimationFrame(() => {
-    element.style.height = '0'
+    el.style.height = '0'
   })
 }
 </script>

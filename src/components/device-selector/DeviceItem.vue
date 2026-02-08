@@ -22,11 +22,8 @@
   </RouterLink>
 </template>
 
-<script setup>
-defineProps({
-  hidden: Boolean,
-  selected: Boolean,
-  name: String,
-  model: String
-})
+<script setup lang="ts">
+import type { OemDevice } from '@/stores/device'
+
+defineProps<OemDevice>()
 </script>

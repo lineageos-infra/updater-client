@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
 
 defineProps({

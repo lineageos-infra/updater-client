@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "type-check": "vue-tsc -b",
     "lint": "eslint . --fix",
-    "format": "prettier --write *.config.js src/"
+    "format": "prettier --write *.config.ts *.config.mjs src/"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.9",

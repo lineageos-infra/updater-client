@@ -3,14 +3,14 @@ import { useDeviceStore, type Build, type Device, type Oem } from '../stores/dev
 import { useChangeStore, type Change } from '../stores/change'
 import { useUiStore } from '../stores/ui'
 
-type ChangesGroupBuild = {
+export type ChangeGroupBuild = {
   filename: string
   datetime: number
   version: string
 }
 
-type ChangesGroup = {
-  build: ChangesGroupBuild
+export type ChangeGroup = {
+  build: ChangeGroupBuild
   items: Change[]
 }
 
@@ -224,7 +224,7 @@ export default class ApiService {
     })
   }
 
-  static extractBuildChanges(build: ChangesGroupBuild, changes: Change[]) {
+  static extractBuildChanges(build: ChangeGroupBuild, changes: Change[]) {
     return this.conditionalExtract(changes, (change) => {
       return change.submitted <= build.datetime && this.isChangeForVersions(change, [build.version])
     })
@@ -232,7 +232,7 @@ export default class ApiService {
 
   static insertChangesIntoGroups(
     changes: Change[],
-    changesGroups: ChangesGroup[],
+    changesGroups: ChangeGroup[],
     checkIfHasAny = false
   ) {
     for (const changesGroup of changesGroups) {
@@ -241,12 +241,16 @@ export default class ApiService {
         continue
       }
 
-      this.conditionalInsertMany(changesGroup.items, newChanges, this.changeSubmittedCompare)
+      this.conditionalInsertMany(
+        changesGroup.items,
+        newChanges,
+        this.changeSubmittedCompare.bind(this)
+      )
     }
   }
 
-  static createChangesGroups(builds: Build[], versions: string[]): ChangesGroup[] {
-    const buildsChanges: ChangesGroup[] = []
+  static createChangesGroups(builds: Build[], versions: string[]): ChangeGroup[] {
+    const buildsChanges: ChangeGroup[] = []
     builds = builds.slice()
 
     this.sortDeviceBuilds(builds, false)

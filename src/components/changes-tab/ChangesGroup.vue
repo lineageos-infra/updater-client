@@ -6,17 +6,17 @@
       </template>
       <template v-else> Included in {{ build.filename }} </template>
     </div>
-    <template v-for="change in items" :key="change.id">
-      <ChangeItem v-bind:="change" :build="build" />
-    </template>
+    <ChangeItem v-for="change in items" :key="change.url" v-bind:="change" :build="build" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { ChangeGroupBuild } from '@/services/ApiService'
 import ChangeItem from './ChangeItem.vue'
+import type { Change } from '@/stores/change'
 
-defineProps({
-  build: Object,
-  items: Array
-})
+defineProps<{
+  build?: ChangeGroupBuild
+  items: Change[]
+}>()
 </script>

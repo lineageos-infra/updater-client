@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core'
 import { watch } from 'vue'
 import NavBar from '../components/navbar/NavBar.vue'
@@ -23,11 +23,11 @@ const isMobile = useMediaQuery('(max-width: 1024px)')
 
 watch(
   isMobile,
-  (val) => {
+  async (val) => {
     if (val) {
-      router.push('/devices')
+      await router.push('/devices')
     } else {
-      router.push('/changes')
+      await router.push('/changes')
     }
   },
   { immediate: true }
