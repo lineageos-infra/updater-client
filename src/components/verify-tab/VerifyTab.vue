@@ -108,7 +108,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useUiStore } from '@/stores/ui'
-import CryptoService from '../../js/CryptoService'
+import CryptoService from '@/services/CryptoService'
 
 const store = useUiStore()
 const input = ref(null)
