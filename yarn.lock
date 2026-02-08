@@ -649,6 +649,11 @@
   dependencies:
     undici-types "~7.16.0"
 
+"@types/w3c-web-usb@^1.0.12":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@types/w3c-web-usb/-/w3c-web-usb-1.0.13.tgz#4792e2ef7f611d0ee260b7adbf4ed121326c04e1"
+  integrity sha512-N2nSl3Xsx8mRHZBvMSdNGtzMyeleTvtlEw+ujujgXalPqOjIA6UtrqcB6OzyUjkTbDm3J7P1RNK1lgoO7jxtsw==
+
 "@types/web-bluetooth@^0.0.21":
   version "0.0.21"
   resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.21.tgz#525433c784aed9b457aaa0ee3d92aeb71f346b63"
@@ -977,6 +982,68 @@
   version "14.2.0"
   resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-14.2.0.tgz#a03c496adf2aa1dc96cfa44ba64b51fe8a7e82c0"
   integrity sha512-Z0bmluZTlAXgUcJ4uAFaML16JcD8V0QG00Db3quR642I99JXIDRa2MI2LGxiLVhcBjVnL1jOzIvT5TT2lqJlkA==
+
+"@yume-chan/adb-credential-web@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@yume-chan/adb-credential-web/-/adb-credential-web-2.1.0.tgz#b384601a7c84f7e5d208f415d16098e22303415c"
+  integrity sha512-ps5XWt+xxm6Mi9eF80ePprPJ/uRFMhfR437betQE8hixrjdZpkZgMlqZU6GlnuebMi0djrbP8GWB49jJekJVYA==
+  dependencies:
+    "@yume-chan/adb" "^2.1.0"
+
+"@yume-chan/adb-daemon-webusb@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@yume-chan/adb-daemon-webusb/-/adb-daemon-webusb-2.3.2.tgz#32d59ab47814345e56d8861dc1e0286f5f6287b7"
+  integrity sha512-5ANaqsRJWFc5kKMnGALjYCrSXo5eC4u51dvYppvuBCLVjv12n7he2TPy5yEZ3XtlToRFS0kWCQC0XS8M60lRSA==
+  dependencies:
+    "@types/w3c-web-usb" "^1.0.12"
+    "@yume-chan/adb" "^2.3.1"
+    "@yume-chan/event" "^2.0.0"
+    "@yume-chan/stream-extra" "^2.1.0"
+    "@yume-chan/struct" "^2.3.2"
+
+"@yume-chan/adb@^2.1.0", "@yume-chan/adb@^2.3.1", "@yume-chan/adb@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@yume-chan/adb/-/adb-2.5.1.tgz#fc320432ff94201be1eac72ae06afe06ff483e19"
+  integrity sha512-Nm9ZA0cOxfINE+BlZ7whgqjtoLpaZg1xcV8e0C7YbpG/KOHnQGseGTwbfqJFR6xdqbRvvrNL4jIGGpxvn31ykw==
+  dependencies:
+    "@yume-chan/async" "^4.1.3"
+    "@yume-chan/event" "^2.0.0"
+    "@yume-chan/no-data-view" "^2.0.0"
+    "@yume-chan/stream-extra" "^2.1.0"
+    "@yume-chan/struct" "^2.3.2"
+
+"@yume-chan/async@^4.0.2", "@yume-chan/async@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@yume-chan/async/-/async-4.1.3.tgz#7f4b6d3b1bc902f7ef225a5ade39796f56ccd589"
+  integrity sha512-0vzhNJMkWUPyjKzUK4rqHEeCU6YQtF78RsB1kFRB6Y2BLupmEQNxcSb0mjKabPL9jZpCCiLa5KL8oTOJClUVaw==
+
+"@yume-chan/event@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@yume-chan/event/-/event-2.0.0.tgz#8ee6c8ec100acdbff1f78dc6398da69ad6ca1b9b"
+  integrity sha512-z56MDOcX1QlgLUCuA6th3r10negVb7A3gzY//TwSC9ZOvzuRlrAqXcxZf1T3hHfNMk/NFO9RIgQgegXYSfaqLw==
+  dependencies:
+    "@yume-chan/async" "^4.0.2"
+
+"@yume-chan/no-data-view@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@yume-chan/no-data-view/-/no-data-view-2.0.0.tgz#4498754388d18b3acb10152c10371c0f1080da95"
+  integrity sha512-0GRJrrt6wtZlbiE92jocHOnaAvjQ+Y7xwwhwOPqLkwf90Kj1JIHJ5Zh4wJVQSQIkzfRSOpM+jeEQdC2K15snlA==
+
+"@yume-chan/stream-extra@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@yume-chan/stream-extra/-/stream-extra-2.1.0.tgz#1a6f8bd3850ad800c2baf43de490f96baaf6853d"
+  integrity sha512-Sq1mDCLTIOu+TbI3VmFhcKL5hi+qZkDA3S+JezZb/AJm4ESC3hB7+LgQIQs3QEK/ZeRwMg37w4IOYHSh30R7BQ==
+  dependencies:
+    "@yume-chan/async" "^4.1.3"
+    "@yume-chan/struct" "^2.0.1"
+
+"@yume-chan/struct@^2.0.1", "@yume-chan/struct@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@yume-chan/struct/-/struct-2.3.2.tgz#09a42256441e4c8afb2a46c385ca5b87c34368a8"
+  integrity sha512-afoCnSKV+5HRK7e4innVd9YTYDyNWdjA1CVQa1j8rWYnmr7HGZfdkHMQr+AESLk6GxWFMzOIPQIG6nYOTGMFIw==
+  dependencies:
+    "@yume-chan/async" "^4.1.3"
+    "@yume-chan/no-data-view" "^2.0.0"
 
 "@zip.js/zip.js@2.2.27":
   version "2.2.27"
