@@ -9,6 +9,7 @@ import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
 import VerifyTab from '../components/verify-tab/VerifyTab.vue'
 import DevicesTab from '../components/devices-tab/DevicesTab.vue'
+import { useMediaQuery } from '@vueuse/core'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -125,4 +126,18 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach(async (to, _, next) => {
+  if (to.path === '/') {
+    const isMobile = useMediaQuery('(max-width: 1024px)')
+    if (isMobile.value) {
+      await router.push('/devices')
+    } else {
+      await router.push('/changes')
+    }
+  } else {
+    next()
+  }
+})
+
 export default router
