@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import HomeView from '../views/HomeView.vue'
-import InstallerTab from '../components/installer-tab/InstallerTab.vue'
+import FlashToolsTab from '../components/flash-tools-tab/FlashToolsTab.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
 import ChangesTab from '../components/changes-tab/ChangesTab.vue'
 import BuildsTab from '../components/builds-tab/BuildsTab.vue'
@@ -38,9 +38,9 @@ const router = createRouter({
           component: VerifyTab
         },
         {
-          path: 'installer',
-          name: 'home_installer',
-          component: InstallerTab
+          path: 'flash',
+          name: 'home_flash_tools',
+          component: FlashToolsTab
         }
       ]
     },

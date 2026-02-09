@@ -55,8 +55,8 @@ const tabs = [
     label: 'OTA Verifier'
   },
   {
-    to: 'home_installer',
-    label: 'Web Installer'
+    to: 'home_flash_tools',
+    label: 'Flash Tools'
   }
 ]
 </script>
