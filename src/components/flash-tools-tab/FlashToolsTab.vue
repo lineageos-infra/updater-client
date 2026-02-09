@@ -50,13 +50,58 @@
                 2: ADB
               </button>
             </div>
-            <textarea
-              ref="log"
-              class="w-full resize-none bg-black p-6 font-mono text-white focus:outline-none md:p-4"
-              rows="14"
-              readonly
-              :value="activeLog"
-            ></textarea>
+            <div class="relative">
+              <textarea
+                ref="log"
+                class="w-full resize-none bg-black p-6 font-mono text-white focus:outline-none md:p-4"
+                rows="14"
+                readonly
+                :value="activeLog"
+              ></textarea>
+              <div
+                v-if="activeLog.trim().length === 0"
+                class="pointer-events-none absolute inset-0 flex items-center justify-center"
+              >
+                <div class="flex items-center gap-3 text-white/70">
+                  <div class="relative inline-flex items-start gap-8">
+                    <span class="mdi mdi-usb relative z-10 text-2xl opacity-80"></span>
+                    <span class="mdi mdi-usb-port relative z-10 text-2xl opacity-80"></span>
+                    <svg
+                      class="absolute top-1/2 right-4.5 left-4.5 z-0 h-5 w-[calc(100%-36px)] -translate-y-1/2"
+                      viewBox="0 0 84 20"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M6,10 C18,2 30,2 42,10 S66,18 78,10"
+                        fill="none"
+                        stroke="rgba(255, 255, 255, 0.5)"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-dasharray="140"
+                        stroke-dashoffset="140"
+                      >
+                        <animate
+                          attributeName="stroke-dashoffset"
+                          values="140;0;140"
+                          keyTimes="0;0.5;1"
+                          dur="2.4s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="0.25;0.8;0.25"
+                          keyTimes="0;0.5;1"
+                          dur="2.4s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                    </svg>
+                  </div>
+                  <span class="text-xs tracking-wide uppercase">Waiting for USB</span>
+                </div>
+              </div>
+            </div>
           </div>
           <FastbootClient
             v-show="activeTab === 'fastboot'"
