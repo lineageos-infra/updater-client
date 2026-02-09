@@ -1,39 +1,33 @@
 <template>
-  <div v-show="manager" class="order-1 flex-none grow-0 self-stretch">
-    <div v-show="connected" class="mb-4 justify-center">
-      <textarea
-        ref="log"
-        class="mb-2 w-full resize-none rounded-2xl border border-b border-solid border-black/25 bg-black p-6 font-mono text-white md:p-4 dark:border-white/25"
-        rows="16"
-        readonly
-      ></textarea>
-      <div class="mt-2 flex items-center gap-3">
-        <label class="btn cursor-pointer px-4 py-1">
-          Choose ZIP
-          <input
-            ref="fileInput"
-            type="file"
-            accept=".zip,application/zip"
-            class="hidden"
-            @change="onFileSelected"
-          />
-        </label>
-        <span v-if="selectedFile" class="truncate text-sm">{{ selectedFile.name }}</span>
-      </div>
+  <div class="order-1 flex-none grow-0 self-stretch">
+    <div v-if="manager">
+      <div v-show="connected" class="mb-4 justify-center">
+        <div class="mt-2 flex items-center gap-3">
+          <label class="btn cursor-pointer px-4 py-1">
+            Choose ZIP
+            <input
+              ref="fileInput"
+              type="file"
+              accept=".zip,application/zip"
+              class="hidden"
+              @change="onFileSelected"
+            />
+          </label>
+          <span v-if="selectedFile" class="truncate text-sm">{{ selectedFile.name }}</span>
+        </div>
 
-      <div v-if="selectedFile" class="mt-3">
-        <button class="btn px-4 py-1" :disabled="sideloading" @click="startSideload">
-          {{ sideloading ? 'Sideloading…' : 'Sideload' }}
-        </button>
+        <div v-if="selectedFile" class="mt-3">
+          <button class="btn px-4 py-1" :disabled="sideloading" @click="startSideload">
+            {{ sideloading ? 'Sideloading…' : 'Sideload' }}
+          </button>
+        </div>
+      </div>
+      <div v-show="!connected" class="mb-4 flex justify-center">
+        <button class="btn px-4 py-1" @click="connect">Connect</button>
       </div>
     </div>
-    <div v-show="!connected" class="mb-4 flex justify-center">
-      <button class="btn px-4 py-1" @click="connect">Connect</button>
-    </div>
+    <p v-else>Your browser does not support WebUSB! Please use a Chromium based browser.</p>
   </div>
-  <p v-show="!manager">
-    Your browser does not support WebUSB! Please use a Chromium based browser.
-  </p>
 </template>
 
 <script setup lang="ts">
@@ -56,27 +50,11 @@ onMounted(() => {
   manager.value = AdbDaemonWebUsbDeviceManager.BROWSER
 })
 
-const log = useTemplateRef('log')
 const fileInput = useTemplateRef('fileInput')
-
-function appendLog(message: string) {
-  if (log.value) {
-    log.value.value += message + '\n'
-    log.value.scrollTop = log.value.scrollHeight
-  }
-}
-
-function updateLastLog(message: string) {
-  if (log.value) {
-    const lines = log.value.value.split('\n')
-    // Remove trailing empty line from the split, replace the last real line
-    if (lines.length >= 2) {
-      lines[lines.length - 2] = message
-    }
-    log.value.value = lines.join('\n')
-    log.value.scrollTop = log.value.scrollHeight
-  }
-}
+const props = defineProps<{
+  appendLog: (message: string) => void
+  updateLastLog: (message: string) => void
+}>()
 
 onUnmounted(async () => {
   if (adb.value) {
@@ -102,9 +80,9 @@ async function connect() {
     adb.value = new Adb(transport)
 
     connected.value = true
-    appendLog(`Connected to ${device.value.name} (${device.value.serial})`)
+    props.appendLog(`Connected to ${device.value.name} (${device.value.serial})`)
   } catch (err) {
-    appendLog(`Connection failed: ${err as string}`)
+    props.appendLog(`Connection failed: ${err as string}`)
     console.error(err)
   }
 }
@@ -120,14 +98,14 @@ async function startSideload() {
   sideloading.value = true
 
   try {
-    appendLog(`serving: '${selectedFile.value.name}'  (~0%)`)
+    props.appendLog(`serving: '${selectedFile.value.name}'  (~0%)`)
     await adbSideload(adb.value, selectedFile.value, (pct) => {
-      updateLastLog(`serving: '${selectedFile.value!.name}'  (~${Math.round(pct)}%)`)
+      props.updateLastLog(`serving: '${selectedFile.value!.name}'  (~${Math.round(pct)}%)`)
     })
-    updateLastLog(`serving: '${selectedFile.value.name}'  (~100%)`)
-    appendLog('Sideload complete!')
+    props.updateLastLog(`serving: '${selectedFile.value.name}'  (~100%)`)
+    props.appendLog('Sideload complete!')
   } catch (err) {
-    appendLog(`Sideload failed: ${err as string}`)
+    props.appendLog(`Sideload failed: ${err as string}`)
     console.error(err)
   } finally {
     sideloading.value = false

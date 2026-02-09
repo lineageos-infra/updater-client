@@ -1,42 +1,37 @@
 <template>
-  <div v-show="webUsbSupported" class="order-1 flex-none grow-0 self-stretch">
-    <div v-show="connected" class="mb-4 justify-center">
-      <textarea
-        ref="log"
-        class="mb-2 w-full resize-none rounded-2xl border border-b border-solid border-black/25 bg-black p-6 font-mono md:p-4 dark:border-white/25"
-        rows="16"
-        readonly
-      ></textarea>
+  <div class="order-1 flex-none grow-0 self-stretch">
+    <div v-if="webUsbSupported">
+      <div v-show="connected" class="mb-4 justify-center">
+        <div
+          v-show="inputMode !== 'none'"
+          class="mb-4 flex items-center rounded-2xl border border-solid border-black/25 bg-black px-6 md:px-4 dark:border-white/25"
+        >
+          <span class="font-mono text-white select-none">$</span>
+          <input
+            ref="inputRef"
+            v-model="inputValue"
+            class="w-full bg-transparent p-2 font-mono outline-none"
+            type="text"
+            :placeholder="inputPlaceholder"
+            @keyup.enter="submitInput"
+          />
+        </div>
 
-      <div
-        v-show="inputMode !== 'none'"
-        class="mb-4 flex items-center rounded-2xl border border-solid border-black/25 bg-black px-6 md:px-4 dark:border-white/25"
-      >
-        <span class="font-mono text-white select-none">$</span>
-        <input
-          ref="inputRef"
-          v-model="inputValue"
-          class="w-full bg-transparent p-2 font-mono outline-none"
-          type="text"
-          :placeholder="inputPlaceholder"
-          @keyup.enter="submitInput"
-        />
+        <input ref="bootImageInput" class="hidden" type="file" @change="bootImageExec" />
+        <input ref="flashImageInput" class="hidden" type="file" @change="flashImageExec" />
+        <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
+        <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
+        <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
+        <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">
+          Reboot to recovery
+        </button>
       </div>
-
-      <input ref="bootImageInput" class="hidden" type="file" @change="bootImageExec" />
-      <input ref="flashImageInput" class="hidden" type="file" @change="flashImageExec" />
-      <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
-      <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
-      <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
-      <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">Reboot to recovery</button>
+      <div v-show="!connected" class="mb-4 flex justify-center">
+        <button class="btn px-4 py-1" @click="connect">Connect</button>
+      </div>
     </div>
-    <div v-show="!connected" class="mb-4 flex justify-center">
-      <button class="btn px-4 py-1" @click="connect">Connect</button>
-    </div>
+    <p v-else>Your browser does not support WebUSB! Please use a Chromium based browser.</p>
   </div>
-  <p v-show="!webUsbSupported">
-    Your browser does not support WebUSB! Please use a Chromium based browser.
-  </p>
 </template>
 
 <script setup lang="ts">
@@ -59,10 +54,13 @@ const inputPlaceholder = computed(() => {
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
-const log = useTemplateRef('log')
 const bootImageInput = useTemplateRef('bootImageInput')
 const flashImageInput = useTemplateRef('flashImageInput')
 const inputRef = useTemplateRef('inputRef')
+const props = defineProps<{
+  appendLog: (message: string) => void
+  clearLog: () => void
+}>()
 
 onMounted(() => {
   device.value = new fastboot.FastbootDevice()
@@ -71,13 +69,7 @@ onMounted(() => {
   fastboot.setDebugLogger((...data) => {
     console.log(...data)
 
-    if (!log.value) return
-
-    if (log.value.value.length > 0) {
-      log.value.value += '\n'
-    }
-    log.value.value += [...data].join(' ')
-    log.value.scrollTop = log.value.scrollHeight
+    props.appendLog([...data].join(' '))
   })
 })
 
@@ -91,9 +83,7 @@ async function connect() {
   try {
     await device.value?.connect()
 
-    if (log.value) {
-      log.value.value = ''
-    }
+    props.clearLog()
     connected.value = true
 
     await device.value?.getVariable('product')
