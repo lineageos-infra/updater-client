@@ -3,7 +3,7 @@
     <div class="h-full w-full grow overflow-auto">
       <div class="mx-auto max-w-189 min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
-          <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Web Installer</h1>
+          <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Flash Tools</h1>
           <div class="order-1 flex-none grow-0 self-stretch">
             <p>
               You can use your browser to flash and reboot to recovery with the Fastboot tab and
