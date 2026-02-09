@@ -1,32 +1,29 @@
 <template>
   <div class="order-1 flex-none grow-0 self-stretch">
-    <div v-if="manager">
-      <div v-show="connected" class="mb-4 justify-center">
-        <div class="mt-2 flex items-center gap-3">
-          <label class="btn cursor-pointer px-4 py-1">
-            Choose ZIP
-            <input
-              ref="fileInput"
-              type="file"
-              accept=".zip,application/zip"
-              class="hidden"
-              @change="onFileSelected"
-            />
-          </label>
-          <span v-if="selectedFile" class="truncate text-sm">{{ selectedFile.name }}</span>
-        </div>
-
-        <div v-if="selectedFile" class="mt-3">
-          <button class="btn px-4 py-1" :disabled="sideloading" @click="startSideload">
-            {{ sideloading ? 'Sideloading…' : 'Sideload' }}
-          </button>
-        </div>
+    <div v-show="connected" class="mb-4 justify-center">
+      <div class="mt-2 flex items-center gap-3">
+        <label class="btn cursor-pointer px-4 py-1">
+          Choose ZIP
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".zip,application/zip"
+            class="hidden"
+            @change="onFileSelected"
+          />
+        </label>
+        <span v-if="selectedFile" class="truncate text-sm">{{ selectedFile.name }}</span>
       </div>
-      <div v-show="!connected" class="mb-4 flex justify-center">
-        <button class="btn px-4 py-1" @click="connect">Connect</button>
+
+      <div v-if="selectedFile" class="mt-3">
+        <button class="btn px-4 py-1" :disabled="sideloading" @click="startSideload">
+          {{ sideloading ? 'Sideloading…' : 'Sideload' }}
+        </button>
       </div>
     </div>
-    <p v-else>Your browser does not support WebUSB! Please use a Chromium based browser.</p>
+    <div v-show="!connected" class="mb-4 flex justify-center">
+      <button class="btn px-4 py-1" @click="connect">Connect</button>
+    </div>
   </div>
 </template>
 
