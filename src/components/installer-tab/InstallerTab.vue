@@ -22,49 +22,58 @@
             </p>
           </div>
         </div>
-        <div class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/25 bg-black">
-          <div class="flex items-center gap-2 border-b border-white/10 px-3 pt-2">
-            <button
-              class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
-              :class="
-                activeTab === 'fastboot'
-                  ? 'bg-brand-primary/70 text-white'
-                  : 'text-white/70 hover:bg-white/10'
-              "
-              @click="activeTab = 'fastboot'"
-            >
-              1: Fastboot
-            </button>
-            <button
-              class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
-              :class="
-                activeTab === 'adb'
-                  ? 'bg-brand-primary/70 text-white'
-                  : 'text-white/70 hover:bg-white/10'
-              "
-              @click="activeTab = 'adb'"
-            >
-              2: ADB
-            </button>
+        <template v-if="webUsbSupported">
+          <div
+            class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/25 bg-black"
+          >
+            <div class="flex items-center gap-2 border-b border-white/10 px-3 pt-2">
+              <button
+                class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                :class="
+                  activeTab === 'fastboot'
+                    ? 'bg-brand-primary/70 text-white'
+                    : 'text-white/70 hover:bg-white/10'
+                "
+                @click="activeTab = 'fastboot'"
+              >
+                1: Fastboot
+              </button>
+              <button
+                class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                :class="
+                  activeTab === 'adb'
+                    ? 'bg-brand-primary/70 text-white'
+                    : 'text-white/70 hover:bg-white/10'
+                "
+                @click="activeTab = 'adb'"
+              >
+                2: ADB
+              </button>
+            </div>
+            <textarea
+              ref="log"
+              class="w-full resize-none bg-black p-6 font-mono text-white focus:outline-none md:p-4"
+              rows="14"
+              readonly
+              :value="activeLog"
+            ></textarea>
           </div>
-          <textarea
-            ref="log"
-            class="w-full resize-none bg-black p-6 font-mono text-white focus:outline-none md:p-4"
-            rows="14"
-            readonly
-            :value="activeLog"
-          ></textarea>
+          <FastbootClient
+            v-show="activeTab === 'fastboot'"
+            :append-log="(message) => appendLog('fastboot', message)"
+            :clear-log="() => clearLog('fastboot')"
+          />
+          <AdbClient
+            v-show="activeTab === 'adb'"
+            :append-log="(message) => appendLog('adb', message)"
+            :update-last-log="(message) => updateLastLog('adb', message)"
+          />
+        </template>
+        <div v-else class="flex flex-col items-start gap-4 px-6 sm:px-4">
+          <p class="text-lg bg-[#f8d7da] font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]">
+            Your browser does not support WebUSB! Please use a Chromium based browser.
+          </p>
         </div>
-        <FastbootClient
-          v-show="activeTab === 'fastboot'"
-          :append-log="(message) => appendLog('fastboot', message)"
-          :clear-log="() => clearLog('fastboot')"
-        />
-        <AdbClient
-          v-show="activeTab === 'adb'"
-          :append-log="(message) => appendLog('adb', message)"
-          :update-last-log="(message) => updateLastLog('adb', message)"
-        />
       </div>
     </div>
   </div>
@@ -74,6 +83,9 @@
 import { computed, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
+
+// @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
+const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
 const activeTab = ref<'fastboot' | 'adb'>('fastboot')
 const logs = reactive({ fastboot: '', adb: '' })
