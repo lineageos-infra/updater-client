@@ -1008,9 +1008,9 @@ alien-signals@^3.0.0:
   resolved "https://registry.yarnpkg.com/alien-signals/-/alien-signals-3.1.2.tgz#26e623e3ed81e401df1a7c503f726e2288a4fa02"
   integrity sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw==
 
-"android-fastboot@git+https://gitlab.com/luk1337/fastboot.js#b26c4af1f8e48af1c9b2c31656697a07575a7019":
+"android-fastboot@git+https://gitlab.com/luk1337/fastboot.js#69ca1ad92fcd6b08c371463571ef52d92059ba47":
   version "1.1.3"
-  resolved "git+https://gitlab.com/luk1337/fastboot.js#b26c4af1f8e48af1c9b2c31656697a07575a7019"
+  resolved "git+https://gitlab.com/luk1337/fastboot.js#69ca1ad92fcd6b08c371463571ef52d92059ba47"
   dependencies:
     "@zip.js/zip.js" "2.2.27"
 
