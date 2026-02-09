@@ -27,7 +27,7 @@
             class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/15 bg-gray-200 shadow-sm dark:border-white/10 dark:bg-black"
           >
             <div
-              class="dark:bg-brand-dark flex items-center gap-2 border-b border-black/10 bg-white px-3 pt-2 dark:border-white/10"
+              class="dark:bg-brand-dark flex items-center gap-2 border-b border-black/10 bg-white px-2 pt-2 dark:border-white/10"
             >
               <button
                 class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
