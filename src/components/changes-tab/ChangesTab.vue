@@ -26,7 +26,7 @@ import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 import { ref, computed, onMounted, onUnmounted, watch, useTemplateRef } from 'vue'
 import { useChangeStore } from '@/stores/change'
 
-const props = defineProps<{ model: string }>()
+const props = defineProps<{ model?: string }>()
 const store = useChangeStore()
 const scrollable = useTemplateRef('scrollable')
 const buildChanges = ref([] as ChangeGroup[])
