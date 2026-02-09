@@ -24,6 +24,13 @@ const isMobile = useMediaQuery('(max-width: 1024px)')
 watch(
   isMobile,
   async (val) => {
+    // Prevent switching on page refresh
+    if (
+      router.currentRoute.value.path !== '/' &&
+      router.currentRoute.value.path !== '/devices' &&
+      router.currentRoute.value.path !== '/changes'
+    )
+      return
     if (val) {
       await router.push('/devices')
     } else {
