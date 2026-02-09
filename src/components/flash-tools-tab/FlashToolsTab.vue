@@ -24,26 +24,28 @@
         </div>
         <template v-if="webUsbSupported">
           <div
-            class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/25 bg-black"
+            class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/15 bg-gray-200 shadow-sm dark:border-white/10 dark:bg-black"
           >
-            <div class="flex items-center gap-2 border-b border-white/10 px-3 pt-2">
+            <div
+              class="dark:bg-brand-dark flex items-center gap-2 border-b border-black/10 bg-white px-3 pt-2 dark:border-white/10"
+            >
               <button
-                class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
                 :class="
                   activeTab === 'fastboot'
-                    ? 'bg-brand-primary/70 text-white'
-                    : 'text-white/70 hover:bg-white/10'
+                    ? 'bg-brand-primary text-white'
+                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
                 "
                 @click="activeTab = 'fastboot'"
               >
                 1: Fastboot
               </button>
               <button
-                class="rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
                 :class="
                   activeTab === 'adb'
-                    ? 'bg-brand-primary/70 text-white'
-                    : 'text-white/70 hover:bg-white/10'
+                    ? 'bg-brand-primary text-white'
+                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
                 "
                 @click="activeTab = 'adb'"
               >
@@ -53,7 +55,7 @@
             <div class="relative">
               <textarea
                 ref="log"
-                class="w-full resize-none bg-black p-6 font-mono text-white focus:outline-none md:p-4"
+                class="w-full resize-none bg-gray-200 p-6 font-mono focus:outline-none md:p-4 dark:bg-black dark:text-white"
                 rows="14"
                 readonly
                 :value="activeLog"
@@ -62,12 +64,12 @@
                 v-if="activeLog.trim().length === 0"
                 class="pointer-events-none absolute inset-0 flex items-center justify-center"
               >
-                <div class="flex items-center gap-3 text-white/70">
+                <div class="flex items-center gap-3 text-black/60 dark:text-white/70">
                   <div class="relative inline-flex items-start gap-8">
                     <span class="mdi mdi-usb relative z-10 text-2xl opacity-80"></span>
                     <span class="mdi mdi-usb-port relative z-10 text-2xl opacity-80"></span>
                     <svg
-                      class="absolute top-1/2 right-4.5 left-4.5 z-0 h-5 w-[calc(100%-36px)] -translate-y-1/2"
+                      class="absolute top-1/2 right-4.5 left-4.5 z-0 h-5 w-[calc(100%-36px)] -translate-y-1/2 text-black/25 dark:text-white/50"
                       viewBox="0 0 84 20"
                       aria-hidden="true"
                       focusable="false"
@@ -75,7 +77,7 @@
                       <path
                         d="M6,10 C18,2 30,2 42,10 S66,18 78,10"
                         fill="none"
-                        stroke="rgba(255, 255, 255, 0.5)"
+                        stroke="currentColor"
                         stroke-width="2.2"
                         stroke-linecap="round"
                         stroke-dasharray="140"
