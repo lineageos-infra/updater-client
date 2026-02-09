@@ -70,7 +70,7 @@
           />
         </template>
         <div v-else class="flex flex-col items-start gap-4 px-6 sm:px-4">
-          <p class="text-lg bg-[#f8d7da] font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]">
+          <p class="bg-[#f8d7da] text-lg font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]">
             Your browser does not support WebUSB! Please use a Chromium based browser.
           </p>
         </div>

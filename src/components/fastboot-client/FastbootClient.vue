@@ -5,7 +5,7 @@
         v-show="inputMode !== 'none'"
         class="mb-4 flex items-center rounded-2xl border border-solid border-black/25 bg-black px-6 md:px-4 dark:border-white/25"
       >
-        <span class="font-mono text-white select-none">$</span>
+        <span class="font-mono select-none">$</span>
         <input
           ref="inputRef"
           v-model="inputValue"
@@ -23,8 +23,9 @@
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">Reboot to recovery</button>
     </div>
-    <div v-show="!connected" class="mb-4 flex justify-center">
-      <button class="btn px-4 py-1" @click="connect">Connect</button>
+    <div v-show="!connected" class="mb-4 w-full text-center">
+      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <div class="mt-3 flex justify-center text-sm">Reboot to fastboot before connecting.</div>
     </div>
   </div>
 </template>

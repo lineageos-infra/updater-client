@@ -1,8 +1,8 @@
 <template>
   <div class="order-1 flex-none grow-0 self-stretch">
-    <div v-show="connected" class="mb-4 justify-center">
-      <div class="mt-2 flex items-center gap-3">
-        <label class="btn cursor-pointer px-4 py-1">
+    <div v-show="connected" class="rounded-2xl border border-black/25 p-4 dark:border-white/25">
+      <div class="flex flex-wrap items-center gap-3">
+        <label class="btn btn-outline px-4 py-1.5">
           Choose ZIP
           <input
             ref="fileInput"
@@ -12,17 +12,28 @@
             @change="onFileSelected"
           />
         </label>
-        <span v-if="selectedFile" class="truncate text-sm">{{ selectedFile.name }}</span>
-      </div>
-
-      <div v-if="selectedFile" class="mt-3">
-        <button class="btn px-4 py-1" :disabled="sideloading" @click="startSideload">
+        <div class="min-w-0 flex-1">
+          <div v-if="selectedFile" class="truncate text-sm font-medium">
+            {{ selectedFile.name }}
+          </div>
+          <div v-else class="text-base-content/60 text-xs">No ZIP selected</div>
+        </div>
+        <button
+          class="btn btn-primary px-4 py-1.5"
+          :disabled="sideloading || !selectedFile"
+          @click="startSideload"
+        >
           {{ sideloading ? 'Sideloading…' : 'Sideload' }}
         </button>
       </div>
     </div>
-    <div v-show="!connected" class="mb-4 flex justify-center">
-      <button class="btn px-4 py-1" @click="connect">Connect</button>
+    <div v-show="!connected" class="mb-4 w-full text-center">
+      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <div class="mt-3 flex flex-wrap justify-center text-sm">
+        Reboot to recovery and select
+        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
+        before connecting.
+      </div>
     </div>
   </div>
 </template>
