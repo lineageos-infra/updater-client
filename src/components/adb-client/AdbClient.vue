@@ -170,8 +170,10 @@ async function adbSideload(
     }
   } catch (err) {
     await socket.close()
+    connected.value = false
     throw err
   }
   await socket.close()
+  connected.value = false
 }
 </script>
