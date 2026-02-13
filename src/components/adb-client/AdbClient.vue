@@ -90,6 +90,13 @@ async function connect() {
     connected.value = true
     props.appendLog(`Connected to ${device.value.name} (${device.value.serial})`)
   } catch (err) {
+    if (
+      err instanceof Error &&
+      err.message === 'The device is already in used by another program'
+    ) {
+      err.message += ' (try adb kill-server)'
+    }
+
     props.appendLog(`Connection failed: ${err as string}`)
     console.error(err)
   }
