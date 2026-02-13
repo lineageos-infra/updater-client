@@ -108,7 +108,7 @@ async function startSideload() {
   try {
     props.appendLog(`serving: '${selectedFile.value.name}'  (~0%)`)
     await adbSideload(adb.value, selectedFile.value, (pct) => {
-      props.updateLastLog(`serving: '${selectedFile.value!.name}'  (~${Math.round(pct)}%)`)
+      props.updateLastLog(`serving: '${selectedFile.value!.name}'  (~${pct.toFixed(2)}%)`)
     })
     props.updateLastLog(`serving: '${selectedFile.value.name}'  (~100%)`)
     props.appendLog('Sideload complete!')
@@ -166,7 +166,7 @@ async function adbSideload(
 
       transmittedBytes += chunk.size
 
-      onProgress((transmittedBytes / data.size) * 100 * 0.99)
+      onProgress(transmittedBytes / data.size)
     }
   } catch (err) {
     await socket.close()
