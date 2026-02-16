@@ -2,6 +2,8 @@
 @import '@fontsource/roboto/500.css';
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-dark: #121212;
   --color-brand-light: #cce8e9;
@@ -12,19 +14,13 @@
 }
 
 @layer base {
-  @media (prefers-color-scheme: dark) {
-    :root {
-      color-scheme: dark;
-    }
-  }
-
   html,
   body {
-    @apply m-0 h-full w-full p-0;
+    @apply dark:bg-dark m-0 h-full w-full p-0 text-black/85 dark:text-white/85;
   }
 
   #app {
-    @apply dark:bg-dark flex h-full w-full text-black/85 dark:text-white/85;
+    @apply flex h-full w-full;
   }
 
   table {
