@@ -1,3 +1,5 @@
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
 @import 'tailwindcss';
 
 @theme {
@@ -5,6 +7,8 @@
   --color-brand-light: #cce8e9;
   --color-brand-dark: #324b4c;
   --color-brand-primary: #167c80;
+
+  --font-sans: 'Roboto', sans-serif;
 }
 
 @layer base {
@@ -20,7 +24,7 @@
   }
 
   #app {
-    @apply dark:bg-dark text-black/85 dark:text-white/85;
+    @apply dark:bg-dark flex h-full w-full text-black/85 dark:text-white/85;
   }
 
   table {
