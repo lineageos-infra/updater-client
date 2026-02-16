@@ -3,7 +3,7 @@
     <NavBar :tabs="tabs">
       <template v-slot:left>
         <span>{{ oem }}</span>
-        <span class="mdi mdi-chevron-right arrow mx-2 h-6"></span>
+        <MdiIcon :path="mdiChevronRight" :size="18" class="mx-2 h-full" />
         <span>{{ name }}</span>
         <span class="mx-2 text-base opacity-50">{{ model }}</span>
       </template>
@@ -20,6 +20,8 @@ import NavBar from '../components/navbar/NavBar.vue'
 import { loadDeviceBeforeHook } from '@/hooks/loadBeforeHooks'
 import { computed, watch, ref } from 'vue'
 import { useDeviceStore } from '@/stores/device'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiChevronRight, mdiExitToApp, mdiOpenInNew } from '@mdi/js'
 
 const props = defineProps<{
   model: string
@@ -47,7 +49,7 @@ const tabs = computed(() => [
   {
     to: 'home_view',
     label: 'Home',
-    icon: 'mdi mdi-exit-to-app'
+    icon: mdiExitToApp
   },
   {
     to: {
@@ -70,7 +72,7 @@ const tabs = computed(() => [
   {
     href: infoUrl.value,
     label: 'Guides & info',
-    icon: 'mdi mdi-open-in-new'
+    icon: mdiOpenInNew
   }
 ])
 
