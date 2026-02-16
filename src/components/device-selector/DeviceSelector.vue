@@ -9,11 +9,12 @@
         type="text"
         placeholder="Search..."
       />
-      <span
+      <MdiIcon
         v-if="filterText"
-        class="mdi mdi-close clear absolute top-4 right-4 block h-8 w-8 cursor-pointer text-2xl leading-8 opacity-35"
+        :path="mdiClose"
+        class="absolute top-5 right-4 block cursor-pointer text-2xl leading-8 opacity-35"
         @click="clearFilterText"
-      ></span>
+      />
     </div>
     <div class="h-full grow overflow-auto">
       <DeviceOem v-for="oem in oems" v-bind="oem" :key="oem.name" />
@@ -26,6 +27,8 @@ import ApiService from '@/services/ApiService'
 import DeviceOem from './DeviceOem.vue'
 import { ref, computed, onBeforeMount, watch } from 'vue'
 import { useDeviceStore } from '@/stores/device'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiClose } from '@mdi/js'
 
 const props = defineProps<{ activeModel?: string }>()
 const store = useDeviceStore()

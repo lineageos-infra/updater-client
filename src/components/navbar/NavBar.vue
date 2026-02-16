@@ -17,8 +17,10 @@
           active-class="border-b-4 border-b-brand-primary"
           :to="typeof tab.to === 'string' ? { name: tab.to } : tab.to"
         >
-          {{ tab.label }}
-          <span v-if="tab?.icon" :class="tab?.icon"></span>
+          <span class="inline-flex items-center gap-1">
+            {{ tab.label }}
+            <MdiIcon v-if="tab?.icon" :path="tab?.icon" :size="14" />
+          </span>
         </RouterLink>
         <a
           v-else
@@ -27,8 +29,10 @@
           :href="tab.href"
           target="_blank"
         >
-          {{ tab.label }}
-          <span v-if="tab?.icon" :class="tab?.icon"></span>
+          <span class="inline-flex items-center gap-1">
+            {{ tab.label }}
+            <MdiIcon v-if="tab?.icon" :path="tab?.icon" :size="14" />
+          </span>
         </a>
       </template>
     </div>
@@ -36,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+
 defineProps<{
   tabs: ({
     label: string
