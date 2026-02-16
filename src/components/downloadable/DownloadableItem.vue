@@ -27,11 +27,11 @@
               />
             </svg>
           </a>
-          <span
-            class="mdi transition-[background 0.125s ease-out] hover:bg-dark/15 block size-9 shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
-            :class="{ 'mdi-information': isExpanded, 'mdi-information-outline': !isExpanded }"
+          <MdiIcon
+            :path="isExpanded ? mdiInformation : mdiInformationOutline"
+            class="transition-[background 0.125s ease-out] hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
             @click="toggleManualExpansion"
-          ></span>
+          />
         </div>
       </div>
     </template>
@@ -59,6 +59,8 @@ import { computed } from 'vue'
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DownloadableDetail from './DownloadableDetail.vue'
 import type { BuildFile } from '@/stores/device'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiInformation, mdiInformationOutline } from '@mdi/js'
 
 const props = defineProps<BuildFile>()
 

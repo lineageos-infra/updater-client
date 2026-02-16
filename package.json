@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.9",
-    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "@vueuse/core": "^14.2.0",
     "@yume-chan/adb": "^2.5.1",
     "@yume-chan/adb-credential-web": "^2.1.0",

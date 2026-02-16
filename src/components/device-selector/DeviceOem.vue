@@ -15,12 +15,11 @@
         <span>
           {{ name }}
         </span>
-        <span
-          v-if="!forceExpanded"
-          class="mdi mdi-chevron-down text-2xl opacity-35 transition-transform duration-125 ease-out"
+        <MdiIcon
+          :path="mdiChevronDown"
+          class="text-2xl opacity-35 transition-transform duration-125 ease-out"
           :class="isExpanded && '-rotate-180'"
-        >
-        </span>
+        />
       </div>
     </template>
     <template v-slot:content>
@@ -39,6 +38,8 @@
 import type { Oem } from '@/stores/device'
 import CollapsibleItem from '../utils/CollapsibleItem.vue'
 import DeviceItem from './DeviceItem.vue'
+import { mdiChevronDown } from '@mdi/js'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 
 defineProps<Oem>()
 </script>

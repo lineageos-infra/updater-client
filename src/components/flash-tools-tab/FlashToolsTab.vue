@@ -66,8 +66,8 @@
               >
                 <div class="flex items-center gap-3 text-black/60 dark:text-white/70">
                   <div class="relative inline-flex items-start gap-8">
-                    <span class="mdi mdi-usb relative z-10 text-2xl opacity-80"></span>
-                    <span class="mdi mdi-usb-port relative z-10 text-2xl opacity-80"></span>
+                    <MdiIcon :path="mdiUsb" class="relative z-10 text-2xl opacity-80" />
+                    <MdiIcon :path="mdiUsbPort" class="relative z-10 text-2xl opacity-80" />
                     <svg
                       class="absolute top-1/2 right-4.5 left-4.5 z-0 h-5 w-[calc(100%-36px)] -translate-y-1/2 text-black/25 dark:text-white/50"
                       viewBox="0 0 84 20"
@@ -130,6 +130,8 @@
 import { computed, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiUsb, mdiUsbPort } from '@mdi/js'
 
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
