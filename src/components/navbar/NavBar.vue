@@ -1,10 +1,16 @@
 <template>
   <div class="shadow-[0 1px 3px rgba(0, 0, 0, 0.24)] relative w-full shrink-0 text-lg">
     <div class="top flex justify-between leading-6">
-      <div class="flex overflow-auto p-4 whitespace-nowrap">
+      <div class="flex items-center overflow-auto p-4 whitespace-nowrap">
         <slot name="left"></slot>
       </div>
-      <div class="p-4">
+      <div class="flex items-center gap-4 p-4 lg:p-2">
+        <button
+          class="cursor-pointer rounded-lg p-4 hover:bg-black/10 lg:p-2 dark:hover:bg-white/10"
+          @click="toggleDark()"
+        >
+          <MdiIcon :path="isDark ? mdiWeatherNight : mdiWeatherSunny" />
+        </button>
         <img class="h-6 lg:hidden" src="../../assets/navbar-logo.svg" alt="LineageOS Logo" />
       </div>
     </div>
@@ -41,6 +47,8 @@
 
 <script setup lang="ts">
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
+import { useDark, useToggle } from '@vueuse/core'
 
 defineProps<{
   tabs: ({
@@ -50,4 +58,7 @@ defineProps<{
     icon?: string
   } & ({ to: string | object } | { href: string }))[]
 }>()
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
