@@ -3,12 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import HomeView from '../views/HomeView.vue'
-import FlashToolsTab from '../components/flash-tools-tab/FlashToolsTab.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
-import ChangesTab from '../components/changes-tab/ChangesTab.vue'
-import BuildsTab from '../components/builds-tab/BuildsTab.vue'
-import VerifyTab from '../components/verify-tab/VerifyTab.vue'
-import DevicesTab from '../components/devices-tab/DevicesTab.vue'
 import { useMediaQuery } from '@vueuse/core'
 
 const router = createRouter({
@@ -25,22 +20,22 @@ const router = createRouter({
         {
           path: 'devices',
           name: 'home_devices',
-          component: DevicesTab
+          component: () => import('@/components/devices-tab/DevicesTab.vue')
         },
         {
           path: 'changes',
           name: 'home_changes',
-          component: ChangesTab
+          component: () => import('@/components/changes-tab/ChangesTab.vue')
         },
         {
           path: 'verify',
           name: 'home_verify',
-          component: VerifyTab
+          component: () => import('@/components/verify-tab/VerifyTab.vue')
         },
         {
           path: 'flash',
           name: 'home_flash_tools',
-          component: FlashToolsTab
+          component: () => import('@/components/flash-tools-tab/FlashToolsTab.vue')
         }
       ]
     },
@@ -70,13 +65,13 @@ const router = createRouter({
         {
           path: 'builds',
           name: 'device_builds',
-          component: BuildsTab,
+          component: () => import('@/components/builds-tab/BuildsTab.vue'),
           props: true
         },
         {
           path: 'changes',
           name: 'device_changes',
-          component: ChangesTab,
+          component: () => import('@/components/changes-tab/ChangesTab.vue'),
           props: true
         }
       ]
