@@ -19,6 +19,14 @@
     @apply dark:bg-dark m-0 h-full w-full p-0 text-black/85 dark:text-white/85;
   }
 
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   #app {
     @apply flex h-full w-full;
   }
