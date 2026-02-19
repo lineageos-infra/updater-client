@@ -6,8 +6,8 @@
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Flash Tools</h1>
           <div class="order-1 flex-none grow-0 self-stretch">
             <p>
-              You can use your browser to flash and reboot to recovery with the Fastboot tab and
-              sideload OTA packages (lineage-*.zip) with the ADB tab. Switch tabs below to continue.
+              You can use your browser to flash with the Fastboot tab and sideload OTA packages
+              (lineage-*.zip) with the ADB tab. Switch tabs below to continue.
             </p>
             <p>
               As installation steps vary by device, please refer to the

@@ -21,7 +21,7 @@
       <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
-      <button class="btn mr-3 mb-3 px-4 py-1" @click="rebootToRecovery">Reboot to recovery</button>
+      <button class="btn mr-3 mb-3 px-4 py-1" @click="promptReboot">Reboot</button>
     </div>
     <div v-show="!connected" class="mb-4 w-full text-center">
       <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
@@ -39,12 +39,13 @@ defineOptions({ name: 'FastbootView' })
 const connected = ref(false)
 const device = ref<fastboot.FastbootDevice | null>(null)
 const partition = ref('')
-const inputMode = ref<'none' | 'flash' | 'variable'>('none')
+const inputMode = ref<'none' | 'flash' | 'variable' | 'reboot'>('none')
 const inputValue = ref('')
 
 const inputPlaceholder = computed(() => {
   if (inputMode.value === 'flash') return 'Partition name (e.g. boot)'
   if (inputMode.value === 'variable') return 'Variable name (e.g. version-bootloader)'
+  if (inputMode.value === 'reboot') return 'Reboot target (e.g. recovery)'
   return ''
 })
 
@@ -107,6 +108,11 @@ function promptGetVariable() {
   inputValue.value = ''
 }
 
+function promptReboot() {
+  inputMode.value = 'reboot'
+  inputValue.value = ''
+}
+
 async function flashImageExec(event: Event) {
   const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
   if (!file || !partition.value) return
@@ -130,17 +136,21 @@ async function getVariable() {
   await device.value?.getVariable(value)
 }
 
+async function reboot() {
+  const value = inputValue.value.trim()
+  inputMode.value = 'none'
+  inputValue.value = ''
+  await device.value?.reboot(value)
+}
+
 async function submitInput() {
   if (inputMode.value === 'flash') {
     flashImage()
   } else if (inputMode.value === 'variable') {
     await getVariable()
+  } else if (inputMode.value === 'reboot') {
+    await reboot()
   }
-}
-
-async function rebootToRecovery() {
-  await device.value?.reboot('recovery')
-  connected.value = false
 }
 
 watch(inputMode, async (mode) => {
