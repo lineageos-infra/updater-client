@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showLoader" class="relative h-1 w-full overflow-hidden bg-[rgba(22,124,128,0.5)]">
+  <div v-if="showLoader" class="h-1 w-full overflow-hidden bg-[rgba(22,124,128,0.5)]">
     <div class="loader-first bg-brand-primary absolute top-0 left-0 h-full"></div>
     <div class="loader-second bg-brand-primary absolute top-0 left-0 h-full"></div>
   </div>

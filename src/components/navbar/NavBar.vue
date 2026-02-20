@@ -1,10 +1,16 @@
 <template>
   <div class="shadow-[0 1px 3px rgba(0, 0, 0, 0.24)] relative w-full shrink-0 text-lg">
     <div class="top flex justify-between leading-6">
-      <div class="flex overflow-auto p-4 whitespace-nowrap">
+      <div class="flex items-center overflow-auto p-4 whitespace-nowrap">
         <slot name="left"></slot>
       </div>
-      <div class="p-4">
+      <div class="flex items-center gap-4 p-4 lg:p-2">
+        <button
+          class="cursor-pointer rounded-lg p-4 hover:bg-black/10 lg:p-2 dark:hover:bg-white/10"
+          @click="toggleDark()"
+        >
+          <MdiIcon :path="isDark ? mdiWeatherNight : mdiWeatherSunny" />
+        </button>
         <img class="h-6 lg:hidden" src="../../assets/navbar-logo.svg" alt="LineageOS Logo" />
       </div>
     </div>
@@ -17,8 +23,10 @@
           active-class="border-b-4 border-b-brand-primary"
           :to="typeof tab.to === 'string' ? { name: tab.to } : tab.to"
         >
-          {{ tab.label }}
-          <span v-if="tab?.icon" :class="tab?.icon"></span>
+          <span class="inline-flex items-center gap-1">
+            {{ tab.label }}
+            <MdiIcon v-if="tab?.icon" :path="tab?.icon" :size="14" />
+          </span>
         </RouterLink>
         <a
           v-else
@@ -27,8 +35,10 @@
           :href="tab.href"
           target="_blank"
         >
-          {{ tab.label }}
-          <span v-if="tab?.icon" :class="tab?.icon"></span>
+          <span class="inline-flex items-center gap-1">
+            {{ tab.label }}
+            <MdiIcon v-if="tab?.icon" :path="tab?.icon" :size="14" />
+          </span>
         </a>
       </template>
     </div>
@@ -36,6 +46,10 @@
 </template>
 
 <script setup lang="ts">
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import { mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
+import { useDark, useToggle } from '@vueuse/core'
+
 defineProps<{
   tabs: ({
     label: string
@@ -44,4 +58,7 @@ defineProps<{
     icon?: string
   } & ({ to: string | object } | { href: string }))[]
 }>()
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
