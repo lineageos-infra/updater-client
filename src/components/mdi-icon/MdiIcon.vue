@@ -32,7 +32,8 @@ const defaults = {
 const styles = computed(() => ({
   '--sx': ['both', 'horizontal'].includes(props.flip) ? '-1' : '1',
   '--sy': ['both', 'vertical'].includes(props.flip) ? '-1' : '1',
-  '--r': `${props.rotate}deg`
+  '--r': `${props.rotate}deg`,
+  'min-width': `${props.size}px`
 }))
 
 const sizeValue = computed(() => props.size || defaults.size)
