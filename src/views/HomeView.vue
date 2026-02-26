@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <NavBar :tabs="tabs">
-      <template v-slot:left>
+      <template #left>
         <span class="text"> All devices </span>
       </template>
     </NavBar>

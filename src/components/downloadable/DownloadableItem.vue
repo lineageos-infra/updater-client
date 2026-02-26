@@ -1,6 +1,6 @@
 <template>
   <CollapsibleItem class="align-middle leading-6">
-    <template v-slot:title="{ isExpanded, toggleManualExpansion }">
+    <template #title="{ isExpanded, toggleManualExpansion }">
       <div
         class="mx-0 my-1 flex items-center justify-between gap-2"
         :class="{
@@ -35,7 +35,7 @@
         </div>
       </div>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="rounded-md dark:bg-white/5">
         <div class="flex flex-col gap-2 rounded-sm bg-black/5 p-4 text-sm leading-6">
           <span class="flex leading-[150%]">Details</span>

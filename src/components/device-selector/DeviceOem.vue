@@ -4,7 +4,7 @@
     class="border-b border-solid border-black/15 select-none dark:border-white/15"
     :forceExpanded="forceExpanded"
   >
-    <template v-slot:title="{ isExpanded, toggleManualExpansion }">
+    <template #title="{ isExpanded, toggleManualExpansion }">
       <div
         class="relative flex h-12 cursor-pointer items-center justify-between p-4 text-sm leading-4 font-medium transition-[height,padding,background] duration-250 ease-out"
         :class="{
@@ -22,7 +22,7 @@
         />
       </div>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="devices-container">
         <div class="devices">
           <template v-for="device in devices" :key="device.model">

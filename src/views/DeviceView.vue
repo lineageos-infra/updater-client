@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <NavBar :tabs="tabs">
-      <template v-slot:left>
+      <template #left>
         <span>{{ oem }}</span>
         <MdiIcon :path="mdiChevronRight" :size="18" class="mx-2 h-full" />
         <span>{{ name }}</span>

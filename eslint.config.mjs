@@ -14,7 +14,8 @@ export default defineConfigWithVueTs(
     rules: {
       'vue/attributes-order': 'error',
       'vue/v-bind-style': ['error', 'shorthand'],
-      'vue/v-on-style': ['error', 'shorthand']
+      'vue/v-on-style': ['error', 'shorthand'],
+      'vue/v-slot-style': ['error', 'shorthand']
     }
   },
   includeIgnoreFile(gitignorePath),
