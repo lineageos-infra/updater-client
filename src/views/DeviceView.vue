@@ -4,8 +4,8 @@
       <template #left>
         <span>{{ oem }}</span>
         <MdiIcon :path="mdiChevronRight" :size="18" class="mx-2 h-full" />
-        <span>{{ name }}</span>
-        <span class="mx-2 text-base opacity-50">{{ model }}</span>
+        <span class="break-all">{{ name }}</span>
+        <span class="ml-2 text-base opacity-50">{{ model }}</span>
       </template>
     </NavBar>
 
