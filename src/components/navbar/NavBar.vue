@@ -4,11 +4,8 @@
       <div class="flex items-center overflow-auto p-4 whitespace-nowrap">
         <slot name="left"></slot>
       </div>
-      <div class="flex items-center gap-4 p-4 lg:p-2">
-        <button
-          class="cursor-pointer rounded-lg p-4 hover:bg-black/10 lg:p-2 dark:hover:bg-white/10"
-          @click="toggleDark()"
-        >
+      <div class="flex shrink-0 items-center gap-2 p-2 lg:gap-4">
+        <button class="btn cursor-pointer rounded-lg p-2" @click="toggleDark()">
           <MdiIcon :path="isDark ? mdiWeatherNight : mdiWeatherSunny" />
         </button>
         <img class="h-6 lg:hidden" src="../../assets/navbar-logo.svg" alt="LineageOS Logo" />
