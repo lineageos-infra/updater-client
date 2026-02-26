@@ -2,12 +2,12 @@
   <CollapsibleItem class="align-middle leading-6">
     <template #title="{ isExpanded, toggleManualExpansion }">
       <div
-        class="mx-0 my-1 flex items-center justify-between gap-2"
+        class="mx-0 my-2 flex items-center justify-between gap-2"
         :class="{
           expanded: isExpanded
         }"
       >
-        <div>
+        <div class="break-all">
           {{ filename }}
         </div>
         <div class="flex items-center gap-2">
