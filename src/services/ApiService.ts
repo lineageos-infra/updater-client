@@ -138,7 +138,7 @@ export default class ApiService {
         return true
       }
 
-      if (['20.0', '21.0'].includes(version) && change.branch.includes(version.split('.')[0]!)) {
+      if (['20.0', '21.0'].includes(version) && change.branch.includes(version.split('.')[0])) {
         return true
       }
     }
@@ -188,7 +188,7 @@ export default class ApiService {
     const extractedItems: T[] = []
 
     for (let i = items.length - 1; i >= 0; i--) {
-      const item = items[i]!
+      const item = items[i]
       if (!fn(item)) {
         continue
       }
@@ -202,7 +202,7 @@ export default class ApiService {
 
   static conditionalInsertOne<T>(items: T[], newItem: T, compareFn: (a: T, b: T) => number) {
     for (let i = 0; i < items.length; i++) {
-      const result = compareFn(newItem, items[i]!)
+      const result = compareFn(newItem, items[i])
       if (result <= 0) {
         items.splice(i, 0, newItem)
         return
@@ -258,7 +258,7 @@ export default class ApiService {
     for (const build of builds) {
       buildsChanges.push({
         build: {
-          filename: build.files[0]!.filename,
+          filename: build.files[0].filename,
           datetime: build.datetime,
           version: build.version
         },

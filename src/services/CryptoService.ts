@@ -34,8 +34,8 @@ export default class CryptoService {
     }
 
     const footer = data.subarray(-6)
-    const commentSize = (footer[4]! & 0xff) | ((footer[5]! & 0xff) << 8)
-    const signatureStart = (footer[0]! & 0xff) | ((footer[1]! & 0xff) << 8)
+    const commentSize = (footer[4] & 0xff) | ((footer[5] & 0xff) << 8)
+    const signatureStart = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8)
 
     if (footer[2] != 0xff || footer[3] != 0xff) {
       return {
@@ -67,7 +67,7 @@ export default class CryptoService {
     const signature = data.subarray(-signatureStart, data.byteLength - footer.length)
     const asn = forge.asn1.fromDer(this.u8ArrayToString(signature))
     const pkcs = forge.pkcs7.messageFromAsn1(asn)
-    const certificate = (pkcs as forge.pkcs7.PkcsSignedData).certificates[0]!
+    const certificate = (pkcs as forge.pkcs7.PkcsSignedData).certificates[0]
 
     const signInfo = {
       // Subject
