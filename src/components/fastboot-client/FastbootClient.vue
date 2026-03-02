@@ -22,6 +22,7 @@
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptReboot">Reboot</button>
+      <button class="btn mr-3 mb-3 px-4 py-1" @click="promptRunCommand">Run command</button>
     </div>
     <div v-show="!connected" class="mb-4 w-full text-center">
       <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
@@ -39,13 +40,14 @@ defineOptions({ name: 'FastbootView' })
 const connected = ref(false)
 const device = ref<fastboot.FastbootDevice | null>(null)
 const partition = ref('')
-const inputMode = ref<'none' | 'flash' | 'variable' | 'reboot'>('none')
+const inputMode = ref<'none' | 'flash' | 'variable' | 'reboot' | 'run-command'>('none')
 const inputValue = ref('')
 
 const inputPlaceholder = computed(() => {
   if (inputMode.value === 'flash') return 'Partition name (e.g. boot)'
   if (inputMode.value === 'variable') return 'Variable name (e.g. version-bootloader)'
   if (inputMode.value === 'reboot') return 'Reboot target (e.g. recovery)'
+  if (inputMode.value === 'run-command') return 'Command (e.g. flashing unlock, oem unlock)'
   return ''
 })
 
@@ -113,6 +115,11 @@ function promptReboot() {
   inputValue.value = ''
 }
 
+function promptRunCommand() {
+  inputMode.value = 'run-command'
+  inputValue.value = ''
+}
+
 async function flashImageExec(event: Event) {
   const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
   if (!file || !partition.value) return
@@ -143,6 +150,14 @@ async function reboot() {
   await device.value?.reboot(value)
 }
 
+async function runCommand() {
+  const value = inputValue.value.trim()
+  if (!value) return
+  inputMode.value = 'none'
+  inputValue.value = ''
+  await device.value?.runCommand(value)
+}
+
 async function submitInput() {
   if (inputMode.value === 'flash') {
     flashImage()
@@ -150,6 +165,8 @@ async function submitInput() {
     await getVariable()
   } else if (inputMode.value === 'reboot') {
     await reboot()
+  } else if (inputMode.value === 'run-command') {
+    await runCommand()
   }
 }
 
