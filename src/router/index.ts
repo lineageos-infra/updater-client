@@ -118,7 +118,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, _, next) => {
+router.beforeEach(async (to) => {
   if (to.path === '/') {
     const isMobile = useMediaQuery('(max-width: 1024px)')
     if (isMobile.value) {
@@ -126,8 +126,6 @@ router.beforeEach(async (to, _, next) => {
     } else {
       await router.push('/changes')
     }
-  } else {
-    next()
   }
 })
 
