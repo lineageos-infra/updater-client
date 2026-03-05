@@ -1,3 +1,4 @@
+import type { RouteLocationNormalized } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import DeviceView from '../views/DeviceView.vue'
@@ -118,7 +119,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to) => {
+router.beforeEach(async (to: RouteLocationNormalized) => {
   if (to.path === '/') {
     const isMobile = useMediaQuery('(max-width: 1024px)')
     if (isMobile.value) {
