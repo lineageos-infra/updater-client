@@ -175,7 +175,7 @@ function clearLog(tab: 'fastboot' | 'adb') {
 }
 
 watch(activeTab, (tab: 'fastboot' | 'adb') => {
-  history.pushState({}, '', `./${tab}`)
+  history.pushState({}, '', tab)
   void scrollLogToBottom()
 })
 </script>
