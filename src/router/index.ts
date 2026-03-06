@@ -35,6 +35,15 @@ const router = createRouter({
         },
         {
           path: 'flash',
+          redirect: {
+            name: 'home_flash_tools',
+            params: {
+              tool: 'fastboot'
+            }
+          }
+        },
+        {
+          path: 'flash/:tool(adb|fastboot)',
           name: 'home_flash_tools',
           component: () => import('@/components/flash-tools-tab/FlashToolsTab.vue')
         }

@@ -128,6 +128,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
@@ -136,7 +137,8 @@ import { mdiUsb, mdiUsbPort } from '@mdi/js'
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
-const activeTab = ref<'fastboot' | 'adb'>('fastboot')
+const route = useRoute()
+const activeTab = ref(route.params.tool as 'fastboot' | 'adb')
 const logs = reactive({ fastboot: '', adb: '' })
 const log = useTemplateRef('log')
 
@@ -172,7 +174,8 @@ function clearLog(tab: 'fastboot' | 'adb') {
   logs[tab] = ''
 }
 
-watch(activeTab, () => {
+watch(activeTab, (tab: 'fastboot' | 'adb') => {
+  history.pushState({}, '', `./${tab}`)
   void scrollLogToBottom()
 })
 </script>
