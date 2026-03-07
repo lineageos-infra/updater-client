@@ -34,16 +34,7 @@ const router = createRouter({
           component: () => import('@/components/verify-tab/VerifyTab.vue')
         },
         {
-          path: 'flash',
-          redirect: {
-            name: 'home_flash_tools',
-            params: {
-              tool: 'fastboot'
-            }
-          }
-        },
-        {
-          path: 'flash/:tool(adb|fastboot)',
+          path: 'flash/:tool(adb|fastboot)?',
           name: 'home_flash_tools',
           component: () => import('@/components/flash-tools-tab/FlashToolsTab.vue')
         }
@@ -136,6 +127,8 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     } else {
       await router.push('/changes')
     }
+  } else if (to.path === '/flash' || to.path === '/flash/') {
+    await router.push('/flash/fastboot')
   }
 })
 
