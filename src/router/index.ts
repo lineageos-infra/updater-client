@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from 'vue-router'
+import type { RouteLocationNormalized, RouteLocationNormalizedLoaded } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import DeviceView from '../views/DeviceView.vue'
@@ -119,7 +119,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to: RouteLocationNormalized) => {
+router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded) => {
   if (to.path === '/') {
     const isMobile = useMediaQuery('(max-width: 1024px)')
     if (isMobile.value) {
@@ -128,7 +128,7 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
       await router.push('/changes')
     }
   } else if (to.path === '/flash' || to.path === '/flash/') {
-    await router.push('/flash/fastboot')
+    await router.push(to.name === from.name ? from.fullPath : '/flash/fastboot')
   }
 })
 
