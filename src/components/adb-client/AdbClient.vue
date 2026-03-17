@@ -7,21 +7,21 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <button
-            class="btn btn-outline px-4 py-1.5"
+            class="btn btn-outline px-4 py-1"
             :disabled="sideloading || rebooting"
             @click="reboot()"
           >
             {{ rebootingTarget === 'system' ? 'Rebooting…' : 'Reboot system' }}
           </button>
           <button
-            class="btn btn-outline px-4 py-1.5"
+            class="btn btn-outline px-4 py-1"
             :disabled="sideloading || rebooting"
             @click="reboot('recovery')"
           >
             {{ rebootingTarget === 'recovery' ? 'Rebooting…' : 'Reboot recovery' }}
           </button>
           <button
-            class="btn btn-outline px-4 py-1.5"
+            class="btn px-4 py-1"
             :disabled="sideloading || rebooting"
             @click="reboot('bootloader')"
           >
@@ -30,14 +30,9 @@
         </div>
       </div>
 
-      <div class="text-xs font-semibold tracking-wide uppercase opacity-70">Sideload</div>
-      <div class="mb-2 flex flex-wrap text-sm">
-        *Reboot to recovery and select
-        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
-        before connecting.
-      </div>
+      <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">Sideload</div>
       <div class="flex flex-wrap items-center gap-3">
-        <label class="btn btn-outline px-4 py-1.5">
+        <label class="btn px-4 py-1">
           Choose ZIP
           <input
             ref="fileInput"
@@ -54,7 +49,7 @@
           <div v-else class="text-base-content/60 text-xs">No ZIP selected</div>
         </div>
         <button
-          class="btn btn-primary px-4 py-1.5"
+          class="btn px-4 py-1"
           :disabled="sideloading || rebooting || !selectedFile"
           @click="startSideload"
         >
@@ -63,7 +58,49 @@
       </div>
     </div>
     <div v-show="!connected" class="mb-4 w-full text-center">
-      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <div class="flex flex-nowrap items-center justify-center gap-2 text-xs">
+        <button
+          class="hover:border-brand-primary min-w-0 flex-1 rounded-lg border px-3 py-2"
+          :class="{ 'border-brand-primary border-2': connectIntent === 'sideload' }"
+          :disabled="connecting"
+          @click="setConnectIntent('sideload')"
+        >
+          I want to sideload
+        </button>
+        <button
+          class="hover:border-brand-primary min-w-0 flex-1 rounded-lg border px-3 py-2"
+          :class="{ 'border-brand-primary border-2': connectIntent === 'reboot' }"
+          :disabled="connecting"
+          @click="setConnectIntent('reboot')"
+        >
+          I only need to reboot
+        </button>
+      </div>
+      <div v-if="connectIntent === 'sideload'" class="mt-2 flex flex-wrap justify-center text-sm">
+        Reboot to recovery and select
+        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
+        before connecting.
+      </div>
+      <div
+        v-if="!connecting && connectIntent === 'reboot'"
+        class="mt-2 flex flex-wrap justify-center text-sm"
+      >
+        Enable developer options in Settings, go to
+        <p class="px-2 font-mono">Settings > System > Developer options,</p>
+        and enable USB debugging before connecting.
+      </div>
+      <div v-if="connecting && connectIntent === 'reboot'" class="text-warning mt-2 text-sm">
+        If your phone shows an "Allow USB debugging" dialog, tap Allow to continue.
+      </div>
+
+      <button
+        v-if="connectIntent"
+        class="btn mx-auto mt-2 px-4 py-1"
+        :disabled="connecting"
+        @click="connect"
+      >
+        {{ connecting ? 'Connecting…' : 'Connect' }}
+      </button>
     </div>
   </div>
 </template>
@@ -75,9 +112,11 @@ import AdbWebCredentialStore from '@yume-chan/adb-credential-web'
 import { Adb, AdbDaemonTransport, type AdbDaemonDevice } from '@yume-chan/adb'
 
 const connected = ref(false)
+const connecting = ref(false)
 const sideloading = ref(false)
 const rebooting = ref(false)
 const rebootingTarget = ref<'system' | 'recovery' | 'bootloader' | null>(null)
+const connectIntent = ref<'sideload' | 'reboot' | null>(null)
 const selectedFile = ref<File | null>(null)
 
 const manager = shallowRef<AdbDaemonWebUsbDeviceManager | undefined>(undefined)
@@ -106,6 +145,8 @@ onUnmounted(async () => {
 })
 
 async function connect() {
+  connecting.value = true
+
   try {
     device.value = await manager.value?.requestDevice()
     if (!device.value) return
@@ -131,7 +172,13 @@ async function connect() {
 
     props.appendLog(`Connection failed: ${err as string}`)
     console.error(err)
+  } finally {
+    connecting.value = false
   }
+}
+
+function setConnectIntent(intent: 'sideload' | 'reboot') {
+  connectIntent.value = intent
 }
 
 function onFileSelected(event: Event) {
