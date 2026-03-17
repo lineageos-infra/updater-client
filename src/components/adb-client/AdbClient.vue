@@ -1,39 +1,71 @@
 <template>
   <div class="order-1 flex-none grow-0 self-stretch">
-    <div v-show="connected" class="rounded-2xl border border-black/25 p-4 dark:border-white/25">
-      <div class="flex flex-wrap items-center gap-3">
-        <label class="btn btn-outline px-4 py-1.5">
-          Choose ZIP
-          <input
-            ref="fileInput"
-            type="file"
-            accept=".zip,application/zip"
-            class="hidden"
-            @change="onFileSelected"
-          />
-        </label>
-        <div class="min-w-0 flex-1">
-          <div v-if="selectedFile" class="truncate text-sm font-medium">
-            {{ selectedFile.name }}
-          </div>
-          <div v-else class="text-base-content/60 text-xs">No ZIP selected</div>
+    <div v-if="connected" class="rounded-2xl border border-black/25 p-4 dark:border-white/25">
+      <template v-if="adbService.deviceState === 'device' || adbService.deviceState === 'recovery'">
+        <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">
+          Device reboot
         </div>
-        <button
-          class="btn btn-primary px-4 py-1.5"
-          :disabled="sideloading || !selectedFile"
-          @click="startSideload"
-        >
-          {{ sideloading ? 'Sideloading…' : 'Sideload' }}
-        </button>
-      </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button class="btn btn-outline px-4 py-1.5" :disabled="rebooting" @click="reboot()">
+            {{ rebootingTarget === 'system' ? 'Rebooting…' : 'Reboot system' }}
+          </button>
+          <button
+            class="btn btn-outline px-4 py-1.5"
+            :disabled="rebooting"
+            @click="reboot('recovery')"
+          >
+            {{ rebootingTarget === 'recovery' ? 'Rebooting…' : 'Reboot recovery' }}
+          </button>
+          <button
+            class="btn btn-outline px-4 py-1.5"
+            :disabled="rebooting"
+            @click="reboot('bootloader')"
+          >
+            {{ rebootingTarget === 'bootloader' ? 'Rebooting…' : 'Reboot bootloader' }}
+          </button>
+        </div>
+        <p class="mt-3 text-xs text-black/50 dark:text-white/50">
+          To sideload a ZIP, reboot to recovery and select
+          <code class="font-mono">Apply update › Apply from ADB</code>, then reconnect.
+        </p>
+      </template>
+
+      <template v-else-if="adbService.deviceState === 'sideload'">
+        <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">Sideload</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <label class="btn btn-outline px-4 py-1.5">
+            Choose ZIP
+            <input
+              ref="fileInput"
+              type="file"
+              accept=".zip,application/zip"
+              class="hidden"
+              @change="onFileSelected"
+            />
+          </label>
+          <div class="min-w-0 flex-1">
+            <div v-if="selectedFile" class="truncate text-sm font-medium">
+              {{ selectedFile.name }}
+            </div>
+            <div v-else class="text-base-content/60 text-xs">No ZIP selected</div>
+          </div>
+          <button
+            class="btn btn-primary px-4 py-1.5"
+            :disabled="sideloading || !selectedFile"
+            @click="startSideload"
+          >
+            {{ sideloading ? 'Sideloading…' : 'Sideload' }}
+          </button>
+        </div>
+        <p class="mt-3 text-xs text-black/50 dark:text-white/50">
+          Reboot options are unavailable in sideload mode. They will return once you reconnect in
+          normal ADB mode.
+        </p>
+      </template>
     </div>
-    <div v-show="!connected" class="mb-4 w-full text-center">
+
+    <div v-else class="mb-4 w-full text-center">
       <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
-      <div class="mt-3 flex flex-wrap justify-center text-sm">
-        Reboot to recovery and select
-        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
-        before connecting.
-      </div>
     </div>
   </div>
 </template>
@@ -44,6 +76,8 @@ import { AdbService } from '@/services/AdbService'
 
 const connected = ref(false)
 const sideloading = ref(false)
+const rebooting = ref(false)
+const rebootingTarget = ref<'system' | 'recovery' | 'bootloader' | null>(null)
 const selectedFile = ref<File | null>(null)
 const fileInput = useTemplateRef('fileInput')
 
@@ -78,7 +112,7 @@ async function connect() {
   try {
     const { name, serial } = await adbService.connect()
     connected.value = true
-    props.appendLog(`Connected to ${name} (${serial})`)
+    props.appendLog(`Connected to ${name} (${serial}) [${adbService.deviceState}]`)
   } catch (err) {
     let message = String(err)
     if (
@@ -114,6 +148,25 @@ async function startSideload() {
     connected.value = false
     if (fileInput.value) fileInput.value.value = ''
     selectedFile.value = null
+  }
+}
+
+async function reboot(target?: 'recovery' | 'bootloader') {
+  if (rebooting.value) return
+  rebooting.value = true
+  rebootingTarget.value = target ?? 'system'
+
+  try {
+    const label = target ?? 'system'
+    props.appendLog(`Rebooting device to ${label}...`)
+    await adbService.reboot(target)
+    props.appendLog(`Reboot command sent (${label}).`)
+  } catch (err) {
+    props.appendLog(`Reboot failed: ${String(err)}`)
+  } finally {
+    rebooting.value = false
+    rebootingTarget.value = null
+    connected.value = false
   }
 }
 </script>
