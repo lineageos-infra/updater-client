@@ -1,6 +1,41 @@
 <template>
   <div class="order-1 flex-none grow-0 self-stretch">
     <div v-show="connected" class="rounded-2xl border border-black/25 p-4 dark:border-white/25">
+      <div class="mb-4 border-b border-black/10 pb-4 dark:border-white/10">
+        <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">
+          Device reboot
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            class="btn btn-outline px-4 py-1.5"
+            :disabled="sideloading || rebooting"
+            @click="reboot()"
+          >
+            {{ rebootingTarget === 'system' ? 'Rebooting…' : 'Reboot system' }}
+          </button>
+          <button
+            class="btn btn-outline px-4 py-1.5"
+            :disabled="sideloading || rebooting"
+            @click="reboot('recovery')"
+          >
+            {{ rebootingTarget === 'recovery' ? 'Rebooting…' : 'Reboot recovery' }}
+          </button>
+          <button
+            class="btn btn-outline px-4 py-1.5"
+            :disabled="sideloading || rebooting"
+            @click="reboot('bootloader')"
+          >
+            {{ rebootingTarget === 'bootloader' ? 'Rebooting…' : 'Reboot bootloader' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="text-xs font-semibold tracking-wide uppercase opacity-70">Sideload</div>
+      <div class="mb-2 flex flex-wrap text-sm">
+        *Reboot to recovery and select
+        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
+        before connecting.
+      </div>
       <div class="flex flex-wrap items-center gap-3">
         <label class="btn btn-outline px-4 py-1.5">
           Choose ZIP
@@ -20,7 +55,7 @@
         </div>
         <button
           class="btn btn-primary px-4 py-1.5"
-          :disabled="sideloading || !selectedFile"
+          :disabled="sideloading || rebooting || !selectedFile"
           @click="startSideload"
         >
           {{ sideloading ? 'Sideloading…' : 'Sideload' }}
@@ -29,11 +64,6 @@
     </div>
     <div v-show="!connected" class="mb-4 w-full text-center">
       <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
-      <div class="mt-3 flex flex-wrap justify-center text-sm">
-        Reboot to recovery and select
-        <p class="px-2 font-mono">Apply update > Apply from ADB</p>
-        before connecting.
-      </div>
     </div>
   </div>
 </template>
@@ -46,6 +76,8 @@ import { Adb, AdbDaemonTransport, type AdbDaemonDevice } from '@yume-chan/adb'
 
 const connected = ref(false)
 const sideloading = ref(false)
+const rebooting = ref(false)
+const rebootingTarget = ref<'system' | 'recovery' | 'bootloader' | null>(null)
 const selectedFile = ref<File | null>(null)
 
 const manager = shallowRef<AdbDaemonWebUsbDeviceManager | undefined>(undefined)
@@ -129,6 +161,27 @@ async function startSideload() {
       fileInput.value.value = ''
     }
     selectedFile.value = null
+  }
+}
+
+async function reboot(target?: 'recovery' | 'bootloader') {
+  if (!adb.value || sideloading.value || rebooting.value) return
+
+  rebooting.value = true
+  rebootingTarget.value = target ?? 'system'
+
+  try {
+    const targetLabel = target ?? 'system'
+    props.appendLog(`Rebooting device to ${targetLabel}...`)
+    await adb.value.power.reboot(target)
+    props.appendLog(`Reboot command sent (${targetLabel}).`)
+  } catch (err) {
+    props.appendLog(`Reboot failed: ${err as string}`)
+    console.error(err)
+  } finally {
+    rebooting.value = false
+    rebootingTarget.value = null
+    connected.value = false
   }
 }
 
