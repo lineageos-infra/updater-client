@@ -19,7 +19,6 @@
     "@yume-chan/adb-credential-web": "^2.1.0",
     "@yume-chan/adb-daemon-webusb": "^2.3.2",
     "android-fastboot": "git+https://gitlab.com/luk1337/fastboot.js#69ca1ad92fcd6b08c371463571ef52d92059ba47",
-    "axios": "^1.13.6",
     "node-forge": "^1.4.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.29",

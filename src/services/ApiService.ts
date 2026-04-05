@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useDeviceStore, type Build, type Device, type Oem } from '../stores/device'
 import { useChangeStore, type Change } from '../stores/change'
 import { useUiStore } from '../stores/ui'
@@ -34,9 +33,11 @@ export default class ApiService {
     const deviceStore = useDeviceStore()
     try {
       uiStore.startRequest()
-      const response = await axios.get(`${API_HOSTNAME}api/v2/oems`)
-      this.sortOems(response.data)
-      deviceStore.setOems(response.data)
+      const response = await fetch(`${API_HOSTNAME}api/v2/oems`)
+      if (!response.ok) throw new Error(await response.text())
+      const data = await response.json()
+      this.sortOems(data)
+      deviceStore.setOems(data)
       uiStore.endRequest()
     } catch (err) {
       uiStore.endRequest()
@@ -49,11 +50,10 @@ export default class ApiService {
     const deviceStore = useDeviceStore()
     try {
       uiStore.startRequest()
-      const response = await axios.get(`${API_HOSTNAME}api/v2/devices/${model}`)
-      deviceStore.setDevice({
-        model,
-        data: response.data
-      })
+      const response = await fetch(`${API_HOSTNAME}api/v2/devices/${model}`)
+      if (!response.ok) throw new Error(await response.text())
+      const data = await response.json()
+      deviceStore.setDevice({ model, data })
       uiStore.endRequest()
     } catch (err) {
       uiStore.endRequest()
@@ -74,14 +74,13 @@ export default class ApiService {
     const deviceStore = useDeviceStore()
     try {
       uiStore.startRequest()
-      const response = await axios.get(`${API_HOSTNAME}api/v2/devices/${model}/builds`)
+      const response = await fetch(`${API_HOSTNAME}api/v2/devices/${model}/builds`)
+      if (!response.ok) throw new Error(await response.text())
+      const data = await response.json()
 
-      this.sortDeviceBuilds(response.data)
+      this.sortDeviceBuilds(data)
 
-      deviceStore.setDeviceBuilds({
-        model,
-        data: response.data
-      })
+      deviceStore.setDeviceBuilds({ model, data })
       uiStore.endRequest()
     } catch (err) {
       uiStore.endRequest()
@@ -114,16 +113,15 @@ export default class ApiService {
     if (minPages !== -1 && page >= minPages) {
       return
     }
+    const params = new URLSearchParams({ page: page.toString() })
 
     try {
       uiStore.startRequest()
-      const response = await axios.get(`${API_HOSTNAME}api/v2/changes`, {
-        params: {
-          page
-        }
-      })
+      const response = await fetch(`${API_HOSTNAME}api/v2/changes?${params}`)
+      if (!response.ok) throw new Error(await response.text())
+      const data = await response.json()
 
-      const changes = this.filterChanges(response.data)
+      const changes = this.filterChanges(data)
       changeStore.addNextChangesPage(changes)
       uiStore.endRequest()
     } catch (err) {
