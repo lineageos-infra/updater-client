@@ -4,11 +4,13 @@ import {
   AdbDaemonWebUsbDeviceObserver
 } from '@yume-chan/adb-daemon-webusb'
 import AdbWebCredentialStore from '@yume-chan/adb-credential-web'
-import { Adb, AdbDaemonTransport } from '@yume-chan/adb'
+import { Adb, AdbBanner, AdbDaemonTransport } from '@yume-chan/adb'
 
 const ADB_EXIT_SUCCESS = 'DONEDONE'
 const ADB_EXIT_FAILURE = 'FAILFAIL'
 const ADB_SIDELOAD_CHUNK_SIZE = 65536
+
+type ConnectionState = 'unauthorized' | 'offline' | 'device' | 'recovery' | 'sideload' | 'rescue'
 
 export class AdbService {
   private manager: AdbDaemonWebUsbDeviceManager | undefined
@@ -16,6 +18,7 @@ export class AdbService {
   private adb: Adb | undefined
   private credentialStore = new AdbWebCredentialStore()
   private observer: AdbDaemonWebUsbDeviceObserver | undefined
+  private banner: AdbBanner | undefined
 
   get isConnected(): boolean {
     return !!this.adb
@@ -27,6 +30,10 @@ export class AdbService {
 
   get deviceSerial(): string | undefined {
     return this.device?.serial
+  }
+
+  get deviceState(): ConnectionState | undefined {
+    return this.banner?.state
   }
 
   init() {
@@ -58,6 +65,7 @@ export class AdbService {
       credentialStore: this.credentialStore
     })
 
+    this.banner = transport.banner
     this.adb = new Adb(transport)
     return { name: this.device.name, serial: this.device.serial }
   }
@@ -65,6 +73,7 @@ export class AdbService {
   async disconnect(): Promise<void> {
     await this.adb?.close()
     this.adb = undefined
+    this.banner = undefined
     this.device = undefined
   }
 
