@@ -40,16 +40,19 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, shallowRef, useTemplateRef } from 'vue'
-import { AdbDaemonWebUsbDeviceManager } from '@yume-chan/adb-daemon-webusb'
+import {
+  type AdbDaemonWebUsbDevice,
+  AdbDaemonWebUsbDeviceManager
+} from '@yume-chan/adb-daemon-webusb'
 import AdbWebCredentialStore from '@yume-chan/adb-credential-web'
-import { Adb, AdbDaemonTransport, type AdbDaemonDevice } from '@yume-chan/adb'
+import { Adb, AdbDaemonTransport } from '@yume-chan/adb'
 
 const connected = ref(false)
 const sideloading = ref(false)
 const selectedFile = ref<File | null>(null)
 
 const manager = shallowRef<AdbDaemonWebUsbDeviceManager | undefined>(undefined)
-const device = shallowRef<AdbDaemonDevice | undefined>(undefined)
+const device = shallowRef<AdbDaemonWebUsbDevice | undefined>(undefined)
 const adb = shallowRef<Adb | undefined>(undefined)
 
 const CredentialStore = new AdbWebCredentialStore()
