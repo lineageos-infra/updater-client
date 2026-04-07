@@ -10,8 +10,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 10
+
       - name: Run [ci, lint, format]
         run: |
-          yarn install --immutable
-          yarn run lint
-          yarn run format -- --check --no-write
+          pnpm install --frozen-lockfile
+          pnpm run lint
+          pnpm run format --check --no-write

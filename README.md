@@ -1,7 +1,7 @@
 # LineageOS Updater Client
 
 ## Prerequisites 
-* node.js & yarn
+* node.js & pnpm
 
 ## Setting up the app
 1. Create an environment file
@@ -18,7 +18,7 @@ Replace `http://192.168.100.25:5000/` with the hostname of the updater server. N
 
 Run the following command:
 ```
-yarn install
+pnpm install
 ```
 
 ## Running the app
@@ -26,7 +26,7 @@ yarn install
 
 Run the following command:
 ```
-yarn run dev
+pnpm run dev
 ```
 This will start a development server that watches for all file changes and live reloads the webpage.
 
@@ -34,7 +34,7 @@ This will start a development server that watches for all file changes and live 
 
 Run the following command:
 ```
-yarn run build
+pnpm run build
 ```
 This will build the app and place all the static files into the `dist` subdirectory.
 You can then serve the app with any static file server you want.
