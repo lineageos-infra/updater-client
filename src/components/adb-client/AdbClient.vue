@@ -69,71 +69,57 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, shallowRef, useTemplateRef } from 'vue'
-import {
-  type AdbDaemonWebUsbDevice,
-  AdbDaemonWebUsbDeviceManager
-} from '@yume-chan/adb-daemon-webusb'
-import AdbWebCredentialStore from '@yume-chan/adb-credential-web'
-import { Adb, AdbDaemonTransport } from '@yume-chan/adb'
+import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
+import { AdbService } from '@/services/AdbService'
 
 const connected = ref(false)
 const sideloading = ref(false)
 const rebooting = ref(false)
 const rebootingTarget = ref<'system' | 'recovery' | 'bootloader' | null>(null)
 const selectedFile = ref<File | null>(null)
-
-const manager = shallowRef<AdbDaemonWebUsbDeviceManager | undefined>(undefined)
-const device = shallowRef<AdbDaemonWebUsbDevice | undefined>(undefined)
-const adb = shallowRef<Adb | undefined>(undefined)
-
-const CredentialStore = new AdbWebCredentialStore()
-
-onMounted(() => {
-  manager.value = AdbDaemonWebUsbDeviceManager.BROWSER
-})
-
 const fileInput = useTemplateRef('fileInput')
+
+const adbService = new AdbService()
+
 const props = defineProps<{
   appendLog: (message: string) => void
   updateLastLog: (message: string) => void
 }>()
 
+onMounted(async () => {
+  adbService.init()
+  const adbObserver = await adbService.initObserver()
+  adbObserver.onDeviceRemove(async (devices) => {
+    for (const d of devices) {
+      if (d.serial === adbService.deviceSerial) {
+        await adbService.disconnect()
+        connected.value = false
+        props.appendLog(`Disconnected ${d.name} (${d.serial})`)
+      }
+    }
+  })
+})
+
 onUnmounted(async () => {
-  if (adb.value) {
-    await adb.value.close()
-  }
+  await adbService.disconnect()
+  adbService.stopObserver()
   connected.value = false
-  manager.value = undefined
-  adb.value = undefined
 })
 
 async function connect() {
   try {
-    device.value = await manager.value?.requestDevice()
-    if (!device.value) return
-    const connection = await device.value.connect()
-
-    const transport = await AdbDaemonTransport.authenticate({
-      serial: device.value.serial,
-      connection,
-      credentialStore: CredentialStore
-    })
-
-    adb.value = new Adb(transport)
-
+    const { name, serial } = await adbService.connect()
     connected.value = true
-    props.appendLog(`Connected to ${device.value.name} (${device.value.serial})`)
+    props.appendLog(`Connected to ${name} (${serial})`)
   } catch (err) {
+    let message = String(err)
     if (
       err instanceof Error &&
       err.message === 'The device is already in used by another program'
     ) {
-      err.message += ' (try adb kill-server)'
+      message += ' (try adb kill-server)'
     }
-
-    props.appendLog(`Connection failed: ${err as string}`)
-    console.error(err)
+    props.appendLog(`Connection failed: ${message}`)
   }
 }
 
@@ -143,100 +129,42 @@ function onFileSelected(event: Event) {
 }
 
 async function startSideload() {
-  if (!adb.value || !selectedFile.value) return
-
+  if (!selectedFile.value) return
   sideloading.value = true
 
   try {
     props.appendLog(`serving: '${selectedFile.value.name}'  (~0%)`)
-    await adbSideload(adb.value, selectedFile.value, (pct) => {
+    await adbService.sideload(selectedFile.value, (pct) => {
       props.updateLastLog(`serving: '${selectedFile.value!.name}'  (~${pct}%)`)
     })
     props.updateLastLog(`serving: '${selectedFile.value.name}'  (~100%)`)
     props.appendLog('Sideload complete!')
   } catch (err) {
-    props.appendLog(`Sideload failed: ${err as string}`)
-    console.error(err)
+    props.appendLog(`Sideload failed: ${String(err)}`)
   } finally {
     sideloading.value = false
-    // Reset file input so the same file can be re-selected
-    if (fileInput.value) {
-      fileInput.value.value = ''
-    }
+    connected.value = false
+    if (fileInput.value) fileInput.value.value = ''
     selectedFile.value = null
   }
 }
 
 async function reboot(target?: 'recovery' | 'bootloader') {
-  if (!adb.value || sideloading.value || rebooting.value) return
-
+  if (sideloading.value || rebooting.value) return
   rebooting.value = true
   rebootingTarget.value = target ?? 'system'
 
   try {
-    const targetLabel = target ?? 'system'
-    props.appendLog(`Rebooting device to ${targetLabel}...`)
-    await adb.value.power.reboot(target)
-    props.appendLog(`Reboot command sent (${targetLabel}).`)
+    const label = target ?? 'system'
+    props.appendLog(`Rebooting device to ${label}...`)
+    await adbService.reboot(target)
+    props.appendLog(`Reboot command sent (${label}).`)
   } catch (err) {
-    props.appendLog(`Reboot failed: ${err as string}`)
-    console.error(err)
+    props.appendLog(`Reboot failed: ${String(err)}`)
   } finally {
     rebooting.value = false
     rebootingTarget.value = null
     connected.value = false
   }
-}
-
-const ADB_EXIT_SUCCESS = 'DONEDONE'
-const ADB_EXIT_FAILURE = 'FAILFAIL'
-const ADB_SIDELOAD_CHUNK_SIZE = 65536
-
-async function adbSideload(
-  device: Adb,
-  data: Blob,
-  onProgress: (percentage: number) => void = () => {}
-) {
-  const socket = await device.createSocket(`sideload-host:${data.size}:${ADB_SIDELOAD_CHUNK_SIZE}`)
-  const reader = socket.readable.getReader()
-  const writer = socket.writable.getWriter()
-
-  try {
-    let transmittedBytes = 0
-    while (true) {
-      const res = await reader.read()
-      if (res.done) {
-        throw new Error('reader unexpectedly ended')
-      }
-      const decoder = new TextDecoder('ascii')
-      const resStr = decoder.decode(res.value)
-      if (resStr == ADB_EXIT_SUCCESS) {
-        break
-      } else if (resStr == ADB_EXIT_FAILURE) {
-        throw new Error('sideload failed')
-      }
-      const requestedBlock = parseInt(resStr)
-      const offset = requestedBlock * ADB_SIDELOAD_CHUNK_SIZE
-      if (offset > data.size) {
-        throw new Error(
-          `adb: failed to read block ${requestedBlock} at offset ${offset}, past end ${data.size}`
-        )
-      }
-
-      const end = Math.min(offset + ADB_SIDELOAD_CHUNK_SIZE, data.size)
-      const chunk = data.slice(offset, end)
-      await writer.write(new Uint8Array(await chunk.arrayBuffer()))
-
-      transmittedBytes += chunk.size
-
-      onProgress(Math.floor((transmittedBytes / data.size) * 100))
-    }
-  } catch (err) {
-    await socket.close()
-    connected.value = false
-    throw err
-  }
-  await socket.close()
-  connected.value = false
 }
 </script>
