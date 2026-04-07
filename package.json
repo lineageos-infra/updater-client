@@ -19,29 +19,29 @@
     "@yume-chan/adb-credential-web": "^2.1.0",
     "@yume-chan/adb-daemon-webusb": "^2.3.2",
     "@yume-chan/stream-extra": "^2.5.3",
-    "android-fastboot": "git+https://gitlab.com/luk1337/fastboot.js#69ca1ad92fcd6b08c371463571ef52d92059ba47",
+    "android-fastboot": "git+https://gitlab.com/luk1337/fastboot.js#8688fe1fa63daefca74bf2a0e75b287f82e7685e",
     "node-forge": "^1.4.0",
     "pinia": "^3.0.4",
-    "vue": "^3.5.29",
-    "vue-router": "^5.0.3"
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.2",
-    "@tailwindcss/vite": "^4.2.1",
-    "@types/node": "^25.3.3",
+    "@eslint/compat": "^2.0.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^25.5.2",
     "@types/node-forge": "^1.3.14",
-    "@vitejs/plugin-vue": "^6.0.4",
+    "@vitejs/plugin-vue": "^6.0.5",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.7.0",
-    "@vue/tsconfig": "^0.9.0",
-    "eslint": "^10.0.2",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.2.0",
     "eslint-plugin-vue": "^10.8.0",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.2",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.6",
     "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.5"
+    "vue-tsc": "^3.2.6"
   }
 }
