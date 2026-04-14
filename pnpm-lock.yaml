@@ -30,8 +30,8 @@ importers:
         specifier: ^2.5.3
         version: 2.5.3
       android-fastboot:
-        specifier: gitlab:luk1337/fastboot.js#8688fe1fa63daefca74bf2a0e75b287f82e7685e
-        version: https://gitlab.com/api/v4/projects/luk1337%2Ffastboot.js/repository/archive.tar.gz?sha=8688fe1fa63daefca74bf2a0e75b287f82e7685e
+        specifier: github:lineageos-infra/fastboot.js#8688fe1fa63daefca74bf2a0e75b287f82e7685e
+        version: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e
       node-forge:
         specifier: ^1.4.0
         version: 1.4.0
@@ -846,8 +846,8 @@ packages:
   alien-signals@3.1.2:
     resolution: {integrity: sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw==}
 
-  android-fastboot@https://gitlab.com/api/v4/projects/luk1337%2Ffastboot.js/repository/archive.tar.gz?sha=8688fe1fa63daefca74bf2a0e75b287f82e7685e:
-    resolution: {tarball: https://gitlab.com/api/v4/projects/luk1337%2Ffastboot.js/repository/archive.tar.gz?sha=8688fe1fa63daefca74bf2a0e75b287f82e7685e}
+  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e:
+    resolution: {tarball: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e}
     version: 1.1.3
 
   ast-kit@2.2.0:
@@ -2284,7 +2284,7 @@ snapshots:
 
   alien-signals@3.1.2: {}
 
-  android-fastboot@https://gitlab.com/api/v4/projects/luk1337%2Ffastboot.js/repository/archive.tar.gz?sha=8688fe1fa63daefca74bf2a0e75b287f82e7685e:
+  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e:
     dependencies:
       '@zip.js/zip.js': 2.2.27
 
