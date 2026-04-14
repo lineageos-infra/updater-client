@@ -30,8 +30,8 @@ importers:
         specifier: ^2.5.3
         version: 2.5.3
       android-fastboot:
-        specifier: github:lineageos-infra/fastboot.js#8688fe1fa63daefca74bf2a0e75b287f82e7685e
-        version: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e
+        specifier: github:lineageos-infra/fastboot.js#91fb763fc9dcda13ab90c07a1b5b5a29dc70332b
+        version: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/91fb763fc9dcda13ab90c07a1b5b5a29dc70332b
       node-forge:
         specifier: ^1.4.0
         version: 1.4.0
@@ -827,8 +827,9 @@ packages:
   '@yume-chan/struct@2.3.2':
     resolution: {integrity: sha512-afoCnSKV+5HRK7e4innVd9YTYDyNWdjA1CVQa1j8rWYnmr7HGZfdkHMQr+AESLk6GxWFMzOIPQIG6nYOTGMFIw==}
 
-  '@zip.js/zip.js@2.2.27':
-    resolution: {integrity: sha512-lQLsq41xUIGJnUizICgjLL+1hrnlLcqyWnQcaNi8FdsxfJl8y0bqdolDit8o65Huai+/GwXbCODMVu05kNU8mA==}
+  '@zip.js/zip.js@2.8.26':
+    resolution: {integrity: sha512-RQ4h9F6DOiHxpdocUDrOl6xBM+yOtz+LkUol47AVWcfebGBDpZ7w7Xvz9PS24JgXvLGiXXzSAfdCdVy1tPlaFA==}
+    engines: {bun: '>=0.7.0', deno: '>=1.0.0', node: '>=18.0.0'}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -846,8 +847,8 @@ packages:
   alien-signals@3.1.2:
     resolution: {integrity: sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw==}
 
-  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e:
-    resolution: {tarball: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e}
+  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/91fb763fc9dcda13ab90c07a1b5b5a29dc70332b:
+    resolution: {tarball: https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/91fb763fc9dcda13ab90c07a1b5b5a29dc70332b}
     version: 1.1.3
 
   ast-kit@2.2.0:
@@ -2267,7 +2268,7 @@ snapshots:
       '@yume-chan/async': 4.1.3
       '@yume-chan/no-data-view': 2.0.0
 
-  '@zip.js/zip.js@2.2.27': {}
+  '@zip.js/zip.js@2.8.26': {}
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
@@ -2284,9 +2285,9 @@ snapshots:
 
   alien-signals@3.1.2: {}
 
-  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/8688fe1fa63daefca74bf2a0e75b287f82e7685e:
+  android-fastboot@https://codeload.github.com/lineageos-infra/fastboot.js/tar.gz/91fb763fc9dcda13ab90c07a1b5b5a29dc70332b:
     dependencies:
-      '@zip.js/zip.js': 2.2.27
+      '@zip.js/zip.js': 2.8.26
 
   ast-kit@2.2.0:
     dependencies:
