@@ -134,6 +134,7 @@ import AdbClient from '../adb-client/AdbClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
 
+// @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
 const route = useRoute()
