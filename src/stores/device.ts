@@ -46,10 +46,14 @@ export type Build = {
 }
 
 export const useDeviceStore = defineStore('device', {
-  state: () => ({
-    oems: [] as Oem[],
-    devices: {} as Record<string, Device>,
-    builds: {} as Record<string, Build[]>
+  state: (): {
+    oems: Oem[]
+    devices: Record<string, Device>
+    builds: Record<string, Build[]>
+  } => ({
+    oems: [],
+    devices: {},
+    builds: {}
   }),
   actions: {
     setOems(oems: Oem[]) {
