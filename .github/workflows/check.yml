@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build container
-        run: docker build --file ./fly/Dockerfile .
+        run: docker build --file ./app01/Dockerfile .
 
   check:
     runs-on: ubuntu-latest
