@@ -2,7 +2,7 @@
     root * /usr/share/caddy
     route {
         header /assets/* Cache-Control no-transform
-        reverse_proxy /api/* https://lineageos-updater-backend.fly.dev
+        reverse_proxy /api/* http://systemd-updater-backend:8080
         try_files {path} /index.html
         file_server
     }
