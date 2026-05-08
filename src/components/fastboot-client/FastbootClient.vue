@@ -18,8 +18,10 @@
 
       <input ref="bootImageInput" class="hidden" type="file" @change="bootImageExec" />
       <input ref="flashImageInput" class="hidden" type="file" @change="flashImageExec" />
+      <input ref="wipeSuperInput" class="hidden" type="file" @change="wipeSuperExec" />
       <button class="btn mr-3 mb-3 px-4 py-1" @click="bootImage">Boot image</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
+      <button class="btn mr-3 mb-3 px-4 py-1" @click="wipeSuper">Wipe super</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptReboot">Reboot</button>
       <button class="btn mr-3 mb-3 px-4 py-1" @click="promptRunCommand">Run command</button>
@@ -53,6 +55,7 @@ const inputPlaceholder = computed(() => {
 
 const bootImageInput = useTemplateRef('bootImageInput')
 const flashImageInput = useTemplateRef('flashImageInput')
+const wipeSuperInput = useTemplateRef('wipeSuperInput')
 const inputRef = useTemplateRef('inputRef')
 const props = defineProps<{
   appendLog: (message: string) => void
@@ -133,6 +136,16 @@ function flashImage() {
   inputMode.value = 'none'
   inputValue.value = ''
   flashImageInput.value?.click()
+}
+
+async function wipeSuperExec(event: Event) {
+  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
+  if (!file) return
+  await device.value?.wipeSuper(file, 'current')
+}
+
+function wipeSuper() {
+  wipeSuperInput.value?.click()
 }
 
 async function getVariable() {
