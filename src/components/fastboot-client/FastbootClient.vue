@@ -46,6 +46,9 @@
         <button class="btn mr-3 mb-3 px-4 py-1" @click="promptFlashImage">Flash image</button>
         <button class="btn mr-3 mb-3 px-4 py-1" @click="wipeSuper">Wipe super</button>
         <button class="btn mr-3 mb-3 px-4 py-1" @click="promptGetVariable">Get variable</button>
+        <button v-show="abDevice" class="btn mr-3 mb-3 px-4 py-1" @click="promptSetActive">
+          Set active slot
+        </button>
         <button class="btn mr-3 mb-3 px-4 py-1" @click="promptReboot">Reboot</button>
         <button class="btn mr-3 mb-3 px-4 py-1" @click="promptRunCommand">Run command</button>
       </div>
@@ -93,6 +96,7 @@ type Mode =
   | 'idle'
   | 'flash'
   | 'variable'
+  | 'set-active'
   | 'reboot'
   | 'run-command'
   | 'awaiting-boot'
@@ -106,6 +110,7 @@ type PendingConfirm =
 
 const connected = ref(false)
 const device = ref<fastboot.FastbootDevice | null>(null)
+const abDevice = ref<boolean>(false)
 const partition = ref('')
 const mode = ref<Mode>('idle')
 const inputValue = ref('')
@@ -116,6 +121,7 @@ const isTextMode = computed(
   () =>
     mode.value === 'flash' ||
     mode.value === 'variable' ||
+    mode.value === 'set-active' ||
     mode.value === 'reboot' ||
     mode.value === 'run-command'
 )
@@ -130,6 +136,7 @@ const isAwaitingFile = computed(
 const inputPlaceholder = computed(() => {
   if (mode.value === 'flash') return 'Partition name (e.g. boot)'
   if (mode.value === 'variable') return 'Variable name (e.g. version-bootloader)'
+  if (mode.value === 'set-active') return 'Slot (a or b)'
   if (mode.value === 'reboot') return 'Reboot target (e.g. recovery)'
   if (mode.value === 'run-command') return 'Command (e.g. flashing unlock, oem unlock)'
   if (mode.value === 'awaiting-boot') return 'Drop boot image here, or click to browse...'
@@ -196,6 +203,7 @@ async function connect() {
 
     await device.value?.getVariable('product')
     await device.value?.getVariable('serialno')
+    abDevice.value = (await device.value?.getVariable('current-slot'))?.length == 1
   } catch (err) {
     console.log(err)
   }
@@ -282,6 +290,20 @@ async function getVariable() {
   await device.value?.getVariable(value)
 }
 
+// Set active
+function promptSetActive() {
+  mode.value = 'set-active'
+  inputValue.value = ''
+}
+
+async function setActive() {
+  const value = inputValue.value.trim()
+  if (!value) return
+  mode.value = 'idle'
+  inputValue.value = ''
+  await device.value?.runCommand(`set_active:${value}`)
+}
+
 // Reboot
 function promptReboot() {
   mode.value = 'reboot'
@@ -314,6 +336,7 @@ async function runCommand() {
 async function submitInput() {
   if (mode.value === 'flash') flashImage()
   else if (mode.value === 'variable') await getVariable()
+  else if (mode.value === 'set-active') await setActive()
   else if (mode.value === 'reboot') await reboot()
   else if (mode.value === 'run-command') await runCommand()
 }
@@ -362,7 +385,13 @@ function onDrop(event: DragEvent) {
 }
 
 watch(mode, async (m) => {
-  if (m === 'flash' || m === 'variable' || m === 'reboot' || m === 'run-command') {
+  if (
+    m === 'flash' ||
+    m === 'variable' ||
+    m === 'set-active' ||
+    m === 'reboot' ||
+    m === 'run-command'
+  ) {
     await nextTick(() => inputRef.value?.focus())
   }
 })
