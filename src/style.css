@@ -63,3 +63,7 @@
 @utility btn {
   @apply bg-brand-light hover:bg-brand-primary dark:bg-brand-dark dark:text-brand-light rounded-full text-black transition duration-150 ease-out;
 }
+
+@utility btn-ghost {
+  @apply bg-transparent! hover:bg-black/5! dark:hover:bg-white/5!;
+}
