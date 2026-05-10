@@ -9,16 +9,34 @@
       </div>
     </div>
   </div>
+  <ConfirmDialog
+    :open="dialog.open"
+    :title="dialog.title"
+    confirm-label="OK"
+    @confirm="dialog.open = false"
+    @cancel="dialog.open = false"
+  >
+    {{ dialog.message }}
+  </ConfirmDialog>
 </template>
 
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
+import { useTemplateRef, reactive } from 'vue'
+import ConfirmDialog from '@/components/utils/ConfirmDialog.vue'
+
 const props = defineProps<{
   title: string
   value: string
 }>()
 
 const input = useTemplateRef('input')
+const dialog = reactive({ open: false, title: '', message: '' })
+
+function showDialog(title: string, message: string) {
+  dialog.title = title
+  dialog.message = message
+  dialog.open = true
+}
 
 function compareSha256(event: PointerEvent) {
   event.preventDefault()
@@ -34,13 +52,14 @@ function compareSha256(event: PointerEvent) {
         .join('')
 
       if (props.value !== hashString) {
-        alert(`SHA256: ${props.value} != ${hashString}`)
+        showDialog('SHA256 Mismatch', `Expected: ${props.value}\n\nGot: ${hashString}`)
       } else {
-        alert('SHA256: OK')
+        showDialog('SHA256', 'Matches')
       }
     }
     fileReader.readAsArrayBuffer(input.value.files[0])
   }
+  input.value.value = ''
   input.value.click()
 }
 </script>
