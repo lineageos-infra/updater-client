@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "type-check": "vue-tsc -b",
     "lint": "eslint . --fix",
-    "format": "prettier --write *.config.ts *.config.mjs src/"
+    "format": "prettier --write *.config.ts *.config.mjs src/",
+    "prepare": "husky"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.10",
@@ -37,6 +38,7 @@
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.1",
+    "husky": "^9.1.7",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.0",
