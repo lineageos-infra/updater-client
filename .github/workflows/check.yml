@@ -3,6 +3,17 @@ name: check
 on: [push, pull_request]
 
 jobs:
+  build:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Build container
+        run: docker build --file ./fly/Dockerfile
+
   check:
     runs-on: ubuntu-latest
 
