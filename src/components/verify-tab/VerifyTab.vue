@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-brand-primary/0 flex h-full w-full flex-col border-2 border-dashed"
+    class="border-brand-primary/0 flex h-full w-full flex-col border"
     @dragover.prevent="fileDragOver"
     @dragleave.prevent="fileDragLeave"
     @drop.prevent="fileDropped"
@@ -121,19 +121,31 @@ const isVerifying = ref(false)
 
 const fileDragOver = (event: DragEvent) => {
   if (event.currentTarget instanceof HTMLElement) {
-    event.currentTarget.classList.replace('border-brand-primary/0', 'border-brand-primary')
+    event.currentTarget.classList.add(
+      'bg-brand-primary/10!',
+      'border-black/10',
+      'dark:border-white/10'
+    )
   }
 }
 
 const fileDragLeave = (event: DragEvent) => {
   if (event.currentTarget instanceof HTMLElement) {
-    event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+    event.currentTarget.classList.remove(
+      'bg-brand-primary/10!',
+      'border-black/10',
+      'dark:border-white/10'
+    )
   }
 }
 
 const fileDropped = (event: DragEvent) => {
   if (event.currentTarget instanceof HTMLElement) {
-    event.currentTarget.classList.replace('border-brand-primary', 'border-brand-primary/0')
+    event.currentTarget.classList.remove(
+      'bg-brand-primary/10!',
+      'border-black/10',
+      'dark:border-white/10'
+    )
   }
   if (event.dataTransfer?.files) {
     verifyFile(event.dataTransfer.files[0])
