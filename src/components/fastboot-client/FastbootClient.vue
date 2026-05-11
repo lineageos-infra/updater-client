@@ -314,6 +314,11 @@ async function reboot() {
   const value = inputValue.value.trim()
   mode.value = 'idle'
   inputValue.value = ''
+  if (value == '~recovery') {
+    await device.value?.flashBlob('misc', 'current', new Blob(['boot-recovery']))
+    await device.value?.reboot()
+    return
+  }
   await device.value?.reboot(value)
 }
 
