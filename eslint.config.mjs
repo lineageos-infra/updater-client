@@ -12,6 +12,7 @@ const gitignorePath = path.resolve(__dirname, '.gitignore')
 export default defineConfigWithVueTs(
   {
     rules: {
+      eqeqeq: 'error',
       'vue/attributes-order': 'error',
       'vue/v-bind-style': ['error', 'shorthand'],
       'vue/v-on-style': ['error', 'shorthand'],

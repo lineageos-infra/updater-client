@@ -37,7 +37,7 @@ export default class CryptoService {
     const commentSize = (footer[4] & 0xff) | ((footer[5] & 0xff) << 8)
     const signatureStart = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8)
 
-    if (footer[2] != 0xff || footer[3] != 0xff) {
+    if (footer[2] !== 0xff || footer[3] !== 0xff) {
       return {
         status: false,
         msg: 'No signature in file (no footer)'
@@ -48,7 +48,7 @@ export default class CryptoService {
     // end-of-central-directory record.
     const eocd = data.subarray(-(commentSize + 22), data.byteLength)
 
-    if (eocd[0] != 0x50 || eocd[1] != 0x4b || eocd[2] != 0x05 || eocd[3] != 0x06) {
+    if (eocd[0] !== 0x50 || eocd[1] !== 0x4b || eocd[2] !== 0x05 || eocd[3] !== 0x06) {
       return {
         status: false,
         msg: 'No signature in file (bad footer)'
@@ -56,7 +56,12 @@ export default class CryptoService {
     }
 
     for (let i = 4; i < eocd.length - 3; ++i) {
-      if (eocd[i] == 0x50 && eocd[i + 1] == 0x4b && eocd[i + 2] == 0x05 && eocd[i + 3] == 0x06) {
+      if (
+        eocd[i] === 0x50 &&
+        eocd[i + 1] === 0x4b &&
+        eocd[i + 2] === 0x05 &&
+        eocd[i + 3] === 0x06
+      ) {
         return {
           status: false,
           msg: 'EOCD marker found after start of EOCD'

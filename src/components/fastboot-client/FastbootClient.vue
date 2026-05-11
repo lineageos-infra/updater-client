@@ -203,7 +203,7 @@ async function connect() {
 
     await device.value?.getVariable('product')
     await device.value?.getVariable('serialno')
-    abDevice.value = (await device.value?.getVariable('current-slot'))?.length == 1
+    abDevice.value = (await device.value?.getVariable('current-slot'))?.length === 1
   } catch (err) {
     console.log(err)
   }
@@ -314,7 +314,7 @@ async function reboot() {
   const value = inputValue.value.trim()
   mode.value = 'idle'
   inputValue.value = ''
-  if (value == '~recovery') {
+  if (value === '~recovery') {
     await device.value?.flashBlob('misc', 'current', new Blob(['boot-recovery']))
     await device.value?.reboot()
     return
