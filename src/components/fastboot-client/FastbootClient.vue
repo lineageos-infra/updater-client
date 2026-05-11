@@ -134,32 +134,53 @@ const isAwaitingFile = computed(
 )
 
 const inputPlaceholder = computed(() => {
-  if (mode.value === 'flash') return 'Partition name (e.g. boot)'
-  if (mode.value === 'variable') return 'Variable name (e.g. version-bootloader)'
-  if (mode.value === 'set-active') return 'Slot (a or b)'
-  if (mode.value === 'reboot') return 'Reboot target (e.g. recovery)'
-  if (mode.value === 'run-command') return 'Command (e.g. flashing unlock, oem unlock)'
-  if (mode.value === 'awaiting-boot') return 'Drop boot image here, or click to browse...'
-  if (mode.value === 'awaiting-flash')
-    return `Drop image for partition "${partition.value}" here, or click to browse...`
-  if (mode.value === 'awaiting-wipe-super')
-    return 'Drop super_empty image here, or click to browse...'
-  return 'Click an action below'
+  switch (mode.value) {
+    case 'flash':
+      return 'Partition name (e.g. boot)'
+    case 'variable':
+      return 'Variable name (e.g. version-bootloader)'
+    case 'set-active':
+      return 'Slot (a or b)'
+    case 'reboot':
+      return 'Reboot target (e.g. recovery)'
+    case 'run-command':
+      return 'Command (e.g. flashing unlock, oem unlock)'
+    case 'awaiting-boot':
+      return 'Drop boot image here, or click to browse...'
+    case 'awaiting-flash':
+      return `Drop image for partition "${partition.value}" here, or click to browse...`
+    case 'awaiting-wipe-super':
+      return 'Drop super_empty image here, or click to browse...'
+    default:
+      return 'Click an action below'
+  }
 })
 
 const confirmTitle = computed(() => {
   const c = pendingConfirm.value
-  if (c?.kind === 'boot') return `Boot ${c.file.name}?`
-  if (c?.kind === 'flash') return `Flash ${c.file.name} to partition ${c.partition}?`
-  if (c?.kind === 'wipe-super') return `Wipe super using ${c.file.name}?`
-  return ''
+  switch (c?.kind) {
+    case 'boot':
+      return `Boot ${c.file.name}?`
+    case 'flash':
+      return `Flash ${c.file.name} to partition ${c.partition}?`
+    case 'wipe-super':
+      return `Wipe super using ${c.file.name}?`
+    default:
+      return ''
+  }
 })
 
 const confirmLabel = computed(() => {
-  if (pendingConfirm.value?.kind === 'boot') return 'Boot'
-  if (pendingConfirm.value?.kind === 'flash') return 'Flash'
-  if (pendingConfirm.value?.kind === 'wipe-super') return 'Wipe super'
-  return 'Confirm'
+  switch (pendingConfirm.value?.kind) {
+    case 'boot':
+      return 'Boot'
+    case 'flash':
+      return 'Flash'
+    case 'wipe-super':
+      return 'Wipe super'
+    default:
+      return 'Confirm'
+  }
 })
 
 const bootImageInput = useTemplateRef('bootImageInput')
@@ -339,11 +360,23 @@ async function runCommand() {
 }
 
 async function submitInput() {
-  if (mode.value === 'flash') flashImage()
-  else if (mode.value === 'variable') await getVariable()
-  else if (mode.value === 'set-active') await setActive()
-  else if (mode.value === 'reboot') await reboot()
-  else if (mode.value === 'run-command') await runCommand()
+  switch (mode.value) {
+    case 'flash':
+      flashImage()
+      break
+    case 'variable':
+      await getVariable()
+      break
+    case 'set-active':
+      await setActive()
+      break
+    case 'reboot':
+      await reboot()
+      break
+    case 'run-command':
+      await runCommand()
+      break
+  }
 }
 
 // Confirm dialog helpers
@@ -357,16 +390,32 @@ function onCancel() {
 }
 
 async function onConfirm() {
-  if (pendingConfirm.value?.kind === 'boot') await confirmBoot()
-  else if (pendingConfirm.value?.kind === 'flash') await confirmFlash()
-  else if (pendingConfirm.value?.kind === 'wipe-super') await confirmWipe()
+  switch (pendingConfirm.value?.kind) {
+    case 'boot':
+      await confirmBoot()
+      break
+    case 'flash':
+      await confirmFlash()
+      break
+    case 'wipe-super':
+      await confirmWipe()
+      break
+  }
 }
 
 // Pill click — open file picker in awaiting states
 function onPillClick() {
-  if (mode.value === 'awaiting-boot') bootImageInput.value?.click()
-  else if (mode.value === 'awaiting-flash') flashImageInput.value?.click()
-  else if (mode.value === 'awaiting-wipe-super') wipeSuperInput.value?.click()
+  switch (mode.value) {
+    case 'awaiting-boot':
+      bootImageInput.value?.click()
+      break
+    case 'awaiting-flash':
+      flashImageInput.value?.click()
+      break
+    case 'awaiting-wipe-super':
+      wipeSuperInput.value?.click()
+      break
+  }
 }
 
 // Drag and drop
@@ -383,10 +432,17 @@ function onDrop(event: DragEvent) {
   if (!isAwaitingFile.value) return
   const file = event.dataTransfer?.files?.[0]
   if (!file) return
-  if (mode.value === 'awaiting-boot') stagePendingConfirm({ kind: 'boot', file })
-  else if (mode.value === 'awaiting-flash')
-    stagePendingConfirm({ kind: 'flash', file, partition: partition.value })
-  else if (mode.value === 'awaiting-wipe-super') stagePendingConfirm({ kind: 'wipe-super', file })
+  switch (mode.value) {
+    case 'awaiting-boot':
+      stagePendingConfirm({ kind: 'boot', file })
+      break
+    case 'awaiting-flash':
+      stagePendingConfirm({ kind: 'flash', file, partition: partition.value })
+      break
+    case 'awaiting-wipe-super':
+      stagePendingConfirm({ kind: 'wipe-super', file })
+      break
+  }
 }
 
 watch(mode, async (m) => {
