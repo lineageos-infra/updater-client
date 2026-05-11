@@ -319,7 +319,7 @@ function promptSetActive() {
 
 async function setActive() {
   const value = inputValue.value.trim()
-  if (!value) return
+  if (value !== 'a' && value !== 'b') return
   mode.value = 'idle'
   inputValue.value = ''
   await device.value?.runCommand(`set_active:${value}`)
