@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import * as fastboot from 'android-fastboot'
 import ConfirmDialog from '@/components/utils/ConfirmDialog.vue'
 
@@ -253,6 +253,7 @@ async function confirmBoot() {
 function promptFlashImage() {
   mode.value = 'flash'
   inputValue.value = ''
+  void nextTick(() => inputRef.value?.focus())
 }
 
 function flashImage() {
@@ -301,6 +302,7 @@ async function confirmWipe() {
 function promptGetVariable() {
   mode.value = 'variable'
   inputValue.value = ''
+  void nextTick(() => inputRef.value?.focus())
 }
 
 async function getVariable() {
@@ -315,6 +317,7 @@ async function getVariable() {
 function promptSetActive() {
   mode.value = 'set-active'
   inputValue.value = ''
+  void nextTick(() => inputRef.value?.focus())
 }
 
 async function setActive() {
@@ -329,6 +332,7 @@ async function setActive() {
 function promptReboot() {
   mode.value = 'reboot'
   inputValue.value = ''
+  void nextTick(() => inputRef.value?.focus())
 }
 
 async function reboot() {
@@ -347,6 +351,7 @@ async function reboot() {
 function promptRunCommand() {
   mode.value = 'run-command'
   inputValue.value = ''
+  void nextTick(() => inputRef.value?.focus())
 }
 
 async function runCommand() {
@@ -444,16 +449,4 @@ function onDrop(event: DragEvent) {
       break
   }
 }
-
-watch(mode, async (m) => {
-  if (
-    m === 'flash' ||
-    m === 'variable' ||
-    m === 'set-active' ||
-    m === 'reboot' ||
-    m === 'run-command'
-  ) {
-    await nextTick(() => inputRef.value?.focus())
-  }
-})
 </script>
