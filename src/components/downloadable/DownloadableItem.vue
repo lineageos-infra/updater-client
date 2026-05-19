@@ -40,6 +40,7 @@
         <div class="flex flex-col gap-2 rounded-sm bg-black/5 p-4 text-sm leading-6">
           <span class="flex leading-[150%]">Details</span>
           <DownloadableDetail v-if="date" title="Date" :value="date" />
+          <DownloadableDetail v-if="osVersionHuman" title="OS version" :value="osVersionHuman" />
           <DownloadableDetail
             v-if="osPatchLevelHuman"
             title="OS patch level"
@@ -71,6 +72,13 @@ const osPatchLevelHuman = computed(() => {
       year: 'numeric',
       timeZone: 'UTC'
     })
+  }
+  return ''
+})
+
+const osVersionHuman = computed(() => {
+  if (typeof props.os_sdk_level === 'string') {
+    return `Android ${parseInt(props.os_sdk_level) - 20}`
   }
   return ''
 })
