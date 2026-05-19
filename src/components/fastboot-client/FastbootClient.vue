@@ -224,7 +224,7 @@ async function connect() {
 
     await device.value?.getVariable('product')
     await device.value?.getVariable('serialno')
-    abDevice.value = (await device.value?.getVariable('current-slot'))?.length === 1
+    abDevice.value = (await device.value?.getSlot())?.length === 1
   } catch (err) {
     console.log(err)
   }
