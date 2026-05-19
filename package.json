@@ -20,7 +20,7 @@
     "@yume-chan/adb-credential-web": "^2.1.0",
     "@yume-chan/adb-daemon-webusb": "^2.3.2",
     "@yume-chan/stream-extra": "^2.5.3",
-    "android-fastboot": "github:lineageos-infra/fastboot.js#59961738907049c6a2cdd419c5990499a2685348",
+    "android-fastboot": "github:lineageos-infra/fastboot.js#9fc907c6277dfed653d5458fe23bb38fec84e371",
     "node-forge": "^1.4.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.34",
