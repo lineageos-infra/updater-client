@@ -77,8 +77,8 @@ const osPatchLevelHuman = computed(() => {
 })
 
 const osVersionHuman = computed(() => {
-  if (typeof props.os_sdk_level === 'string') {
-    return `Android ${parseInt(props.os_sdk_level) - 20}`
+  if (typeof props.os_sdk_level === 'number') {
+    return `Android ${props.os_sdk_level - 20}`
   }
   return ''
 })

@@ -33,7 +33,7 @@ export type BuildFile = {
   date?: string
   datetime?: number
   type?: string
-  os_sdk_level?: string
+  os_sdk_level?: number
   os_patch_level?: string
 }
 
@@ -41,7 +41,7 @@ export type Build = {
   date: string
   datetime: number
   files: BuildFile[]
-  os_sdk_level: string
+  os_sdk_level: number
   os_patch_level: string
   type: string
   version: string
