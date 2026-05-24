@@ -17,7 +17,7 @@
               class="text-brand-primary font-medium no-underline"
               :to="{ name: 'home_verify' }"
             >
-              checking its signature </RouterLink
+              checking its signature</RouterLink
             >.
           </p>
         </div>
