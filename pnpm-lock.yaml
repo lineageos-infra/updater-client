@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@awasm/noble':
+        specifier: ^0.1.2
+        version: 0.1.2
       '@fontsource/roboto':
         specifier: ^5.2.10
         version: 5.2.10
@@ -104,6 +107,15 @@ importers:
         version: 3.2.8(typescript@6.0.3)
 
 packages:
+
+  '@awasm/noble@0.1.2':
+    resolution: {integrity: sha512-eA9cvKsw0xgMFXHkBzCs+hQ2mNbNWi8ZBQJKUavcxHtJRNaVkf/ZBic2nLFVu5py3Y4aLD3a4I87LzmC7Gn/+Q==}
+    engines: {node: '>= 22.22.0'}
+    peerDependencies:
+      '@awasm/compiler': 0.1.2
+    peerDependenciesMeta:
+      '@awasm/compiler':
+        optional: true
 
   '@babel/generator@7.29.1':
     resolution: {integrity: sha512-qsaF+9Qcm2Qv8SRIMMscAvG4O3lJ0F1GuMo5HR/Bp02LopNgnZBC/EkbevHFeGs4ls/oPz9v+Bsmzbkbe+0dUw==}
@@ -1628,6 +1640,8 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@awasm/noble@0.1.2': {}
 
   '@babel/generator@7.29.1':
     dependencies:

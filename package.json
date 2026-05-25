@@ -13,6 +13,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@awasm/noble": "^0.1.2",
     "@fontsource/roboto": "^5.2.10",
     "@mdi/js": "^7.4.47",
     "@vueuse/core": "^14.3.0",
