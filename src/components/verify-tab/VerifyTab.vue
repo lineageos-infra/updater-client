@@ -139,7 +139,7 @@ const fileDragLeave = (event: DragEvent) => {
   }
 }
 
-const fileDropped = (event: DragEvent) => {
+const fileDropped = async (event: DragEvent) => {
   if (event.currentTarget instanceof HTMLElement) {
     event.currentTarget.classList.remove(
       'bg-brand-primary/10!',
@@ -148,7 +148,7 @@ const fileDropped = (event: DragEvent) => {
     )
   }
   if (event.dataTransfer?.files) {
-    verifyFile(event.dataTransfer.files[0])
+    await verifyFile(event.dataTransfer.files[0])
   }
 }
 
@@ -165,29 +165,25 @@ const verifyClicked = () => {
   }
 }
 
-const verifyFile = (blob?: File) => {
+const verifyFile = async (blob?: File) => {
   if (!blob) {
     return
   }
-  const fileReader = new FileReader()
-  fileReader.onload = async () => {
-    if (!(fileReader.result instanceof ArrayBuffer)) {
-      return
-    }
-    const result = await CryptoService.verifyPackage(new Uint8Array(fileReader.result))
+  isVerifying.value = true
+  try {
+    const result = await CryptoService.verifyPackage(blob)
     fileName.value = blob.name
     isVerified.value = result.status
     verifyResult.value = result.msg
     verifySignInfo.value = result.signInfo ?? null
+  } finally {
+    isVerifying.value = false
   }
-  fileReader.onloadstart = () => (isVerifying.value = true)
-  fileReader.onloadend = () => (isVerifying.value = false)
-  fileReader.readAsArrayBuffer(blob)
 }
 
-const verifyFileInput = (event: Event) => {
+const verifyFileInput = async (event: Event) => {
   if (event.currentTarget instanceof HTMLInputElement) {
-    verifyFile(event.currentTarget.files?.[0])
+    await verifyFile(event.currentTarget.files?.[0])
   }
 }
 
