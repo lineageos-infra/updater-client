@@ -48,9 +48,18 @@ const verifyPackage = async (blob: Blob): Promise<VerifyResult> => {
     await blob.slice(blob.size - signatureStart, blob.size - 6).arrayBuffer()
   )
   const asn = forge.asn1.fromDer(u8ArrayToString(signature))
-  const pkcs = forge.pkcs7.messageFromAsn1(asn)
-  const certificate = (pkcs as forge.pkcs7.PkcsSignedData).certificates[0]
+  let pkcs
 
+  try {
+    pkcs = forge.pkcs7.messageFromAsn1(asn)
+  } catch (e) {
+    return {
+      status: false,
+      msg: e instanceof Error ? e.message : String(e)
+    }
+  }
+
+  const certificate = (pkcs as forge.pkcs7.PkcsSignedData).certificates[0]
   const signInfo = {
     // Subject
     commonName: certificate.subject.getField('CN')?.value,
