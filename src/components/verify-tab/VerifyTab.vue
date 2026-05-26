@@ -169,6 +169,7 @@ const verifyFile = async (blob?: File) => {
   if (!blob) {
     return
   }
+  verifyResult.value = ''
   isVerifying.value = true
   try {
     const result = await CryptoService.verifyPackage(blob)
