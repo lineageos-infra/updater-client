@@ -135,6 +135,11 @@ import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
+import { useSeoMeta } from '@unhead/vue'
+
+useSeoMeta({
+  title: 'Flash Tools'
+})
 
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined

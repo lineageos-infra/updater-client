@@ -5,5 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { useSeoMeta } from '@unhead/vue'
 import HorizontalLoader from './components/utils/HorizontalLoader.vue'
+
+useSeoMeta({
+  titleTemplate: (title) => (title ? `${title} | LineageOS Downloads` : 'LineageOS Downloads'),
+  ogTitle: 'LineageOS Downloads'
+})
 </script>
