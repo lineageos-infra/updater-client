@@ -7,7 +7,7 @@
     >
       <div class="mx-auto max-w-189 min-w-0 px-8">
         <template v-if="model">
-          <template v-for="change in buildChanges" :key="change.id">
+          <template v-for="change in buildChanges" :key="change.build.filename">
             <ChangesGroup v-bind="change" />
           </template>
         </template>
