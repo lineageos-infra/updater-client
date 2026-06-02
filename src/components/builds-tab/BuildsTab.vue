@@ -53,10 +53,15 @@ import DownloadableGroup from '../downloadable/DownloadableGroup.vue'
 import { ref, watch } from 'vue'
 import { useDeviceStore, type Build } from '@/stores/device'
 import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
+import { useSeoMeta } from '@unhead/vue'
 
 const props = defineProps<{
   model: string
 }>()
+
+useSeoMeta({
+  title: props.model ? `Builds for ${props.model}` : undefined
+})
 
 const store = useDeviceStore()
 const builds = ref([] as Build[])

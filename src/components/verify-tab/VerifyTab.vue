@@ -110,7 +110,11 @@ import { ref, watch, useTemplateRef } from 'vue'
 import { useUiStore } from '@/stores/ui'
 import CryptoService from '@/services/CryptoService'
 import type { SignInfo } from '@/services/CryptoService'
+import { useSeoMeta } from '@unhead/vue'
 
+useSeoMeta({
+  title: 'OTA Verifier'
+})
 const store = useUiStore()
 const input = useTemplateRef('input')
 const verifyResult = ref('')

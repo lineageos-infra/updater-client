@@ -25,8 +25,14 @@ import ApiService, { type ChangeGroup } from '@/services/ApiService'
 import { loadDeviceBuildsBeforeHook } from '@/hooks/loadBeforeHooks'
 import { ref, computed, onMounted, onUnmounted, watch, useTemplateRef } from 'vue'
 import { useChangeStore } from '@/stores/change'
+import { useSeoMeta } from '@unhead/vue'
 
 const props = defineProps<{ model?: string }>()
+
+useSeoMeta({
+  title: props.model ? `Changes for ${props.model}` : undefined
+})
+
 const store = useChangeStore()
 const scrollable = useTemplateRef('scrollable')
 const buildChanges = ref([] as ChangeGroup[])

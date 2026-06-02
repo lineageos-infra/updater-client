@@ -7,5 +7,10 @@
 </template>
 
 <script setup lang="ts">
+import { useSeoMeta } from '@unhead/vue'
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
+
+useSeoMeta({
+  title: 'Devices'
+})
 </script>
