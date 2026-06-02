@@ -116,20 +116,25 @@ const verifyPackage = async (blob: Blob): Promise<VerifyResult> => {
     }
   }
 
-  if (
-    signInfo.publicKeyFingerprint !== '72:96:32:27:d6:6c:4c:4d:5f:a0:91:6a:c2:2c:79:3c:d4:5f:43:5c'
-  ) {
-    return {
-      status: false,
-      msg: 'Signature check failed (file is not signed by LineageOS)',
-      signInfo: signInfo
-    }
-  }
-
-  return {
-    status: true,
-    msg: 'Signature check passed',
-    signInfo: signInfo
+  switch (signInfo.publicKeyFingerprint) {
+    case '72:96:32:27:d6:6c:4c:4d:5f:a0:91:6a:c2:2c:79:3c:d4:5f:43:5c':
+      return {
+        status: true,
+        msg: 'Signature check passed',
+        signInfo: signInfo
+      }
+    case '48:59:00:56:3d:27:2c:46:ae:11:86:05:a4:74:19:ac:09:ca:8c:11':
+      return {
+        status: false,
+        msg: 'Signature check failed (file is signed using AOSP testkey)',
+        signInfo: signInfo
+      }
+    default:
+      return {
+        status: false,
+        msg: 'Signature check failed (file is not signed by LineageOS)',
+        signInfo: signInfo
+      }
   }
 }
 
