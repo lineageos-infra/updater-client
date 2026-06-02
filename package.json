@@ -24,19 +24,19 @@
     "android-fastboot": "github:lineageos-infra/fastboot.js#89d094a85d00342fe78652accc453890cbe0b124",
     "node-forge": "^1.4.0",
     "pinia": "^3.0.4",
-    "vue": "^3.5.34",
-    "vue-router": "^5.0.6"
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@tailwindcss/vite": "^4.3.0",
-    "@types/node": "^25.6.2",
+    "@types/node": "^25.9.1",
     "@types/node-forge": "^1.3.14",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.1",
     "husky": "^9.1.7",
@@ -44,8 +44,8 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
-    "vite": "^8.0.11",
-    "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.8"
+    "vite": "^8.0.16",
+    "vue-eslint-parser": "^10.4.1",
+    "vue-tsc": "^3.3.3"
   }
 }
