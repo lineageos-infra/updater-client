@@ -15,8 +15,8 @@ importers:
         specifier: ^5.2.10
         version: 5.2.10
       '@lineageos-infra/android-fastboot':
-        specifier: 1.1.4
-        version: 1.1.4
+        specifier: ^1.1.5
+        version: 1.1.5
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -401,8 +401,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lineageos-infra/android-fastboot@1.1.4':
-    resolution: {integrity: sha512-V7QyQLF++azKdWPEUbp+DODZpezzBDgkvlgdXefvUj8S5ILkGn4EL+SFSI4NJ+sjtt21LtrXOeThNFd5ZDiaoA==}
+  '@lineageos-infra/android-fastboot@1.1.5':
+    resolution: {integrity: sha512-36nldf1bIsot/X36A5RMkJDoZjMMxWigbpky2XqpbNETw1TDl1gtvjTkunlZg0qEi18eQDazAYu3XW+6sh8S3w==}
 
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
@@ -2143,7 +2143,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lineageos-infra/android-fastboot@1.1.4':
+  '@lineageos-infra/android-fastboot@1.1.5':
     dependencies:
       '@zip.js/zip.js': 2.8.26
 
