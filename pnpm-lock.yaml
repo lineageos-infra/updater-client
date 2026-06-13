@@ -15,7 +15,7 @@ importers:
         specifier: ^5.2.10
         version: 5.2.10
       '@lineageos-infra/android-fastboot':
-        specifier: v1.1.4
+        specifier: 1.1.4
         version: 1.1.4
       '@mdi/js':
         specifier: ^7.4.47
