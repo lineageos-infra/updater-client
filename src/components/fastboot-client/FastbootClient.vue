@@ -236,7 +236,10 @@ function bootImage() {
 }
 
 function bootImageExec(event: Event) {
-  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
+  const input = event?.currentTarget as HTMLInputElement
+  if (!input) return
+  const file = input.files?.[0]
+  input.value = ''
   if (!file) return
   stagePendingConfirm({ kind: 'boot', file })
 }
@@ -265,7 +268,10 @@ function flashImage() {
 }
 
 function flashImageExec(event: Event) {
-  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
+  const input = event?.currentTarget as HTMLInputElement
+  if (!input) return
+  const file = input.files?.[0]
+  input.value = ''
   if (!file || !partition.value) return
   stagePendingConfirm({ kind: 'flash', file, partition: partition.value })
 }
@@ -285,7 +291,10 @@ function wipeSuper() {
 }
 
 function wipeSuperExec(event: Event) {
-  const file = (event?.currentTarget as HTMLInputElement)?.files?.[0]
+  const input = event?.currentTarget as HTMLInputElement
+  if (!input) return
+  const file = input.files?.[0]
+  input.value = ''
   if (!file) return
   stagePendingConfirm({ kind: 'wipe-super', file })
 }
