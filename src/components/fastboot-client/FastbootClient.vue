@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
-import * as fastboot from 'android-fastboot'
+import * as fastboot from '@lineageos-infra/android-fastboot'
 import ConfirmDialog from '@/components/utils/ConfirmDialog.vue'
 
 defineOptions({ name: 'FastbootView' })
