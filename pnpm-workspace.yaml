@@ -2,3 +2,4 @@ allowBuilds:
   esbuild: false
 minimumReleaseAgeExclude:
   - '@lineageos-infra/android-fastboot'
+  - '@lineageos-infra/libmjolnir'

@@ -5,10 +5,12 @@
         <div class="flex flex-col items-start gap-4 px-6 pt-10 pb-4 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">Flash Tools</h1>
           <div class="order-1 flex-none grow-0 self-stretch">
-            <p>
-              You can use your browser to flash with the Fastboot tab and sideload OTA packages
-              (lineage-*.zip) with the ADB tab. Switch tabs below to continue.
-            </p>
+            <p>Flash your device directly from your browser. Supported modes:</p>
+            <ul class="my-0 list-disc pl-8">
+              <li>ADB (Recovery mode)</li>
+              <li>Fastboot (Fastboot / Fastbootd mode)</li>
+              <li>Odin (Samsung download mode)</li>
+            </ul>
             <p>
               As installation steps vary by device, please refer to the
               <a
@@ -32,24 +34,35 @@
               <button
                 class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
                 :class="
-                  activeTab === 'fastboot'
-                    ? 'bg-brand-primary text-white'
-                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
-                "
-                @click="activeTab = 'fastboot'"
-              >
-                1: Fastboot
-              </button>
-              <button
-                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
-                :class="
                   activeTab === 'adb'
                     ? 'bg-brand-primary text-white'
                     : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
                 "
                 @click="activeTab = 'adb'"
               >
-                2: ADB
+                1: ADB
+              </button>
+              <button
+                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                :class="
+                  activeTab === 'fastboot'
+                    ? 'bg-brand-primary text-white'
+                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
+                "
+                @click="activeTab = 'fastboot'"
+              >
+                2: Fastboot
+              </button>
+              <button
+                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                :class="
+                  activeTab === 'odin'
+                    ? 'bg-brand-primary text-white'
+                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
+                "
+                @click="activeTab = 'odin'"
+              >
+                3: Odin
               </button>
             </div>
             <div class="relative">
@@ -105,6 +118,7 @@
               </div>
             </div>
             <div id="fastboot-input-footer"></div>
+            <div id="odin-input-footer"></div>
           </div>
           <FastbootClient
             v-show="activeTab === 'fastboot'"
@@ -116,6 +130,12 @@
             v-show="activeTab === 'adb'"
             :append-log="(message) => appendLog('adb', message)"
             :update-last-log="(message) => updateLastLog('adb', message)"
+          />
+          <OdinClient
+            v-show="activeTab === 'odin'"
+            :append-log="(message) => appendLog('odin', message)"
+            :clear-log="() => clearLog('odin')"
+            :active="activeTab === 'odin'"
           />
         </template>
         <div v-else class="flex flex-col items-start gap-4 px-6 sm:px-4">
@@ -133,6 +153,7 @@ import { computed, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
+import OdinClient from '../odin-client/OdinClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
 import { useSeoMeta } from '@unhead/vue'
@@ -144,9 +165,11 @@ useSeoMeta({
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
+type Tab = 'fastboot' | 'adb' | 'odin'
+
 const route = useRoute()
-const activeTab = ref(route.params.tool as 'fastboot' | 'adb')
-const logs = reactive({ fastboot: '', adb: '' })
+const activeTab = ref(route.params.tool as Tab)
+const logs = reactive({ fastboot: '', adb: '', odin: '' })
 const log = useTemplateRef('log')
 
 const activeLog = computed(() => logs[activeTab.value])
@@ -157,14 +180,14 @@ async function scrollLogToBottom() {
   log.value.scrollTop = log.value.scrollHeight
 }
 
-function appendLog(tab: 'fastboot' | 'adb', message: string) {
+function appendLog(tab: Tab, message: string) {
   logs[tab] = logs[tab].length ? `${logs[tab]}\n${message}` : message
   if (tab === activeTab.value) {
     void scrollLogToBottom()
   }
 }
 
-function updateLastLog(tab: 'fastboot' | 'adb', message: string) {
+function updateLastLog(tab: Tab, message: string) {
   const lines = logs[tab].split('\n')
   if (lines.length === 0) {
     logs[tab] = message
@@ -177,11 +200,11 @@ function updateLastLog(tab: 'fastboot' | 'adb', message: string) {
   }
 }
 
-function clearLog(tab: 'fastboot' | 'adb') {
+function clearLog(tab: Tab) {
   logs[tab] = ''
 }
 
-watch(activeTab, (tab: 'fastboot' | 'adb') => {
+watch(activeTab, (tab: Tab) => {
   history.pushState({}, '', tab)
   void scrollLogToBottom()
 })

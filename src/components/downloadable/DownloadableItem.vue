@@ -62,6 +62,7 @@ import DownloadableDetail from './DownloadableDetail.vue'
 import type { BuildFile } from '@/stores/device'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiInformation, mdiInformationOutline } from '@mdi/js'
+import formatFileSize from '@/utils/formatFileSize'
 
 const props = defineProps<BuildFile>()
 
@@ -83,22 +84,5 @@ const osVersionHuman = computed(() => {
   return ''
 })
 
-const sizeHuman = computed(() => {
-  if (props.size !== undefined) {
-    const units = {
-      GiB: 3,
-      MiB: 2,
-      KiB: 1
-    }
-
-    for (const [unit, exponent] of Object.entries(units)) {
-      if (props.size >= Math.pow(1024, exponent)) {
-        return `${(props.size / Math.pow(1024, exponent)).toFixed(2)} ${unit}`
-      }
-    }
-
-    return `${props.size} B`
-  }
-  return ''
-})
+const sizeHuman = computed(() => (props.size !== undefined ? formatFileSize(props.size) : ''))
 </script>

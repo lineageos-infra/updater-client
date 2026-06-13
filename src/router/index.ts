@@ -34,7 +34,7 @@ const router = createRouter({
           component: () => import('@/components/verify-tab/VerifyTab.vue')
         },
         {
-          path: 'flash/:tool(adb|fastboot)?',
+          path: 'flash/:tool(adb|fastboot|odin)?',
           name: 'home_flash_tools',
           component: () => import('@/components/flash-tools-tab/FlashToolsTab.vue')
         }
