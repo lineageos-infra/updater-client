@@ -16,7 +16,7 @@
     "@awasm/noble": "^0.1.2",
     "@fontsource/roboto": "^5.2.10",
     "@lineageos-infra/android-fastboot": "^1.1.5",
-    "@lineageos-infra/libmjolnir": "^0.6.1",
+    "@lineageos-infra/libmjolnir": "^0.6.2",
     "@mdi/js": "^7.4.47",
     "@unhead/vue": "^3.1.1",
     "@vueuse/core": "^14.3.0",
