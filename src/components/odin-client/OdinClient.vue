@@ -243,9 +243,8 @@ async function confirmFlash() {
   pendingConfirm.value = null
   partition.value = ''
   mode.value = 'idle'
-  const bytes = new Uint8Array(await c.file.arrayBuffer())
   props.appendLog(`${c.partition} upload start`)
-  await device.value?.flashPartition(c.partition, bytes)
+  await device.value?.flashPartition(c.partition, c.file)
   props.appendLog(`${c.partition} upload successful`)
 }
 

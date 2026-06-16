@@ -18,8 +18,8 @@ importers:
         specifier: ^1.1.5
         version: 1.1.5
       '@lineageos-infra/libmjolnir':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.7.0
+        version: 0.7.0
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -407,8 +407,8 @@ packages:
   '@lineageos-infra/android-fastboot@1.1.5':
     resolution: {integrity: sha512-36nldf1bIsot/X36A5RMkJDoZjMMxWigbpky2XqpbNETw1TDl1gtvjTkunlZg0qEi18eQDazAYu3XW+6sh8S3w==}
 
-  '@lineageos-infra/libmjolnir@0.6.2':
-    resolution: {integrity: sha512-sZik0FB4mFzAEjUGf53FIqDDKE88kLlSQR+gJA60LmW+J3cxfmiGooXl25VF5EOfh2OnikwULeAfiUjNUJlzTg==}
+  '@lineageos-infra/libmjolnir@0.7.0':
+    resolution: {integrity: sha512-461L/anD1cobMD7PLOT0k3YoJ2vp4NvB0R0URGbjYLOmSrvVJCeGC/JoKM9TAgpJWqRkvzpchxmtfLBLtjMO4g==}
 
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
@@ -2153,7 +2153,7 @@ snapshots:
     dependencies:
       '@zip.js/zip.js': 2.8.26
 
-  '@lineageos-infra/libmjolnir@0.6.2': {}
+  '@lineageos-infra/libmjolnir@0.7.0': {}
 
   '@mdi/js@7.4.47': {}
 
