@@ -94,7 +94,7 @@ const isDragging = ref(false)
 const pendingConfirm = ref<{ file: File; partition: string } | null>(null)
 const devicePit = ref<libpit.PitData | null>(null)
 
-// Partition names are upper-case in the PIT; mirror that as the user types
+// Partition names are mostly upper-case in the PIT; mirror that as the user types
 watch(inputValue, (value) => {
   const upper = value.toUpperCase()
   if (upper !== value) inputValue.value = upper
@@ -216,11 +216,14 @@ function promptFlashImage() {
 function flashImage() {
   const value = inputValue.value.trim().toUpperCase()
   if (!value) return
-  if (!devicePit.value?.findEntryByName(value)) {
+  const entry = devicePit.value?.entries.find(
+    (e) => e.isFlashable && e.partitionName.toUpperCase() === value
+  )
+  if (!entry) {
     props.appendLog(`Unknown partition "${value}".`)
     return
   }
-  partition.value = value
+  partition.value = entry.partitionName
   inputValue.value = ''
   mode.value = 'awaiting-flash'
 }
