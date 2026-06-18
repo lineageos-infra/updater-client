@@ -188,7 +188,8 @@ function formatPit(pit: libpit.PitData) {
   const lines = [`PIT — board: ${pit.boardType}`]
   for (const entry of pit.entries) {
     if (!entry.isFlashable) continue
-    const flashName = entry.flashFilename ? ` (${entry.flashFilename})` : ''
+    const flashName =
+      entry.flashFilename && entry.flashFilename !== '-' ? ` (${entry.flashFilename})` : ''
     const size = formatFileSize(entry.partitionSize)
     lines.push(`  [${entry.identifier}] ${entry.partitionName}${flashName} — ${size}`)
   }
