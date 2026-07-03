@@ -5,6 +5,7 @@ import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
+import { useUiStore } from '@/stores/ui.ts'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -119,6 +120,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded) => {
+  if (to.name !== 'error') useUiStore().setError(undefined)
+
   if (to.path === '/') {
     const isMobile = window.matchMedia('(max-width: 1024px)').matches
     if (isMobile) {
