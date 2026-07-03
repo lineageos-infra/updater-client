@@ -18,6 +18,7 @@ export class AdbService {
   private adb: Adb | undefined
   private credentialStore = new AdbWebCredentialStore()
   private observer: AdbDaemonWebUsbDeviceObserver | undefined
+  private observerStopped = false
   private banner: AdbBanner | undefined
 
   get isConnected(): boolean {
@@ -42,14 +43,22 @@ export class AdbService {
 
   async initObserver(): Promise<AdbDaemonWebUsbDeviceObserver> {
     if (!this.manager) throw new Error('AdbService not initialized')
-    this.observer = await this.manager.trackDevices()
+    this.observerStopped = false
+    const observer = await this.manager.trackDevices()
 
-    return this.observer
+    if (this.observerStopped) {
+      observer.stop()
+    } else {
+      this.observer = observer
+    }
+
+    return observer
   }
 
   stopObserver(): void {
-    if (!this.observer) throw new Error('Observer not initialized')
-    this.observer.stop()
+    this.observerStopped = true
+    this.observer?.stop()
+    this.observer = undefined
   }
 
   async connect(): Promise<{ name: string; serial: string }> {
@@ -71,10 +80,13 @@ export class AdbService {
   }
 
   async disconnect(): Promise<void> {
-    await this.adb?.close()
-    this.adb = undefined
-    this.banner = undefined
-    this.device = undefined
+    try {
+      await this.adb?.close()
+    } finally {
+      this.adb = undefined
+      this.banner = undefined
+      this.device = undefined
+    }
   }
 
   async reboot(target?: 'recovery' | 'bootloader'): Promise<void> {
@@ -116,11 +128,13 @@ export class AdbService {
         await writer.write(new Uint8Array(await chunk.arrayBuffer()))
 
         transmittedBytes += chunk.size
-        onProgress(Math.floor((transmittedBytes / data.size) * 100))
+        onProgress(Math.min(100, Math.floor((transmittedBytes / data.size) * 100)))
       }
     } finally {
-      await socket.close()
-      this.adb = undefined
+      try {
+        await socket.close()
+      } catch {}
+      await this.disconnect().catch(() => {})
     }
   }
 }
