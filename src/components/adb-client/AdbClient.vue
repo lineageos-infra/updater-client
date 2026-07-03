@@ -90,22 +90,26 @@ const props = defineProps<{
 
 onMounted(async () => {
   adbService.init()
-  const adbObserver = await adbService.initObserver()
-  adbObserver.onDeviceRemove(async (devices) => {
-    for (const d of devices) {
-      if (d.serial === adbService.deviceSerial) {
-        await adbService.disconnect()
-        connected.value = false
-        props.appendLog(`Disconnected ${d.name} (${d.serial})`)
+  try {
+    const adbObserver = await adbService.initObserver()
+    adbObserver.onDeviceRemove(async (devices) => {
+      for (const d of devices) {
+        if (d.serial === adbService.deviceSerial) {
+          await adbService.disconnect()
+          connected.value = false
+          props.appendLog(`Disconnected ${d.name} (${d.serial})`)
+        }
       }
-    }
-  })
+    })
+  } catch (err) {
+    props.appendLog(`Device tracking unavailable: ${String(err)}`)
+  }
 })
 
 onUnmounted(async () => {
-  await adbService.disconnect()
   adbService.stopObserver()
   connected.value = false
+  await adbService.disconnect().catch(() => {})
 })
 
 async function connect() {
