@@ -16,11 +16,13 @@ export type VerifyResult =
   | { status: boolean; msg: string; signInfo: SignInfo }
   | { status: false; msg: string; signInfo?: undefined }
 
+export type CryptoRequest = { type: 'verify' | 'sha256'; blob: Blob }
+
 export default class CryptoService {
-  static verifyPackage(blob: Blob): Promise<VerifyResult> {
+  private static run<T>(request: CryptoRequest): Promise<T> {
     return new Promise((resolve, reject) => {
       const worker = new CryptoWorker()
-      worker.onmessage = (event: MessageEvent<VerifyResult>) => {
+      worker.onmessage = (event: MessageEvent<T>) => {
         resolve(event.data)
         worker.terminate()
       }
@@ -28,7 +30,15 @@ export default class CryptoService {
         reject(new Error(event.message || 'Worker error'))
         worker.terminate()
       }
-      worker.postMessage(blob)
+      worker.postMessage(request)
     })
+  }
+
+  static verifyPackage(blob: Blob): Promise<VerifyResult> {
+    return this.run({ type: 'verify', blob })
+  }
+
+  static sha256(blob: Blob): Promise<string> {
+    return this.run({ type: 'sha256', blob })
   }
 }

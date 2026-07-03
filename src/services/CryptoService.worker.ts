@@ -1,6 +1,6 @@
 import forge from 'node-forge'
 import { sha1, sha256 } from '@awasm/noble'
-import type { VerifyResult } from './CryptoService'
+import type { CryptoRequest, VerifyResult } from './CryptoService'
 
 const u8ArrayToString = (data: Uint8Array): string =>
   String.fromCharCode.apply(null, Array.from(data))
@@ -138,7 +138,21 @@ const verifyPackage = async (blob: Blob): Promise<VerifyResult> => {
   }
 }
 
-self.onmessage = async (event: MessageEvent<Blob>) => {
-  const result = await verifyPackage(event.data)
+const hashBlob = async (blob: Blob): Promise<string> => {
+  const hasher = sha256.create()
+  const reader = blob.stream().getReader()
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    hasher.update(value)
+  }
+
+  return [...hasher.digest()].map((x) => x.toString(16).padStart(2, '0')).join('')
+}
+
+self.onmessage = async (event: MessageEvent<CryptoRequest>) => {
+  const { type, blob } = event.data
+  const result = type === 'sha256' ? await hashBlob(blob) : await verifyPackage(blob)
   self.postMessage(result)
 }

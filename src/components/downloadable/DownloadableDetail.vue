@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { useTemplateRef, reactive } from 'vue'
 import ConfirmDialog from '@/components/utils/ConfirmDialog.vue'
+import CryptoService from '@/services/CryptoService'
 
 const props = defineProps<{
   title: string
@@ -41,23 +42,19 @@ function showDialog(title: string, message: string) {
 function compareSha256(event: PointerEvent) {
   event.preventDefault()
   if (!input.value) return
-  input.value.onchange = () => {
-    if (!input.value || !input.value.files || !input.value.files[0]) return
-    const fileReader = new FileReader()
-    fileReader.onload = async () => {
-      if (!fileReader.result || !(fileReader.result instanceof ArrayBuffer)) return
-      const hash = await crypto.subtle.digest('SHA-256', fileReader.result)
-      const hashString = [...new Uint8Array(hash)]
-        .map((x) => x.toString(16).padStart(2, '0'))
-        .join('')
-
+  input.value.onchange = async () => {
+    const file = input.value?.files?.[0]
+    if (!file) return
+    try {
+      const hashString = await CryptoService.sha256(file)
       if (props.value !== hashString) {
         showDialog('SHA256 Mismatch', `Expected: ${props.value}\n\nGot: ${hashString}`)
       } else {
         showDialog('SHA256', 'Matches')
       }
+    } catch (err) {
+      showDialog('SHA256 Error', err instanceof Error ? err.message : String(err))
     }
-    fileReader.readAsArrayBuffer(input.value.files[0])
   }
   input.value.value = ''
   input.value.click()
