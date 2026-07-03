@@ -5,7 +5,6 @@ import DeviceView from '../views/DeviceView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import HomeView from '../views/HomeView.vue'
 import SideBar from '../components/sidebar/SideBar.vue'
-import { useMediaQuery } from '@vueuse/core'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -121,8 +120,8 @@ const router = createRouter({
 
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded) => {
   if (to.path === '/') {
-    const isMobile = useMediaQuery('(max-width: 1024px)')
-    if (isMobile.value) {
+    const isMobile = window.matchMedia('(max-width: 1024px)').matches
+    if (isMobile) {
       await router.push('/devices')
     } else {
       await router.push('/changes')
