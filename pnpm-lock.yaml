@@ -17,6 +17,9 @@ importers:
       '@lineageos-infra/android-fastboot':
         specifier: ^1.1.5
         version: 1.1.5
+      '@lineageos-infra/libamlburn':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@lineageos-infra/libmjolnir':
         specifier: ^0.7.2
         version: 0.7.2
@@ -406,6 +409,10 @@ packages:
 
   '@lineageos-infra/android-fastboot@1.1.5':
     resolution: {integrity: sha512-36nldf1bIsot/X36A5RMkJDoZjMMxWigbpky2XqpbNETw1TDl1gtvjTkunlZg0qEi18eQDazAYu3XW+6sh8S3w==}
+
+  '@lineageos-infra/libamlburn@0.1.0':
+    resolution: {integrity: sha512-GiFnh0MZ6Wtkk/B1nHkDycTRhe3089zM6Nl09kI97ZjTM0lJe1JJWPzm4CYcRLMK3XkePYH+P4s5LMJzVo6o2w==}
+    engines: {node: '>=22'}
 
   '@lineageos-infra/libmjolnir@0.7.2':
     resolution: {integrity: sha512-Brrk4tC0s7xbIQvkL/0ZtnWYj5sEPTzfY4fSW+DjA5GnpJohFCHa8Nawmic8G/qKLC6FuDCrwoqn6rN0vn0fWQ==}
@@ -2163,6 +2170,8 @@ snapshots:
   '@lineageos-infra/android-fastboot@1.1.5':
     dependencies:
       '@zip.js/zip.js': 2.8.26
+
+  '@lineageos-infra/libamlburn@0.1.0': {}
 
   '@lineageos-infra/libmjolnir@0.7.2': {}
 
