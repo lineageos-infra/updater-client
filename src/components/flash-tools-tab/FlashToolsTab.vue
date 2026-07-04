@@ -10,6 +10,7 @@
               <li>ADB (Recovery mode)</li>
               <li>Fastboot (Fastboot / Fastbootd mode)</li>
               <li>Odin (Samsung download mode)</li>
+              <li>Amlogic (USB Burn mode)</li>
             </ul>
             <p>
               As installation steps vary by device, please refer to the
@@ -29,40 +30,25 @@
             class="mb-4 overflow-hidden rounded-2xl border border-solid border-black/15 bg-gray-200 shadow-sm dark:border-white/10 dark:bg-black"
           >
             <div
-              class="dark:bg-brand-dark flex items-center gap-2 border-b border-black/10 bg-white px-2 pt-2 dark:border-white/10"
+              class="dark:bg-brand-dark flex [scrollbar-width:none] flex-nowrap items-center gap-2 overflow-x-auto scroll-smooth border-b border-black/10 bg-white px-2 pt-2 dark:border-white/10 [&::-webkit-scrollbar]:hidden"
             >
               <button
-                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
-                :class="
-                  activeTab === 'adb'
-                    ? 'bg-brand-primary text-white'
-                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
+                v-for="(tab, index) in TABS"
+                :key="tab.id"
+                :ref="
+                  (el) => {
+                    if (el) tabRefs[tab.id] = el as HTMLButtonElement
+                  }
                 "
-                @click="activeTab = 'adb'"
-              >
-                1: ADB
-              </button>
-              <button
-                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
+                class="shrink-0 cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider whitespace-nowrap uppercase transition-all duration-200"
                 :class="
-                  activeTab === 'fastboot'
-                    ? 'bg-brand-primary text-white'
-                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
+                  activeTab === tab.id
+                    ? 'bg-brand-primary font-bold text-white shadow-xs'
+                    : 'font-medium text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
                 "
-                @click="activeTab = 'fastboot'"
+                @click="activeTab = tab.id"
               >
-                2: Fastboot
-              </button>
-              <button
-                class="cursor-pointer rounded-t-lg px-4 py-1 text-xs font-semibold tracking-wider uppercase transition-colors duration-200"
-                :class="
-                  activeTab === 'odin'
-                    ? 'bg-brand-primary text-white'
-                    : 'text-black/60 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10'
-                "
-                @click="activeTab = 'odin'"
-              >
-                3: Odin
+                {{ index + 1 }}: {{ tab.label }}
               </button>
             </div>
             <div class="relative">
@@ -119,6 +105,7 @@
             </div>
             <div id="fastboot-input-footer"></div>
             <div id="odin-input-footer"></div>
+            <div id="amlogic-input-footer"></div>
           </div>
           <FastbootClient
             v-show="activeTab === 'fastboot'"
@@ -137,6 +124,13 @@
             :clear-log="() => clearLog('odin')"
             :active="activeTab === 'odin'"
           />
+          <AmlogicClient
+            v-show="activeTab === 'amlogic'"
+            :append-log="(message) => appendLog('amlogic', message)"
+            :update-last-log="(message) => updateLastLog('amlogic', message)"
+            :clear-log="() => clearLog('amlogic')"
+            :active="activeTab === 'amlogic'"
+          />
         </template>
         <div v-else class="flex flex-col items-start gap-4 px-6 sm:px-4">
           <p class="bg-[#f8d7da] text-lg font-medium dark:bg-[#522b2a] dark:text-[#f8d7da]">
@@ -149,11 +143,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
 import OdinClient from '../odin-client/OdinClient.vue'
+import AmlogicClient from '../amlogic-client/AmlogicClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
 import { useSeoMeta } from '@unhead/vue'
@@ -165,12 +160,25 @@ useSeoMeta({
 // @ts-expect-error: Some browsers have WebUSB, do not enforce strict type check here
 const webUsbSupported = typeof navigator !== 'undefined' && navigator.usb !== undefined
 
-type Tab = 'fastboot' | 'adb' | 'odin'
+type Tab = 'fastboot' | 'adb' | 'odin' | 'amlogic'
+
+interface TabItem {
+  id: Tab
+  label: string
+}
+
+const TABS: TabItem[] = [
+  { id: 'adb', label: 'ADB' },
+  { id: 'fastboot', label: 'Fastboot' },
+  { id: 'odin', label: 'Odin' },
+  { id: 'amlogic', label: 'Amlogic' }
+]
 
 const route = useRoute()
 const activeTab = ref(route.params.tool as Tab)
-const logs = reactive({ fastboot: '', adb: '', odin: '' })
+const logs = reactive({ fastboot: '', adb: '', odin: '', amlogic: '' })
 const log = useTemplateRef('log')
+const tabRefs = reactive<Record<string, HTMLButtonElement>>({})
 
 const activeLog = computed(() => logs[activeTab.value])
 
@@ -204,8 +212,22 @@ function clearLog(tab: Tab) {
   logs[tab] = ''
 }
 
+function scrollActiveTabIntoView(behavior: ScrollBehavior = 'smooth') {
+  void nextTick(() => {
+    const el = tabRefs[activeTab.value]
+    if (el) {
+      el.scrollIntoView({ behavior, block: 'nearest', inline: 'center' })
+    }
+  })
+}
+
+onMounted(() => {
+  scrollActiveTabIntoView('auto')
+})
+
 watch(activeTab, (tab: Tab) => {
   history.pushState({}, '', tab)
   void scrollLogToBottom()
+  scrollActiveTabIntoView('smooth')
 })
 </script>
