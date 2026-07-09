@@ -15,8 +15,8 @@ importers:
         specifier: ^5.2.10
         version: 5.2.10
       '@lineageos-infra/android-fastboot':
-        specifier: ^1.1.5
-        version: 1.1.5
+        specifier: ^1.1.6
+        version: 1.1.6
       '@lineageos-infra/libamlburn':
         specifier: ^0.1.1
         version: 0.1.1
@@ -407,8 +407,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lineageos-infra/android-fastboot@1.1.5':
-    resolution: {integrity: sha512-36nldf1bIsot/X36A5RMkJDoZjMMxWigbpky2XqpbNETw1TDl1gtvjTkunlZg0qEi18eQDazAYu3XW+6sh8S3w==}
+  '@lineageos-infra/android-fastboot@1.1.6':
+    resolution: {integrity: sha512-96MurJYrTiKWl3g77QoxhIVSjm0ZLJiV1nPbrzoYHmmIUornUZ+Em5mXr+i7xha6QKrk1+Tw7WWOdD74BznETQ==}
 
   '@lineageos-infra/libamlburn@0.1.1':
     resolution: {integrity: sha512-O/QST3RztOUkg4l8Kb8vP9T7Y7jN1mUGgRhBeIM7jMZ+Nza2AOWPUfm7wp2STOxezjYp6mNRhgsvi+y15EZwrg==}
@@ -2167,7 +2167,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lineageos-infra/android-fastboot@1.1.5':
+  '@lineageos-infra/android-fastboot@1.1.6':
     dependencies:
       '@zip.js/zip.js': 2.8.26
 
