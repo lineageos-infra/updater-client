@@ -10,7 +10,7 @@
               <li>ADB (Recovery mode)</li>
               <li>Fastboot (Fastboot / Fastbootd mode)</li>
               <li>Odin (Samsung download mode)</li>
-              <li>Amlogic (USB Burn mode)</li>
+              <li>Amlogic (USB burn mode)</li>
             </ul>
             <p>
               As installation steps vary by device, please refer to the
