@@ -21,8 +21,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@lineageos-infra/libmjolnir':
-        specifier: ^0.7.2
-        version: 0.7.2
+        specifier: ^0.7.3
+        version: 0.7.3
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -414,8 +414,8 @@ packages:
     resolution: {integrity: sha512-O/QST3RztOUkg4l8Kb8vP9T7Y7jN1mUGgRhBeIM7jMZ+Nza2AOWPUfm7wp2STOxezjYp6mNRhgsvi+y15EZwrg==}
     engines: {node: '>=22'}
 
-  '@lineageos-infra/libmjolnir@0.7.2':
-    resolution: {integrity: sha512-Brrk4tC0s7xbIQvkL/0ZtnWYj5sEPTzfY4fSW+DjA5GnpJohFCHa8Nawmic8G/qKLC6FuDCrwoqn6rN0vn0fWQ==}
+  '@lineageos-infra/libmjolnir@0.7.3':
+    resolution: {integrity: sha512-xiqOuT5BKVULqFMf0wwUXBwDnaBF6YDpydMznBYzwyDo3jOTc9AZ3i22tb1bWlEkzd4EOj+lGXOE5hLlCx1GLg==}
 
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
@@ -2173,7 +2173,7 @@ snapshots:
 
   '@lineageos-infra/libamlburn@0.1.1': {}
 
-  '@lineageos-infra/libmjolnir@0.7.2': {}
+  '@lineageos-infra/libmjolnir@0.7.3': {}
 
   '@mdi/js@7.4.47': {}
 
