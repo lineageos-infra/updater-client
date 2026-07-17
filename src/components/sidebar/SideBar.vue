@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import DeviceSelector from '../device-selector/DeviceSelector.vue'
-import Logo from '../../assets/logo.svg'
+import { Logo } from '@/services/branding'
 
 defineProps<{ activeModel?: string }>()
 </script>

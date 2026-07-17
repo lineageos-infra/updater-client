@@ -46,7 +46,7 @@
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
 import { useDark, useToggle } from '@vueuse/core'
-import Logo from '../../assets/logo.svg'
+import { Logo } from '@/services/branding'
 
 defineProps<{
   tabs: ({

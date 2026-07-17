@@ -1,7 +1,7 @@
 import forge from 'node-forge'
 import { sha1, sha256 } from '@awasm/noble'
 import type { CryptoRequest, VerifyResult } from './CryptoService'
-import { BRAND_NAME } from './config'
+import { BRAND_NAME, SIGNING_KEY_FINGERPRINT } from './config'
 
 const u8ArrayToString = (data: Uint8Array): string =>
   String.fromCharCode.apply(null, Array.from(data))
@@ -118,7 +118,7 @@ const verifyPackage = async (blob: Blob): Promise<VerifyResult> => {
   }
 
   switch (signInfo.publicKeyFingerprint) {
-    case '72:96:32:27:d6:6c:4c:4d:5f:a0:91:6a:c2:2c:79:3c:d4:5f:43:5c':
+    case SIGNING_KEY_FINGERPRINT:
       return {
         status: true,
         msg: 'Signature check passed',
