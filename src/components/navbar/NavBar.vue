@@ -8,7 +8,7 @@
         <button class="btn cursor-pointer rounded-lg p-2" @click="toggleDark()">
           <MdiIcon :path="isDark ? mdiWeatherNight : mdiWeatherSunny" />
         </button>
-        <div class="[&_path]:fill-brand-primary h-6 lg:hidden" v-html="logo"></div>
+        <Logo class="fill-brand-primary h-6 lg:hidden" />
       </div>
     </div>
     <div class="flex overflow-auto leading-4 whitespace-nowrap">
@@ -46,7 +46,7 @@
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
 import { useDark, useToggle } from '@vueuse/core'
-import logo from '../../assets/logo.svg?raw'
+import Logo from '../../assets/logo.svg'
 
 defineProps<{
   tabs: ({
