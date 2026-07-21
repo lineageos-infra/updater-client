@@ -6,7 +6,7 @@
     @drop.prevent="fileDropped"
   >
     <div class="h-full w-full grow overflow-auto">
-      <div class="mx-auto max-w-189 min-w-0 px-8">
+      <div class="mx-auto max-w-190 min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-6 py-10 sm:px-4">
           <h1 class="m-0 flex-none self-stretch text-3xl font-medium">OTA Verifier</h1>
           <div class="order-1 flex-none grow-0 self-stretch">
@@ -86,6 +86,53 @@
               </td>
             </tr>
           </tbody>
+
+          <tbody v-if="payloadMetadata" class="[&_tr]:bg-[#d3d3d3]! dark:[&_tr]:bg-[#2c3034]!">
+            <tr>
+              <td>Payload Metadata</td>
+              <td>
+                <button
+                  type="button"
+                  class="text-brand-primary inline-flex cursor-pointer items-center gap-1 font-medium hover:underline"
+                  @click="toggleMetadata"
+                >
+                  <span>{{ metadataExpanded ? 'Hide metadata' : 'View metadata' }}</span>
+                  <MdiIcon
+                    :path="mdiChevronRight"
+                    class="text-xl transition-transform duration-150 ease-out"
+                    :class="{ 'rotate-90': metadataExpanded }"
+                  />
+                </button>
+              </td>
+            </tr>
+            <template v-if="metadataExpanded">
+              <tr>
+                <td
+                  class="text-xs font-semibold tracking-wider text-black/60 uppercase dark:text-white/60"
+                >
+                  Partition
+                </td>
+                <td
+                  class="text-xs font-semibold tracking-wider text-black/60 uppercase dark:text-white/60"
+                >
+                  SHA256 Hash
+                </td>
+              </tr>
+              <tr v-for="item in partitions" :key="item.partitionName">
+                <td>
+                  <div>{{ item.partitionName }}</div>
+                  <div class="text-xs text-black/60 dark:text-white/60">
+                    {{
+                      item.newPartitionInfo?.size ? formatFileSize(item.newPartitionInfo.size) : '-'
+                    }}
+                  </div>
+                </td>
+                <td class="font-mono text-xs break-all">
+                  {{ item.newPartitionInfo?.hash ? toHex(item.newPartitionInfo.hash) : '-' }}
+                </td>
+              </tr>
+            </template>
+          </tbody>
         </table>
         <div class="mb-4 flex justify-center">
           <button
@@ -106,22 +153,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, useTemplateRef } from 'vue'
+import { computed, ref, watch, useTemplateRef } from 'vue'
+import { DeltaArchiveManifest } from '@/ota/update_metadata'
 import { useUiStore } from '@/stores/ui'
 import CryptoService from '@/services/CryptoService'
+import PayloadMetadataService from '@/services/PayloadMetadataService'
 import type { SignInfo } from '@/services/CryptoService'
 import { useSeoMeta } from '@unhead/vue'
+import { mdiChevronRight } from '@mdi/js'
+import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
+import formatFileSize from '@/utils/formatFileSize'
 
 useSeoMeta({
   title: 'OTA Verifier'
 })
 const store = useUiStore()
 const input = useTemplateRef('input')
+const payloadMetadata = ref<DeltaArchiveManifest | null>(null)
+const metadataExpanded = ref(false)
 const verifyResult = ref('')
 const verifySignInfo = ref<SignInfo | null>(null)
 const fileName = ref('')
 const isVerified = ref(false)
 const isVerifying = ref(false)
+
+const partitions = computed(() =>
+  [...(payloadMetadata.value?.partitions ?? [])].sort((a, b) =>
+    a.partitionName.localeCompare(b.partitionName)
+  )
+)
+
+const toHex = (bytes: Uint8Array) =>
+  Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('')
+
+const toggleMetadata = () => {
+  metadataExpanded.value = !metadataExpanded.value
+}
 
 const fileDragOver = (event: DragEvent) => {
   if (event.currentTarget instanceof HTMLElement) {
@@ -173,14 +242,20 @@ const verifyFile = async (blob?: File) => {
   if (!blob) {
     return
   }
+  payloadMetadata.value = null
+  metadataExpanded.value = false
   verifyResult.value = ''
   isVerifying.value = true
   try {
-    const result = await CryptoService.verifyPackage(blob)
+    const [result, metadata] = await Promise.all([
+      CryptoService.verifyPackage(blob),
+      PayloadMetadataService.readMetadataFromOta(blob)
+    ])
     fileName.value = blob.name
     isVerified.value = result.status
     verifyResult.value = result.msg
     verifySignInfo.value = result.signInfo ?? null
+    payloadMetadata.value = metadata
   } finally {
     isVerifying.value = false
   }
