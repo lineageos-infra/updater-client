@@ -1,26 +1,18 @@
 <template>
-  <div class="order-1 flex-none grow-0 self-stretch">
+  <div class="order-1 flex-none self-stretch">
     <div v-if="connected" class="rounded-2xl border border-black/25 p-4 dark:border-white/25">
       <template v-if="adbService.deviceState === 'device' || adbService.deviceState === 'recovery'">
         <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">
           Device reboot
         </div>
         <div class="flex flex-wrap items-center gap-2">
-          <button class="btn btn-outline px-4 py-1.5" :disabled="rebooting" @click="reboot()">
+          <button class="btn px-4 py-1.5" :disabled="rebooting" @click="reboot()">
             {{ rebootingTarget === 'system' ? 'Rebooting…' : 'Reboot system' }}
           </button>
-          <button
-            class="btn btn-outline px-4 py-1.5"
-            :disabled="rebooting"
-            @click="reboot('recovery')"
-          >
+          <button class="btn px-4 py-1.5" :disabled="rebooting" @click="reboot('recovery')">
             {{ rebootingTarget === 'recovery' ? 'Rebooting…' : 'Reboot recovery' }}
           </button>
-          <button
-            class="btn btn-outline px-4 py-1.5"
-            :disabled="rebooting"
-            @click="reboot('bootloader')"
-          >
+          <button class="btn px-4 py-1.5" :disabled="rebooting" @click="reboot('bootloader')">
             {{ rebootingTarget === 'bootloader' ? 'Rebooting…' : 'Reboot bootloader' }}
           </button>
         </div>
@@ -33,7 +25,7 @@
       <template v-else-if="adbService.deviceState === 'sideload'">
         <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-70">Sideload</div>
         <div class="flex flex-wrap items-center gap-3">
-          <label class="btn btn-outline px-4 py-1.5">
+          <label class="btn px-4 py-1.5">
             Choose ZIP
             <input
               ref="fileInput"
@@ -47,10 +39,10 @@
             <div v-if="selectedFile" class="truncate text-sm font-medium">
               {{ selectedFile.name }}
             </div>
-            <div v-else class="text-base-content/60 text-xs">No ZIP selected</div>
+            <div v-else class="text-xs">No ZIP selected</div>
           </div>
           <button
-            class="btn btn-primary px-4 py-1.5"
+            class="btn px-4 py-1.5"
             :disabled="sideloading || !selectedFile"
             @click="startSideload"
           >
@@ -65,7 +57,7 @@
     </div>
 
     <div v-else class="mb-4 w-full text-center">
-      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <button class="btn mx-auto px-4 py-1" @click="connect">Connect</button>
     </div>
   </div>
 </template>

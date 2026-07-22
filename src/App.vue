@@ -1,6 +1,6 @@
 <template>
-  <RouterView name="sidebar"></RouterView>
-  <RouterView id="main" class="h-full w-full grow" name="main"></RouterView>
+  <RouterView name="sidebar" />
+  <RouterView id="main" class="h-full w-full" name="main" />
   <HorizontalLoader class="absolute bottom-0 left-0" />
 </template>
 

@@ -18,7 +18,7 @@
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="text-brand-dark dark:text-brand-light hover:text-white hover:transition hover:duration-150 hover:ease-out"
+              class="text-brand-dark dark:text-brand-light transition-[background] duration-125 ease-out hover:text-white"
             >
               <path
                 d="M2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14V11H2V14H14V11H16V14C16
@@ -29,7 +29,7 @@
           </a>
           <MdiIcon
             :path="isExpanded ? mdiInformation : mdiInformationOutline"
-            class="transition-[background 0.125s ease-out] hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 select-none dark:opacity-55 dark:hover:bg-white/15"
+            class="hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 transition-[background] duration-125 ease-out select-none dark:hover:bg-white/15"
             @click="toggleManualExpansion"
           />
         </div>

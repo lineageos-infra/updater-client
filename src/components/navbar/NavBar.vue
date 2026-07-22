@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-[0 1px 3px rgba(0, 0, 0, 0.24)] relative w-full shrink-0 text-lg">
+  <div class="relative w-full shrink-0 text-lg shadow-[0_1px_3px_rgba(0,0,0,0.24)]">
     <div class="top flex justify-between leading-6">
       <div class="flex items-center overflow-auto p-4 whitespace-nowrap">
         <slot name="left"></slot>

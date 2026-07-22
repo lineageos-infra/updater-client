@@ -5,7 +5,7 @@
     >
       <input
         v-model="filterText"
-        class="transition-[border 0.125s ease-out] h-full w-full border-0 bg-transparent p-4 outline-0"
+        class="h-full w-full border-0 bg-transparent p-4 outline-0 transition-[border] duration-125 ease-out"
         type="text"
         placeholder="Search..."
       />
@@ -16,7 +16,7 @@
         @click="clearFilterText"
       />
     </div>
-    <div class="h-full grow overflow-auto">
+    <div class="grow overflow-auto">
       <DeviceOem v-for="oem in oems" v-bind="oem" :key="oem.name" />
     </div>
   </div>

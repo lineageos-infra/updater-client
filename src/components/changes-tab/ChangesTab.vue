@@ -1,10 +1,6 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div
-      ref="scrollable"
-      class="h-full w-full grow overflow-y-auto"
-      @scroll="checkScrolledToBottom"
-    >
+    <div ref="scrollable" class="w-full grow overflow-y-auto" @scroll="checkScrolledToBottom">
       <div class="mx-auto max-w-190 min-w-0 px-8">
         <template v-if="model">
           <template v-for="change in buildChanges" :key="change.build.filename">

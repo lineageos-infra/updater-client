@@ -1,5 +1,5 @@
 <template>
-  <div class="order-1 flex-none grow-0 self-stretch">
+  <div class="order-1 flex-none self-stretch">
     <Teleport to="#fastboot-input-footer" defer :disabled="!active">
       <div
         v-show="connected"
@@ -60,7 +60,7 @@
     </div>
 
     <div v-show="!connected" class="mb-4 w-full text-center">
-      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <button class="btn mx-auto px-4 py-1" @click="connect">Connect</button>
       <div class="mt-3 flex justify-center text-sm">Reboot to fastboot before connecting.</div>
     </div>
 

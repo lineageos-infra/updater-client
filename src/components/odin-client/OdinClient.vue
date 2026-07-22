@@ -1,5 +1,5 @@
 <template>
-  <div class="order-1 flex-none grow-0 self-stretch">
+  <div class="order-1 flex-none self-stretch">
     <Teleport to="#odin-input-footer" defer :disabled="!active">
       <div
         v-show="ready"
@@ -51,7 +51,7 @@
     </div>
 
     <div v-show="!connected" class="mb-4 w-full text-center">
-      <button class="btn btn-primary mx-auto px-4 py-1" @click="connect">Connect</button>
+      <button class="btn mx-auto px-4 py-1" @click="connect">Connect</button>
       <div class="mt-3 flex justify-center text-sm">Reboot to download mode before connecting.</div>
       <div class="mt-2 flex justify-center gap-2 text-xs text-black/60 dark:text-white/70">
         <span>Using {{ transportLabel }}</span>

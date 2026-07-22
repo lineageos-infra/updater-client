@@ -1,12 +1,12 @@
 <template>
   <div class="flex h-full w-full flex-col">
-    <div v-if="builds.length > 0" class="h-full w-full grow overflow-auto">
+    <div v-if="builds.length > 0" class="h-full w-full overflow-auto">
       <div class="mx-auto max-w-190 min-w-0 px-8">
-        <div class="flex flex-col items-start gap-4 px-4 py-10 @min-[480px]:px-6">
+        <div class="flex flex-col items-start gap-4 px-4 py-10 min-[480px]:px-6">
           <h1 class="m-0 flex-none self-stretch text-[32px] leading-9.5 font-medium">
             Download builds
           </h1>
-          <p class="order-1 flex-none grow-0 self-stretch">
+          <p class="order-1 flex-none self-stretch">
             Not all images are necessary for installation or upgrades. Check your device's
             <a class="text-brand-primary font-medium no-underline" :href="infoUrl" target="_blank"
               >wiki guides</a
@@ -21,7 +21,7 @@
             >.
           </p>
         </div>
-        <div class="list-label px-4 pt-0 pb-4 text-2xl leading-7 font-medium @min-[480px]:px-6">
+        <div class="list-label px-4 pt-0 pb-4 text-2xl leading-7 font-medium min-[480px]:px-6">
           Latest
         </div>
         <DownloadableGroup
