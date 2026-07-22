@@ -132,6 +132,10 @@ export class AdbService {
       }
     } finally {
       try {
+        reader.releaseLock()
+        writer.releaseLock()
+      } catch {}
+      try {
         await socket.close()
       } catch {}
       await this.disconnect().catch(() => {})
