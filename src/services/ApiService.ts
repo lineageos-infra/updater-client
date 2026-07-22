@@ -1,6 +1,7 @@
 import { useDeviceStore, type Build, type Device, type Oem } from '../stores/device'
 import { useChangeStore, type Change } from '../stores/change'
 import { useUiStore } from '../stores/ui'
+import { API_HOSTNAME } from './config'
 
 export type ChangeGroupBuild = {
   filename: string
@@ -12,8 +13,6 @@ export type ChangeGroup = {
   build: ChangeGroupBuild
   items: Change[]
 }
-
-const API_HOSTNAME = import.meta.env.VITE_API_HOSTNAME
 
 export default class ApiService {
   static sortOems(oems: Oem[]) {
