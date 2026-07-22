@@ -7,9 +7,12 @@
 <script setup lang="ts">
 import { useSeoMeta } from '@unhead/vue'
 import HorizontalLoader from './components/utils/HorizontalLoader.vue'
+import { BRAND_NAME } from './services/config'
+
+const siteTitle = `${BRAND_NAME} Downloads`
 
 useSeoMeta({
-  titleTemplate: (title) => (title ? `${title} | LineageOS Downloads` : 'LineageOS Downloads'),
-  ogTitle: 'LineageOS Downloads'
+  titleTemplate: (title) => (title ? `${title} | ${siteTitle}` : siteTitle),
+  ogTitle: siteTitle
 })
 </script>
