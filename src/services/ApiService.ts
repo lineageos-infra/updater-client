@@ -106,7 +106,10 @@ export default class ApiService {
     return filteredChanges
   }
 
+  private static loadingChanges = false
+
   static async loadMoreChanges(minPages = -1) {
+    if (this.loadingChanges) return
     const uiStore = useUiStore()
     const changeStore = useChangeStore()
     const page = changeStore.page + 1
@@ -115,6 +118,7 @@ export default class ApiService {
     }
     const params = new URLSearchParams({ page: page.toString() })
 
+    this.loadingChanges = true
     try {
       uiStore.startRequest()
       const response = await fetch(`${API_HOSTNAME}api/v2/changes?${params}`)
@@ -127,6 +131,8 @@ export default class ApiService {
     } catch (err) {
       uiStore.endRequest()
       throw err
+    } finally {
+      this.loadingChanges = false
     }
   }
 
