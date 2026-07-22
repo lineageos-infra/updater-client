@@ -205,6 +205,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  fastboot.setDebugLogger(() => {})
   connected.value = false
   device.value = null
   partition.value = ''
