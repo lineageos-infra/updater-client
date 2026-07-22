@@ -178,8 +178,10 @@ export default class PayloadMetadataService {
       }
 
       return this.parsePayloadMetadata(payloadBin)
+    } catch {
+      return null
     } finally {
-      await zipReader.close()
+      await zipReader.close().catch(() => {})
     }
   }
 }
