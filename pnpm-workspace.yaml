@@ -1,5 +1,7 @@
 allowBuilds:
   esbuild: false
+  sharp: false
+  workerd: false
 minimumReleaseAgeExclude:
   - '@lineageos-infra/android-fastboot'
   - '@lineageos-infra/libamlburn'
