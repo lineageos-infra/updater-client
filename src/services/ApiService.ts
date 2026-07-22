@@ -234,14 +234,13 @@ export default class ApiService {
     checkIfHasAny = false
   ) {
     for (const changesGroup of changesGroups) {
-      const newChanges = this.extractBuildChanges(changesGroup.build, changes)
       if (checkIfHasAny && changesGroup.items.length === 0) {
         continue
       }
 
       this.conditionalInsertMany(
         changesGroup.items,
-        newChanges,
+        this.extractBuildChanges(changesGroup.build, changes),
         this.changeSubmittedCompare.bind(this)
       )
     }
