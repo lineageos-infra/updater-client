@@ -15,7 +15,8 @@ export const useChangeStore = defineStore('change', {
   state: () => ({ page: -1, items: [] as Change[] }),
   actions: {
     addNextChangesPage(changes: Change[]) {
-      this.items = Array.from(new Set([...this.items, ...changes]))
+      const uniqueChanges = new Map([...this.items, ...changes].map((c) => [c.url, c]))
+      this.items = Array.from(uniqueChanges.values())
       this.page++
     }
   }
