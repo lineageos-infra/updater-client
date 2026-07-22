@@ -1,5 +1,5 @@
 export const API_HOSTNAME = import.meta.env.VITE_API_HOSTNAME
-export const BRAND_NAME = import.meta.env.VITE_BRAND_NAME
+export const BRAND_NAME = import.meta.env.VITE_BRAND_NAME ?? 'LineageOS'
 export const WIKI_URL = import.meta.env.VITE_WIKI_URL
 export const SIGNING_KEY_FINGERPRINT =
   import.meta.env.VITE_SIGNING_KEY_FINGERPRINT ??
