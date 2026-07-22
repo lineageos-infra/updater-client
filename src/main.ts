@@ -16,9 +16,9 @@ const head = createHead()
 
 useDark()
 
-app.use(router)
-
 app.use(pinia)
+
+app.use(router)
 
 app.use(head)
 
