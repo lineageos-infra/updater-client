@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full w-full flex-col">
     <div v-if="builds.length > 0" class="h-full w-full grow overflow-auto">
-      <div class="mx-auto max-w-189 min-w-0 px-8">
+      <div class="mx-auto max-w-190 min-w-0 px-8">
         <div class="flex flex-col items-start gap-4 px-4 py-10 @min-[480px]:px-6">
           <h1 class="m-0 flex-none self-stretch text-[32px] leading-9.5 font-medium">
             Download builds

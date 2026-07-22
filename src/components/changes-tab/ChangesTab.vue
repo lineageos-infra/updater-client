@@ -5,7 +5,7 @@
       class="h-full w-full grow overflow-y-auto"
       @scroll="checkScrolledToBottom"
     >
-      <div class="mx-auto max-w-189 min-w-0 px-8">
+      <div class="mx-auto max-w-190 min-w-0 px-8">
         <template v-if="model">
           <template v-for="change in buildChanges" :key="change.build.filename">
             <ChangesGroup v-bind="change" />
