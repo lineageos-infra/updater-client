@@ -119,18 +119,24 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded) => {
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded) => {
   if (to.name !== 'error') useUiStore().setError(undefined)
 
   if (to.path === '/') {
     const isMobile = window.matchMedia('(max-width: 1024px)').matches
-    if (isMobile) {
-      await router.push('/devices')
-    } else {
-      await router.push('/changes')
+    return isMobile ? '/devices' : '/changes'
+  }
+
+  if (to.path === '/flash' || to.path === '/flash/') {
+    if (
+      to.name === from.name &&
+      from.fullPath &&
+      from.fullPath !== '/flash' &&
+      from.fullPath !== '/flash/'
+    ) {
+      return from.fullPath
     }
-  } else if (to.path === '/flash' || to.path === '/flash/') {
-    await router.push(to.name === from.name ? from.fullPath : '/flash/fastboot')
+    return '/flash/fastboot'
   }
 })
 
