@@ -143,8 +143,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, nextTick, onMounted, reactive, useTemplateRef, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
 import OdinClient from '../odin-client/OdinClient.vue'
@@ -152,6 +152,8 @@ import AmlogicClient from '../amlogic-client/AmlogicClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
 import { useSeoMeta } from '@unhead/vue'
+
+const router = useRouter()
 
 useSeoMeta({
   title: 'Flash Tools'
@@ -175,7 +177,14 @@ const TABS: TabItem[] = [
 ]
 
 const route = useRoute()
-const activeTab = ref(route.params.tool as Tab)
+const activeTab = computed<Tab>({
+  get() {
+    return (route.params.tool as Tab) || 'adb'
+  },
+  set(tab) {
+    void router.push(`/flash/${tab}`)
+  }
+})
 const logs = reactive({ fastboot: '', adb: '', odin: '', amlogic: '' })
 const log = useTemplateRef('log')
 const tabRefs = reactive<Record<string, HTMLButtonElement>>({})
@@ -225,9 +234,11 @@ onMounted(() => {
   scrollActiveTabIntoView('auto')
 })
 
-watch(activeTab, (tab: Tab) => {
-  history.pushState({}, '', tab)
-  void scrollLogToBottom()
-  scrollActiveTabIntoView('smooth')
-})
+watch(
+  () => route.params.tool,
+  () => {
+    void scrollLogToBottom()
+    scrollActiveTabIntoView('smooth')
+  }
+)
 </script>

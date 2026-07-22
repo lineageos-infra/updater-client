@@ -7,6 +7,8 @@
 <script setup lang="ts">
 import { useUiStore } from '@/stores/ui'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const store = useUiStore()
 defineProps({
   message: {
@@ -15,7 +17,7 @@ defineProps({
   }
 })
 
-onMounted(() => {
-  history.pushState({}, '', '/')
+onMounted(async () => {
+  await router.push('/')
 })
 </script>
