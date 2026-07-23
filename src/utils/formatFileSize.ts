@@ -1,5 +1,5 @@
-export default function formatFileSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`
+export default function formatFileSize(bytes: number, inBytes: boolean = false) {
+  if (inBytes || bytes < 1024) return `${bytes} B`
   const units = ['KiB', 'MiB', 'GiB']
   let value = bytes / 1024
   let unit = 0

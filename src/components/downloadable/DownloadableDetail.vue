@@ -1,7 +1,7 @@
 <template>
   <div class="block lg:flex">
     <div class="block w-full shrink-0 opacity-50 lg:inline-block lg:w-1/5">{{ title }}</div>
-    <div class="block w-full shrink-0 break-all lg:inline-block lg:w-4/5">
+    <div class="block w-full shrink-0 break-all lg:inline-block lg:w-4/5" :title="valueTitle">
       {{ value }}
       <div v-if="title == 'SHA256'">
         <a class="text-brand-primary no-underline" href="#" @click="compareSha256">Compare</a>
@@ -28,6 +28,7 @@ import CryptoService from '@/services/CryptoService'
 const props = defineProps<{
   title: string
   value: string
+  valueTitle?: string
 }>()
 
 const input = useTemplateRef('input')
