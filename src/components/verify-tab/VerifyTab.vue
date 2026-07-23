@@ -121,7 +121,14 @@
               <tr v-for="item in partitions" :key="item.partitionName">
                 <td>
                   <div>{{ item.partitionName }}</div>
-                  <div class="text-xs text-black/60 dark:text-white/60">
+                  <div
+                    class="text-xs text-black/60 dark:text-white/60"
+                    :title="
+                      item.newPartitionInfo?.size
+                        ? formatFileSize(item.newPartitionInfo.size, true)
+                        : undefined
+                    "
+                  >
                     {{
                       item.newPartitionInfo?.size ? formatFileSize(item.newPartitionInfo.size) : '-'
                     }}

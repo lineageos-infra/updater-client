@@ -47,7 +47,12 @@
             :value="osPatchLevelHuman"
           />
           <DownloadableDetail v-if="type" title="Type" :value="type" />
-          <DownloadableDetail v-if="sizeHuman" title="Size" :value="sizeHuman" />
+          <DownloadableDetail
+            v-if="sizeHuman"
+            title="Size"
+            :value="sizeHuman.value"
+            :valueTitle="sizeHuman.valueTitle"
+          />
           <DownloadableDetail v-if="sha256" title="SHA256" :value="sha256" />
         </div>
       </div>
@@ -84,5 +89,12 @@ const osVersionHuman = computed(() => {
   return ''
 })
 
-const sizeHuman = computed(() => (props.size !== undefined ? formatFileSize(props.size) : ''))
+const sizeHuman = computed(() =>
+  props.size !== undefined
+    ? {
+        value: formatFileSize(props.size),
+        valueTitle: formatFileSize(props.size, true)
+      }
+    : ''
+)
 </script>
