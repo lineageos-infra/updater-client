@@ -3,8 +3,8 @@
     <div>
       <slot
         name="title"
-        :isExpanded="isExpanded"
-        :toggleManualExpansion="toggleManualExpansion"
+        :is-expanded="isExpanded"
+        :toggle-manual-expansion="toggleManualExpansion"
       ></slot>
     </div>
     <HeightTransition v-show="isExpanded">

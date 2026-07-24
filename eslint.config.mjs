@@ -13,6 +13,7 @@ export default defineConfigWithVueTs(
   {
     rules: {
       eqeqeq: 'error',
+      'vue/attribute-hyphenation': 'error',
       'vue/attributes-order': 'error',
       'vue/v-bind-style': ['error', 'shorthand'],
       'vue/v-on-style': ['error', 'shorthand'],

@@ -2,7 +2,7 @@
   <CollapsibleItem
     v-show="!hidden"
     class="border-b border-solid border-black/15 select-none dark:border-white/15"
-    :forceExpanded="forceExpanded"
+    :force-expanded="forceExpanded"
   >
     <template #title="{ isExpanded, toggleManualExpansion }">
       <div

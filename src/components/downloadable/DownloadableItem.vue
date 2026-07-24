@@ -51,7 +51,7 @@
             v-if="sizeHuman"
             title="Size"
             :value="sizeHuman.value"
-            :valueTitle="sizeHuman.valueTitle"
+            :value-title="sizeHuman.valueTitle"
           />
           <DownloadableDetail v-if="sha256" title="SHA256" :value="sha256" />
         </div>
