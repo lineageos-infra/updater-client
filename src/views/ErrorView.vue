@@ -1,6 +1,7 @@
 <template>
-  <main class="flex items-center justify-center text-center text-2xl">
-    <span>{{ store.error || message }}</span>
+  <main class="flex flex-col items-center justify-center text-center">
+    <span class="text-2xl">{{ message }}</span>
+    <button class="btn mt-2 px-4 py-1" @click="router.push('/')">Go back home</button>
   </main>
 </template>
 
@@ -10,14 +11,13 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const store = useUiStore()
-defineProps({
-  message: {
-    type: String,
-    default: 'An unknown error occurred'
-  }
-})
 
-onMounted(async () => {
-  await router.push('/')
+const message = store.error || 'An unknown error occurred'
+
+onMounted(() => {
+  if (store.errorPath !== undefined) {
+    // Use window instead of router here to avoid infinite loop
+    window.history.pushState({}, '', store.errorPath)
+  }
 })
 </script>

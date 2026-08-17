@@ -18,6 +18,7 @@ export const beforeTryError =
       } else {
         store.setError('An unknown error occurred')
       }
+      store.setErrorPath(to.fullPath)
       return { name: 'error' }
     }
   }
