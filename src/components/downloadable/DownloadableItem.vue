@@ -11,7 +11,7 @@
           {{ filename }}
         </div>
         <div class="flex items-center gap-2">
-          <a :href="url" class="btn px-5 py-2">
+          <a :href="url" :aria-label="`Download ${filename}`" class="btn px-5 py-2">
             <svg
               width="16"
               height="16"
@@ -27,11 +27,18 @@
               />
             </svg>
           </a>
-          <MdiIcon
-            :path="isExpanded ? mdiInformation : mdiInformationOutline"
+          <button
+            type="button"
+            :aria-label="`More info about ${filename}`"
+            :aria-expanded="isExpanded"
             class="hover:bg-dark/15 block shrink-0 cursor-pointer rounded-[50%] text-center text-2xl leading-9 opacity-55 transition-[background] duration-125 ease-out select-none dark:hover:bg-white/15"
             @click="toggleManualExpansion"
-          />
+          >
+            <MdiIcon
+              aria-hidden="true"
+              :path="isExpanded ? mdiInformation : mdiInformationOutline"
+            />
+          </button>
         </div>
       </div>
     </template>
