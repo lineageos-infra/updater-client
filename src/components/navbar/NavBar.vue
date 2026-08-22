@@ -5,7 +5,11 @@
         <slot name="left"></slot>
       </div>
       <div class="flex shrink-0 items-center gap-2 p-2 lg:gap-4">
-        <button class="btn cursor-pointer rounded-lg p-2" @click="toggleDark()">
+        <button
+          :aria-label="isDark ? 'Set light mode' : 'Set dark mode'"
+          class="btn cursor-pointer rounded-lg p-2"
+          @click="toggleDark()"
+        >
           <MdiIcon :path="isDark ? mdiWeatherNight : mdiWeatherSunny" />
         </button>
         <Logo class="fill-brand-primary h-6 lg:hidden" />

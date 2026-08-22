@@ -9,12 +9,15 @@
         type="text"
         placeholder="Search..."
       />
-      <MdiIcon
+      <button
         v-if="filterText"
-        :path="mdiClose"
+        type="button"
+        aria-label="Clear search"
         class="absolute top-5 right-4 block cursor-pointer text-2xl leading-8 opacity-35"
         @click="clearFilterText"
-      />
+      >
+        <MdiIcon aria-hidden="true" :path="mdiClose" />
+      </button>
     </div>
     <div class="grow overflow-auto">
       <DeviceOem v-for="oem in oems" v-bind="oem" :key="oem.name" />

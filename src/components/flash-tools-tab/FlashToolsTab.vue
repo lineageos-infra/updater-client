@@ -54,6 +54,8 @@
             <div class="relative">
               <textarea
                 ref="log"
+                name="flash-tool-logs"
+                aria-label="Flash tool output logs"
                 class="w-full resize-none bg-gray-200 p-6 font-mono focus:outline-none md:p-4 dark:bg-black dark:text-white"
                 rows="14"
                 readonly
