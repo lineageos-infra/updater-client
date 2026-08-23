@@ -12,7 +12,14 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const store = useUiStore()
 
-const message = store.error || 'An unknown error occurred'
+const props = defineProps({
+  message: {
+    type: String,
+    default: 'An unknown error occurred'
+  }
+})
+
+const message = store.error || props.message
 
 onMounted(() => {
   if (store.errorPath !== undefined) {
