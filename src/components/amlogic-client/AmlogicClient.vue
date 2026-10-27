@@ -112,7 +112,9 @@ const isAwaitingFile = computed(() => mode.value === 'awaiting-flash')
 const inputPlaceholder = computed(() => {
   switch (mode.value) {
     case 'command':
-      return 'Bulkcmd (e.g. printenv, fastboot)'
+      return device.value?.protocol === 'adnl'
+        ? 'ADNL command (e.g. getvar:identify, oem printenv)'
+        : 'Bulkcmd (e.g. printenv, fastboot)'
     case 'awaiting-flash':
       return 'Drop aml_install_package.img here, or click to browse...'
     default:
@@ -159,7 +161,7 @@ async function connect() {
   }
 }
 
-// Run bulkcmd
+// Run bulkcmd (Optimus) or ADNL command
 function promptRunCommand() {
   mode.value = 'command'
   inputValue.value = ''
@@ -175,8 +177,13 @@ async function runCommand() {
   if (!dev) return
   props.appendLog(`> ${value}`)
   try {
-    const reply = await dev.checkBulkCmd(value)
-    props.appendLog(reply || 'success')
+    if (dev.protocol === 'optimus') {
+      const reply = await dev.checkBulkCmd(value)
+      props.appendLog(reply || 'success')
+    } else {
+      const reply = await dev.command(value)
+      props.appendLog(new TextDecoder().decode(reply).replace(/[\0\s]+$/, ''))
+    }
   } catch (err) {
     // Some commands (e.g. "reboot bootloader") reset the device mid-command and are expected to fail
     props.appendLog(String(err))
