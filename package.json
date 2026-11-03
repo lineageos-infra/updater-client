@@ -27,7 +27,7 @@
     "@yume-chan/adb-daemon-webusb": "^2.3.2",
     "@yume-chan/stream-extra": "^2.6.1",
     "@zip.js/zip.js": "^2.24.0",
-    "node-forge": "^1.4.0",
+    "node-forge": "^1.4.1",
     "pinia": "^4.1.0",
     "vue": "^3.5.44",
     "vue-router": "^5.4.0"
