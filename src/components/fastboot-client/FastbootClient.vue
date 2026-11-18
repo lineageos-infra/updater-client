@@ -89,6 +89,8 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import * as fastboot from '@lineageos-infra/android-fastboot'
 import ConfirmDialog from '@/components/utils/ConfirmDialog.vue'
+import ApiService from '@/services/ApiService'
+import { useDeviceStore } from '@/stores/device'
 
 defineOptions({ name: 'FastbootView' })
 
@@ -116,6 +118,10 @@ const mode = ref<Mode>('idle')
 const inputValue = ref('')
 const isDragging = ref(false)
 const pendingConfirm = ref<PendingConfirm | null>(null)
+const deviceStore = useDeviceStore()
+const detectedDevice = defineModel<{ model: string; name: string } | null>('detected', {
+  default: null
+})
 
 const isTextMode = computed(
   () =>
@@ -221,13 +227,35 @@ async function connect() {
     void device.value?.waitForDisconnect().then(() => {
       connected.value = false
       mode.value = 'idle'
+      detectedDevice.value = null
     })
 
-    await device.value?.getVariable('product')
+    const product = await device.value?.getVariable('product')
+    void detectDevice(product)
     await device.value?.getVariable('serialno')
     abDevice.value = (await device.value?.getSlot())?.length === 1
   } catch (err) {
     console.log(err)
+  }
+}
+
+// `product` isn't always the codename; only accept exact matches against known devices
+async function detectDevice(product: string | null | undefined) {
+  detectedDevice.value = null
+  const codename = product?.trim().toLowerCase()
+  if (!codename) return
+  try {
+    if (deviceStore.oems.length === 0) await ApiService.loadOems()
+  } catch (err) {
+    console.error(err)
+    return
+  }
+  for (const oem of deviceStore.oems) {
+    const match = oem.devices.find((d) => d.model.toLowerCase() === codename)
+    if (match) {
+      detectedDevice.value = { model: match.model, name: `${oem.name} ${match.name}` }
+      return
+    }
   }
 }
 
