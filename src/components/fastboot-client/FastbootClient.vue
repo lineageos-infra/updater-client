@@ -74,9 +74,16 @@
     >
       <template v-if="pendingConfirm?.kind === 'flash'">
         <p>This will overwrite the current partition contents.</p>
+        <p v-if="erasesData(pendingConfirm.partition)" class="font-medium">
+          This will erase all user data on the device. Back up first.
+        </p>
       </template>
       <template v-else-if="pendingConfirm?.kind === 'wipe-super'">
         <p>All dynamic partitions will be erased.</p>
+      </template>
+      <template v-else-if="pendingConfirm?.kind === 'command'">
+        <p class="font-medium">This will erase all data on the device.</p>
+        <p>Back up anything you want to keep first. This cannot be undone.</p>
       </template>
       <template v-else-if="pendingConfirm?.kind === 'boot'">
         <p>No partitions are modified.</p>
@@ -109,6 +116,11 @@ type PendingConfirm =
   | { kind: 'boot'; file: File }
   | { kind: 'flash'; file: File; partition: string }
   | { kind: 'wipe-super'; file: File }
+  | { kind: 'command'; command: string }
+
+const DATA_ERASING_PARTITIONS = ['userdata', 'metadata', 'data']
+const DATA_ERASING_COMMAND =
+  /^(flashing\s+(un)?lock(_critical)?|oem\s+(un)?lock|(erase|format)\b.*|-w|wipe\b.*)$/i
 
 const connected = ref(false)
 const device = ref<fastboot.FastbootDevice | null>(null)
@@ -171,6 +183,8 @@ const confirmTitle = computed(() => {
       return `Flash ${c.file.name} to partition ${c.partition}?`
     case 'wipe-super':
       return `Wipe super using ${c.file.name}?`
+    case 'command':
+      return `Run "${c.command}"?`
     default:
       return ''
   }
@@ -184,6 +198,8 @@ const confirmLabel = computed(() => {
       return 'Flash'
     case 'wipe-super':
       return 'Wipe super'
+    case 'command':
+      return 'Run command'
     default:
       return 'Confirm'
   }
@@ -399,7 +415,22 @@ async function runCommand() {
   if (!value) return
   mode.value = 'idle'
   inputValue.value = ''
+  if (DATA_ERASING_COMMAND.test(value)) {
+    stagePendingConfirm({ kind: 'command', command: value })
+    return
+  }
   await device.value?.runCommand(value)
+}
+
+function erasesData(partitionName: string) {
+  return DATA_ERASING_PARTITIONS.includes(partitionName.toLowerCase())
+}
+
+async function confirmCommand() {
+  const c = pendingConfirm.value
+  if (c?.kind !== 'command') return
+  pendingConfirm.value = null
+  await device.value?.runCommand(c.command)
 }
 
 async function submitInput() {
@@ -442,6 +473,9 @@ async function onConfirm() {
       break
     case 'wipe-super':
       await confirmWipe()
+      break
+    case 'command':
+      await confirmCommand()
       break
   }
 }
