@@ -12,11 +12,32 @@
               <li>Odin (Samsung download mode)</li>
               <li>Amlogic (USB burn mode)</li>
             </ul>
-            <p>
+            <p v-if="detectedDevice">
+              Detected {{ detectedDevice.name }} ({{ detectedDevice.model }}).
+              <a
+                :href="`${WIKI_URL}/devices/${detectedDevice.model}/install`"
+                target="_blank"
+                rel="noopener"
+                class="text-brand-primary font-medium no-underline"
+              >
+                Install guide
+              </a>
+              <span class="mx-1 text-black/30 dark:text-white/30">|</span>
+              <a
+                :href="`${WIKI_URL}/devices`"
+                target="_blank"
+                rel="noopener"
+                class="text-brand-primary font-medium no-underline"
+              >
+                Not your device?
+              </a>
+            </p>
+            <p v-else>
               As installation steps vary by device, please refer to the
               <a
-                href="https://wiki.lineageos.org"
+                :href="WIKI_URL"
                 target="_blank"
+                rel="noopener"
                 class="text-brand-primary font-medium no-underline"
               >
                 wiki
@@ -111,6 +132,7 @@
           </div>
           <FastbootClient
             v-show="activeTab === 'fastboot'"
+            v-model:detected="detectedDevice"
             :append-log="(message) => appendLog('fastboot', message)"
             :clear-log="() => clearLog('fastboot')"
             :active="activeTab === 'fastboot'"
@@ -145,7 +167,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FastbootClient from '../fastboot-client/FastbootClient.vue'
 import AdbClient from '../adb-client/AdbClient.vue'
@@ -154,8 +176,10 @@ import AmlogicClient from '../amlogic-client/AmlogicClient.vue'
 import MdiIcon from '@/components/mdi-icon/MdiIcon.vue'
 import { mdiUsb, mdiUsbPort } from '@mdi/js'
 import { useSeoMeta } from '@unhead/vue'
+import { WIKI_URL } from '@/services/config'
 
 const router = useRouter()
+const detectedDevice = ref<{ model: string; name: string } | null>(null)
 
 useSeoMeta({
   title: 'Flash Tools'
